@@ -1,0 +1,83 @@
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  position: relative;
+  z-index: 1;
+}
+
+.main-content {
+  flex: 1;
+  padding: 4vh 5vw;
+}
+
+/* Question Screen specific */
+.options-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-top: 3rem;
+}
+
+.option-btn {
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-md);
+  padding: 2.5rem 2rem;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  cursor: pointer;
+  transition: var(--transition);
+  color: var(--text-primary);
+}
+
+.option-btn:hover {
+  border-color: var(--glass-border-focus);
+  transform: translateY(-4px);
+  background: rgba(40,40,40,0.5);
+  box-shadow: 0 15px 35px rgba(0,0,0,0.5), inset 0 0 25px var(--accent-glow);
+}
+
+.option-btn.selected {
+  border-color: var(--accent-primary);
+  background: rgba(14, 165, 233, 0.1);
+  box-shadow: 0 0 30px var(--accent-glow);
+}
+
+.option-icon {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.05);
+  padding: 1.25rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent-primary);
+  transition: var(--transition);
+}
+
+.option-btn:hover .option-icon {
+  background: linear-gradient(135deg, var(--accent-primary), #0284c7);
+  color: #fff;
+  transform: scale(1.1) rotate(5deg);
+  border-color: transparent;
+}
+
+.progress-bar {
+  height: 4px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 2px;
+  overflow: hidden;
+  margin: 3rem 0;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #38bdf8, var(--accent-primary));
+  transition: width 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 0 10px var(--accent-primary);
+}
