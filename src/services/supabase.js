@@ -29,20 +29,33 @@ export async function signIn(email, password) {
   if (error) return { error: error.message };
   
   // Fetch profile to get role & store
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('*, stores(name)')
-    .eq('id', data.user.id)
-    .single();
+  let profile = null;
+  try {
+    const { data: profileData, error: profileError } = await supabase
+      .from('profiles')
+      .select('*, stores(name)')
+      .eq('id', data.user.id)
+      .single();
+    
+    if (profileError) {
+      console.warn('Profile fetch warning:', profileError.message);
+    } else {
+      profile = profileData;
+    }
+  } catch (err) {
+    console.warn('Profile fetch failed, using auth metadata:', err);
+  }
+  
+  const meta = data.user.user_metadata || {};
   
   return {
     user: {
       id: data.user.id,
       email: data.user.email,
-      name: profile?.full_name || data.user.email,
-      role: profile?.role || 'rep',
-      storeId: profile?.store_id,
-      storeLocation: profile?.stores?.name || 'Unknown Store',
+      name: profile?.full_name || meta.full_name || data.user.email,
+      role: profile?.role || meta.role || 'rep',
+      storeId: profile?.store_id || null,
+      storeLocation: profile?.stores?.name || 'Main Showroom',
     },
     session: data.session,
   };
