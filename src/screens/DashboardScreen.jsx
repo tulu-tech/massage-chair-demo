@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { getLeadRecords } from '../services/db';
-import { Users, Plus, LogOut, ArrowLeft, Mail, Phone, Calendar, Target, Activity, Send, MapPin, CheckCircle, MessageSquare } from 'lucide-react';
+import { getLeadRecords, updateLeadRecord } from '../services/db';
+import { Users, Plus, LogOut, ArrowLeft, Mail, Phone, Calendar, Target, Activity, Send, MapPin, CheckCircle, MessageSquare, Loader } from 'lucide-react';
 import { generateFollowUps } from '../store/followUpLogic';
-import { saveLeadRecord } from '../services/db';
 
 const STATUS_COLORS = {
   'New Lead': '#c4c4c4',
@@ -16,21 +15,32 @@ const STATUS_COLORS = {
 export default function DashboardScreen({ user, onNewConsult, onLogout, onResumeDemo }) {
   const [leads, setLeads] = useState([]);
   const [selectedLead, setSelectedLead] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setLeads(getLeadRecords(user).reverse()); 
+    async function fetchLeads() {
+      setLoading(true);
+      try {
+        const data = await getLeadRecords(user);
+        setLeads(data);
+      } catch (err) {
+        console.error('Failed to fetch leads:', err);
+      }
+      setLoading(false);
+    }
+    fetchLeads();
   }, [user]);
 
-  const updateLeadStatus = (leadId, newStatus) => {
+  const updateLeadStatus = async (leadId, newStatus) => {
     setLeads(prev => prev.map(l => {
       if (l.id === leadId) {
         const updated = { ...l, boardStatus: newStatus };
-        saveLeadRecord(updated); 
         if (selectedLead && selectedLead.id === leadId) setSelectedLead(updated);
         return updated;
       }
       return l;
     }));
+    await updateLeadRecord(leadId, { boardStatus: newStatus });
   };
 
   const formatDate = (isoString) => {
@@ -224,9 +234,14 @@ export default function DashboardScreen({ user, onNewConsult, onLogout, onResume
            <h3 style={{ fontSize: '1.2rem', fontWeight: 500 }}>Recent Leads & Deals</h3>
         </div>
         
-        {leads.length === 0 ? (
+        {loading ? (
           <div style={{ padding: '4rem 2rem', textAlign: 'center', color: 'var(--text-tertiary)' }}>
-            <p style={{ fontSize: '1.1rem', marginBottom: '1rem' }}>No records found in the local database.</p>
+            <Loader size={24} className="spin" style={{ margin: '0 auto 1rem', display: 'block' }} />
+            <p>Loading leads...</p>
+          </div>
+        ) : leads.length === 0 ? (
+          <div style={{ padding: '4rem 2rem', textAlign: 'center', color: 'var(--text-tertiary)' }}>
+            <p style={{ fontSize: '1.1rem', marginBottom: '1rem' }}>No records found.</p>
             <p>Click "New Consultation" to capture your first lead.</p>
           </div>
         ) : (

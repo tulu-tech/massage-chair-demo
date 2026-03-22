@@ -1,30 +1,62 @@
-import React, { useState } from 'react';
-import { loginUser } from '../services/db';
-import { MapPin, Lock, ShieldCheck, User } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { isSupabaseConfigured, signIn, getStores } from '../services/supabase';
+import { loginUserLocal } from '../services/db';
+import { MapPin, Lock, ShieldCheck, User, Mail, Loader } from 'lucide-react';
 
-const STORES = [
-  "Santa Clara",
-  "Daly City",
-  "Roseville",
-  "Walnut Creek"
-];
+const LOCAL_STORES = ["Santa Clara", "Daly City", "Roseville", "Walnut Creek"];
 
 export default function LoginScreen({ onLogin }) {
-  const [store, setStore] = useState(STORES[0]);
-  const [username, setUsername] = useState('');
+  const [stores, setStores] = useState([]);
+  const [store, setStore] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+  const useSupabase = isSupabaseConfigured();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const account = loginUser(username, password);
-    if (account) {
-      setError('');
-      // Pass the store location along with the authenticated user
-      onLogin({ ...account, storeLocation: store });
+  useEffect(() => {
+    if (useSupabase) {
+      getStores().then(data => {
+        setStores(data);
+        if (data.length > 0) setStore(data[0].id);
+      });
     } else {
-      setError('Invalid credentials. (Hint: admin/admin or Name/demo)');
+      setStores(LOCAL_STORES.map((name, i) => ({ id: String(i), name })));
+      setStore('0');
     }
+  }, [useSupabase]);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError('');
+    setLoading(true);
+
+    try {
+      if (useSupabase) {
+        // Supabase Auth
+        const result = await signIn(email, password);
+        if (result.error) {
+          setError(result.error);
+          setLoading(false);
+          return;
+        }
+        onLogin(result.user);
+      } else {
+        // Local fallback auth
+        const storeName = stores.find(s => s.id === store)?.name || 'Demo Store';
+        const account = loginUserLocal(email, password);
+        if (account) {
+          onLogin({ ...account, storeLocation: storeName });
+        } else {
+          setError('Invalid credentials. (Hint: admin/admin or Name/demo)');
+        }
+      }
+    } catch (err) {
+      setError('Login failed. Please try again.');
+      console.error('Login error:', err);
+    }
+
+    setLoading(false);
   };
 
   return (
@@ -79,6 +111,11 @@ export default function LoginScreen({ onLogin }) {
           <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
             <h2 style={{ fontSize: '2rem', marginBottom: '0.5rem', fontWeight: 400 }}>Staff Login</h2>
             <p style={{ color: 'var(--text-secondary)' }}>Secure portal for Sales Reps and Managers.</p>
+            {!useSupabase && (
+              <div style={{ marginTop: '0.75rem', padding: '0.5rem 1rem', background: 'rgba(234, 179, 8, 0.1)', border: '1px solid rgba(234, 179, 8, 0.3)', borderRadius: '6px', fontSize: '0.8rem', color: '#fbbf24' }}>
+                ⚠️ Running in demo mode (localStorage). Connect Supabase for production.
+              </div>
+            )}
           </div>
 
           <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
@@ -98,25 +135,26 @@ export default function LoginScreen({ onLogin }) {
                   appearance: 'none'
                 }} 
               >
-                {STORES.map(s => <option key={s} value={s} style={{ background: '#0f172a' }}>{s}</option>)}
+                {stores.map(s => <option key={s.id} value={s.id} style={{ background: '#0f172a' }}>{s.name}</option>)}
               </select>
             </div>
 
-            {/* Username */}
+            {/* Email / Username */}
             <div>
               <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.75rem', color: 'var(--text-secondary)', fontSize: '0.9rem' }}>
-                <User size={16} color="var(--accent-primary)" /> Username
+                {useSupabase ? <Mail size={16} color="var(--accent-primary)" /> : <User size={16} color="var(--accent-primary)" />}
+                {useSupabase ? 'Email Address' : 'Username'}
               </label>
               <input 
-                type="text" 
-                value={username} 
-                onChange={e => setUsername(e.target.value)}
+                type={useSupabase ? 'email' : 'text'}
+                value={email} 
+                onChange={e => setEmail(e.target.value)}
                 style={{ 
                   width: '100%', padding: '1.2rem', borderRadius: 'var(--radius-sm)', 
                   border: '1px solid var(--glass-border)', background: 'rgba(255,255,255,0.02)', 
                   color: 'white', fontSize: '1.05rem', outline: 'none', transition: 'all 0.3s' 
                 }} 
-                placeholder="Enter admin or your name"
+                placeholder={useSupabase ? 'you@company.com' : 'Enter admin or your name'}
                 required
               />
             </div>
@@ -143,8 +181,19 @@ export default function LoginScreen({ onLogin }) {
 
             {error && <div style={{ color: '#fca5a5', fontSize: '0.9rem', textAlign: 'center', background: 'rgba(239, 68, 68, 0.1)', padding: '0.75rem', borderRadius: '4px', border: '1px solid rgba(239, 68, 68, 0.3)' }}>{error}</div>}
 
-            <button type="submit" className="btn btn-primary" style={{ width: '100%', padding: '1.2rem', marginTop: '1rem', fontSize: '1.1rem', letterSpacing: '2px', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0.75rem' }}>
-              <ShieldCheck size={20} /> LOGIN
+            <button 
+              type="submit" 
+              className="btn btn-primary" 
+              disabled={loading}
+              style={{ 
+                width: '100%', padding: '1.2rem', marginTop: '1rem', fontSize: '1.1rem', 
+                letterSpacing: '2px', display: 'flex', justifyContent: 'center', 
+                alignItems: 'center', gap: '0.75rem',
+                opacity: loading ? 0.7 : 1,
+                cursor: loading ? 'wait' : 'pointer'
+              }}
+            >
+              {loading ? <><Loader size={20} className="spin" /> AUTHENTICATING...</> : <><ShieldCheck size={20} /> LOGIN</>}
             </button>
           </form>
 

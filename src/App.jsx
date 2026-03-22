@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import LoginScreen from './screens/LoginScreen';
 import DashboardScreen from './screens/DashboardScreen';
 import WelcomeScreen from './screens/WelcomeScreen';
@@ -13,26 +13,49 @@ import { coreQuestions, branches, fitQuestion } from './data/questions';
 import { calculateBranchTarget, calculateFinalIntelligence } from './store/scoringLogic';
 import { sendToGoogleSheets } from './services/googleSheets';
 import { saveLeadRecord } from './services/db';
+import { isSupabaseConfigured, getSession, signOut } from './services/supabase';
 import './App.css';
 
 export default function App() {
   const [stage, setStage] = useState('LOGIN'); 
   const [authUser, setAuthUser] = useState(null);
+  const [sessionLoading, setSessionLoading] = useState(true);
 
   const [questionQueue, setQuestionQueue] = useState([...coreQuestions]);
   const [currentIdx, setCurrentIdx] = useState(0);
   const [answers, setAnswers] = useState([]);
   const [intelligence, setIntelligence] = useState(null);
   const [leadData, setLeadData] = useState(null);
+  const [medicalConsent, setMedicalConsent] = useState(null);
   const [repData, setRepData] = useState(null);
   const [currentLeadId, setCurrentLeadId] = useState(null);
+
+  // ── Session Persistence: Auto-login on page refresh ──
+  useEffect(() => {
+    async function checkSession() {
+      if (isSupabaseConfigured()) {
+        try {
+          const user = await getSession();
+          if (user) {
+            setAuthUser(user);
+            setStage('DASHBOARD');
+          }
+        } catch (err) {
+          console.error('Session check failed:', err);
+        }
+      }
+      setSessionLoading(false);
+    }
+    checkSession();
+  }, []);
 
   const handleLogin = (user) => {
     setAuthUser(user);
     setStage('DASHBOARD');
   };
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    await signOut();
     setAuthUser(null);
     setStage('LOGIN');
   };
@@ -42,7 +65,11 @@ export default function App() {
   };
   
   const handleStartConsult = () => setStage('CONSENT');
-  const handleConsentAccept = () => setStage('LEAD');
+  
+  const handleConsentAccept = (consentData) => {
+    setMedicalConsent(consentData);
+    setStage('LEAD');
+  };
   
   const handleLeadSubmit = (data) => {
     setLeadData(data);
@@ -52,17 +79,16 @@ export default function App() {
     setStage('QUESTIONS');
   };
 
-  const handleAnswer = (option) => {
+  const handleAnswer = async (option) => {
     const newAnswers = [...answers, option];
     setAnswers(newAnswers);
 
     let nextQueue = [...questionQueue];
 
-    // Branch Injection Logic (Happens exactly after Q5 / coreQuestions ends)
+    // Branch Injection Logic
     if (currentIdx === coreQuestions.length - 1) {
        const branchKey = calculateBranchTarget(newAnswers);
        const branchQs = branches[branchKey] || [];
-       // The new queue contains core (5) + branch (1-2) + fit (1)
        nextQueue = [...coreQuestions, ...branchQs, fitQuestion];
        setQuestionQueue(nextQueue);
     }
@@ -76,7 +102,10 @@ export default function App() {
       // Save Initial Pending Record
       const pendingRecord = {
         customer: leadData,
+        medicalConsent: medicalConsent,
         repName: authUser?.name,
+        repId: authUser?.id,
+        storeId: authUser?.storeId,
         storeLocation: authUser?.storeLocation,
         temperature: 'Pending Demo',
         laneName: results?.demoLane,
@@ -86,7 +115,7 @@ export default function App() {
         intelligence: results,
         repNotes: null
       };
-      const savedId = saveLeadRecord(pendingRecord);
+      const savedId = await saveLeadRecord(pendingRecord);
       setCurrentLeadId(savedId);
 
       setStage('PRE_OUTPUT'); 
@@ -103,8 +132,12 @@ export default function App() {
 
     const dbRecord = {
       id: currentLeadId,
+      supabaseId: currentLeadId,
       customer: leadData,
+      medicalConsent: medicalConsent,
       repName: authUser?.name,
+      repId: authUser?.id,
+      storeId: authUser?.storeId,
       storeLocation: authUser?.storeLocation,
       temperature: data.temperature,
       laneName: intelligence?.demoLane,
@@ -114,7 +147,7 @@ export default function App() {
       intelligence: intelligence,
       repNotes: data
     };
-    saveLeadRecord(dbRecord);
+    await saveLeadRecord(dbRecord);
 
     await sendToGoogleSheets({
       stage: 'POST_DEMO',
@@ -135,6 +168,7 @@ export default function App() {
     setAnswers([]);
     setIntelligence(null);
     setLeadData(null);
+    setMedicalConsent(null);
     setRepData(null);
     setCurrentLeadId(null);
   };
@@ -143,9 +177,23 @@ export default function App() {
      setLeadData(lead.customer);
      setIntelligence(lead.intelligence);
      setAnswers(lead.answers ? lead.answers.map(text => ({text})) : []);
-     setCurrentLeadId(lead.id);
+     setCurrentLeadId(lead.id || lead.supabaseId);
      setStage('REP_FORM');
   };
+
+  // Show loading screen while checking session
+  if (sessionLoading) {
+    return (
+      <div className="app-container" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+        <div className="bg-glow-1"></div>
+        <div className="bg-glow-2"></div>
+        <div style={{ textAlign: 'center', color: 'var(--text-secondary)' }}>
+          <div style={{ width: '40px', height: '40px', border: '3px solid var(--glass-border)', borderTop: '3px solid var(--accent-primary)', borderRadius: '50%', animation: 'spin 1s linear infinite', margin: '0 auto 1rem' }}></div>
+          <p>Loading session...</p>
+        </div>
+      </div>
+    );
+  }
 
   const currentQuestion = questionQueue[currentIdx];
 
@@ -167,10 +215,6 @@ export default function App() {
           onAnswer={handleAnswer} 
         />
       )}
-      {/* 
-        The Prompt: "After the 5 core questions + chosen branch + 1 fit question, the system should display a clean rep-facing result screen."
-        We still want a Customer 'Wow' Screen before the Rep logs the CRM notes.
-      */}
       {stage === 'PRE_OUTPUT' && (
         <CustomerMatchScreen results={intelligence} leadData={leadData} onBeginDemo={handleBeginDemo} />
       )}
