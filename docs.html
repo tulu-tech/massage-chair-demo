@@ -3,546 +3,413 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CRM v2 — Technical Walkthrough</title>
+<title>How the Massage Chair CRM Works — Complete Guide</title>
 <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-:root{--bg:#0a0f1a;--bg2:#111827;--bg3:#1e293b;--accent:#0ea5e9;--accent2:#38bdf8;--text:#f1f5f9;--text2:#94a3b8;--text3:#64748b;--border:rgba(255,255,255,.08);--glow:rgba(14,165,233,.12);--radius:16px;--green:#22c55e;--amber:#f59e0b;--red:#ef4444;--purple:#a78bfa}
-body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-height:1.7;-webkit-font-smoothing:antialiased}
+:root{--bg:#0a0f1a;--bg2:#111827;--bg3:#1e293b;--accent:#0ea5e9;--accent2:#38bdf8;--text:#f1f5f9;--text2:#94a3b8;--text3:#64748b;--border:rgba(255,255,255,.08);--radius:16px;--green:#22c55e;--amber:#f59e0b;--red:#ef4444;--purple:#a78bfa}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-height:1.8;-webkit-font-smoothing:antialiased}
 a{color:var(--accent2);text-decoration:none}
 a:hover{text-decoration:underline}
 
-/* NAV */
-.topbar{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(10,15,26,.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:0 2rem;height:56px;display:flex;align-items:center;gap:1.5rem}
-.topbar .logo{font-weight:700;font-size:1.1rem;color:var(--accent);letter-spacing:-.02em}
-.topbar nav{display:flex;gap:1rem;flex:1;overflow-x:auto}
-.topbar nav a{color:var(--text2);font-size:.8rem;font-weight:500;white-space:nowrap;padding:.25rem .5rem;border-radius:6px;transition:.2s}
+.topbar{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(10,15,26,.9);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:0 2rem;height:56px;display:flex;align-items:center;gap:1.5rem}
+.topbar .logo{font-weight:700;font-size:1.1rem;color:var(--accent);letter-spacing:-.02em;white-space:nowrap}
+.topbar nav{display:flex;gap:.75rem;flex:1;overflow-x:auto;scrollbar-width:none}
+.topbar nav::-webkit-scrollbar{display:none}
+.topbar nav a{color:var(--text2);font-size:.78rem;font-weight:500;white-space:nowrap;padding:.25rem .5rem;border-radius:6px;transition:.2s}
 .topbar nav a:hover{color:white;background:rgba(255,255,255,.05);text-decoration:none}
 
-/* HERO */
 .hero{padding:8rem 2rem 4rem;text-align:center;background:radial-gradient(ellipse at 50% 0%,rgba(14,165,233,.08) 0%,transparent 60%)}
-.hero h1{font-size:3.5rem;font-weight:700;letter-spacing:-.04em;background:linear-gradient(135deg,#fff 0%,#94a3b8 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:1rem}
-.hero .sub{font-size:1.25rem;color:var(--text2);max-width:700px;margin:0 auto 2rem;font-weight:300}
-.hero .badges{display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap}
+.hero h1{font-size:3rem;font-weight:800;letter-spacing:-.04em;background:linear-gradient(135deg,#fff 0%,#94a3b8 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:1rem}
+.hero .sub{font-size:1.15rem;color:var(--text2);max-width:750px;margin:0 auto 2rem;font-weight:300;line-height:1.9}
+.badges{display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap}
 .badge{padding:.4rem 1rem;border-radius:100px;font-size:.8rem;font-weight:600;border:1px solid var(--border);background:rgba(255,255,255,.03)}
-.badge.blue{border-color:rgba(14,165,233,.3);color:var(--accent2)}
-.badge.green{border-color:rgba(34,197,94,.3);color:var(--green)}
-.badge.purple{border-color:rgba(167,139,250,.3);color:var(--purple)}
-.badge.amber{border-color:rgba(245,158,11,.3);color:var(--amber)}
+.badge.b{border-color:rgba(14,165,233,.3);color:var(--accent2)}
+.badge.g{border-color:rgba(34,197,94,.3);color:var(--green)}
+.badge.p{border-color:rgba(167,139,250,.3);color:var(--purple)}
+.badge.a{border-color:rgba(245,158,11,.3);color:var(--amber)}
 
-/* CONTENT */
-.container{max-width:1100px;margin:0 auto;padding:0 2rem}
+.container{max-width:960px;margin:0 auto;padding:0 2rem}
 section{padding:4rem 0;border-top:1px solid var(--border)}
 section:first-of-type{border-top:none}
-h2{font-size:2rem;font-weight:700;letter-spacing:-.03em;margin-bottom:.5rem}
-h2 .num{color:var(--accent);font-size:1rem;font-weight:600;margin-right:.5rem;vertical-align:middle}
-h3{font-size:1.3rem;font-weight:600;margin:2rem 0 .75rem;color:var(--accent2)}
+h2{font-size:1.85rem;font-weight:700;letter-spacing:-.03em;margin-bottom:.75rem}
+h2 .n{color:var(--accent);font-size:.9rem;font-weight:600;margin-right:.5rem}
+h3{font-size:1.2rem;font-weight:600;margin:2rem 0 .75rem;color:var(--accent2)}
 h4{font-size:1rem;font-weight:600;margin:1.5rem 0 .5rem}
-p{color:var(--text2);margin-bottom:1rem}
-.section-desc{font-size:1.05rem;color:var(--text2);margin-bottom:2rem;max-width:800px}
+p,.desc{color:var(--text2);margin-bottom:1rem;font-size:1rem;line-height:1.9}
+.lead{font-size:1.05rem;color:var(--text2);margin-bottom:2rem;max-width:800px;line-height:1.9}
+strong{color:var(--text)}
+em{color:var(--accent2);font-style:normal;font-weight:500}
 
-/* CARDS */
-.card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:1.75rem;margin-bottom:1.25rem;transition:.2s}
-.card:hover{border-color:rgba(255,255,255,.15)}
-.card-title{font-weight:600;font-size:1.05rem;margin-bottom:.5rem;display:flex;align-items:center;gap:.5rem}
-.card-title .icon{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700}
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:1.75rem;margin-bottom:1.25rem}
+.card h4{margin-top:0;color:var(--text);font-size:1.05rem}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem}
+@media(max-width:768px){.g2,.g3{grid-template-columns:1fr}}
 
-/* GRID */
-.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem}
-.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem}
-@media(max-width:768px){.grid-2,.grid-3{grid-template-columns:1fr}}
-
-/* TABLES */
-table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:.85rem}
-th{text-align:left;padding:.75rem 1rem;background:var(--bg3);color:var(--text2);font-weight:600;border-bottom:1px solid var(--border);white-space:nowrap}
-td{padding:.6rem 1rem;border-bottom:1px solid var(--border);color:var(--text2);vertical-align:top}
+table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:.9rem}
+th{text-align:left;padding:.75rem 1rem;background:var(--bg3);color:var(--text2);font-weight:600;border-bottom:1px solid var(--border)}
+td{padding:.65rem 1rem;border-bottom:1px solid var(--border);color:var(--text2);vertical-align:top;line-height:1.7}
 tr:hover td{background:rgba(255,255,255,.02)}
-.tag{display:inline-block;padding:.15rem .5rem;border-radius:4px;font-size:.7rem;font-weight:600;margin:.1rem}
-.tag-blue{background:rgba(14,165,233,.15);color:var(--accent2)}
-.tag-green{background:rgba(34,197,94,.15);color:var(--green)}
-.tag-amber{background:rgba(245,158,11,.15);color:var(--amber)}
-.tag-red{background:rgba(239,68,68,.15);color:var(--red)}
-.tag-purple{background:rgba(167,139,250,.15);color:var(--purple)}
+.t{display:inline-block;padding:.15rem .5rem;border-radius:4px;font-size:.75rem;font-weight:600;margin:.1rem}
+.tb{background:rgba(14,165,233,.15);color:var(--accent2)}
+.tg{background:rgba(34,197,94,.15);color:var(--green)}
+.ta{background:rgba(245,158,11,.15);color:var(--amber)}
+.tr{background:rgba(239,68,68,.15);color:var(--red)}
+.tp{background:rgba(167,139,250,.15);color:var(--purple)}
 
-/* MERMAID */
 .mermaid{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:2rem;margin:1.5rem 0;overflow-x:auto}
-.mermaid svg{max-width:100%}
-
-/* CODE */
-code{background:var(--bg3);padding:.15rem .4rem;border-radius:4px;font-size:.85rem;color:var(--accent2)}
-
-/* CALLOUT */
-.callout{border-left:3px solid var(--accent);background:rgba(14,165,233,.05);padding:1rem 1.5rem;border-radius:0 var(--radius) var(--radius) 0;margin:1.5rem 0}
-.callout.warn{border-color:var(--amber);background:rgba(245,158,11,.05)}
-.callout.success{border-color:var(--green);background:rgba(34,197,94,.05)}
-.callout p{margin:0}
-
-/* FILE TREE */
-.file-tree{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem 2rem;font-family:monospace;font-size:.85rem;color:var(--text2);line-height:2}
-.file-tree .dir{color:var(--accent2);font-weight:600}
-.file-tree .new{color:var(--green)}
-.file-tree .mod{color:var(--amber)}
-
-/* STEP */
-.step{display:flex;gap:1.5rem;margin-bottom:2rem}
-.step-num{width:40px;height:40px;min-width:40px;border-radius:50%;background:linear-gradient(135deg,var(--accent),#0284c7);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.9rem;color:white;margin-top:.2rem}
-.step-body h4{margin-top:0;color:var(--text)}
-
-/* PRICING TABLE */
+.tip{border-left:3px solid var(--accent);background:rgba(14,165,233,.05);padding:1.25rem 1.5rem;border-radius:0 var(--radius) var(--radius) 0;margin:1.5rem 0}
+.tip.w{border-color:var(--amber);background:rgba(245,158,11,.05)}
+.tip.s{border-color:var(--green);background:rgba(34,197,94,.05)}
+.tip p{margin:0;line-height:1.8}
 .price{font-weight:700;color:var(--green)}
-.price-old{color:var(--text3);text-decoration:line-through;font-size:.85rem;margin-left:.5rem}
+ol{color:var(--text2);padding-left:1.5rem;margin:1rem 0}
+ol li{margin-bottom:.75rem;line-height:1.8}
+ul{color:var(--text2);padding-left:1.5rem;margin:.75rem 0}
+ul li{margin-bottom:.5rem;line-height:1.8}
 </style>
 </head>
 <body>
 
-<!-- TOPBAR -->
 <div class="topbar">
-  <div class="logo">⬡ CRM v2</div>
+  <div class="logo">⬡ CRM Guide</div>
   <nav>
-    <a href="#overview">Overview</a>
-    <a href="#architecture">Architecture</a>
-    <a href="#discovery">Discovery</a>
-    <a href="#scoring">Scoring</a>
-    <a href="#demo-lanes">Demo Lanes</a>
-    <a href="#budget">Budget Logic</a>
-    <a href="#post-demo">Post-Demo</a>
-    <a href="#decision-engine">Decision Engine</a>
+    <a href="#what">What Is This</a>
+    <a href="#journey">Customer Journey</a>
+    <a href="#questions">Questions</a>
+    <a href="#brain">How It Thinks</a>
+    <a href="#chairs">Chair Matching</a>
+    <a href="#budget">Budget Filter</a>
+    <a href="#demo">Demo Guide</a>
+    <a href="#after-demo">After Demo</a>
+    <a href="#decision">Final Decision</a>
     <a href="#followup">Follow-Up</a>
-    <a href="#products">Products</a>
-    <a href="#files">File Map</a>
+    <a href="#products">Product Data</a>
   </nav>
 </div>
 
-<!-- HERO -->
+<!-- ══════ HERO ══════ -->
 <div class="hero">
-  <h1>Massage Chair CRM v2</h1>
-  <p class="sub">Premium Consultation Platform — her lead için bütçeye uygun koltuk önerisi, 9 boyutlu puanlama, akıllı demo rehberliği ve friction'a göre kişiselleştirilmiş follow-up dizileri üreten uçtan uca satış zekası sistemi.</p>
+  <h1>How the Massage Chair CRM Works</h1>
+  <p class="sub">A complete, plain-English walkthrough of every part of the system — what it does, why it does it, and how every piece connects. Written for anyone, no coding knowledge required.</p>
   <div class="badges">
-    <span class="badge blue">9-Phase State Machine</span>
-    <span class="badge green">15 Chair Knowledge Base</span>
-    <span class="badge purple">9-Dimension Scoring</span>
-    <span class="badge amber">6 Demo Lanes</span>
+    <span class="badge b">9-Step Customer Journey</span>
+    <span class="badge g">15 Chairs in Database</span>
+    <span class="badge p">Smart Scoring System</span>
+    <span class="badge a">Automatic Follow-Ups</span>
   </div>
 </div>
 
 <div class="container">
 
-<!-- ════════════════════════════════════════════ -->
-<!-- 1. OVERVIEW -->
-<!-- ════════════════════════════════════════════ -->
-<section id="overview">
-<h2><span class="num">01</span> Sistem Genel Bakış</h2>
-<p class="section-desc">Bu CRM, showroom'a gelen her müşteriyi "survey" değil <strong>"premium consultation"</strong> deneyimiyle karşılar. Rep ekranında akıllı rehberlik sunarken, arka planda 9 boyutlu bir puanlama motoru ile bütçe farkındalıklı koltuk önerisi, itiraz analizi ve 3 aşamalı follow-up dizisi üretir.</p>
+<!-- ══════ 1. WHAT IS THIS ══════ -->
+<section id="what">
+<h2><span class="n">01</span> What Is This System?</h2>
+<p class="lead">This is a <strong>digital sales assistant</strong> for a massage chair showroom. When a customer walks in, a sales rep opens this app on a tablet. The app guides the conversation, learns what the customer needs, and recommends the best chair — all while collecting data that helps with follow-up after the visit.</p>
 
-<div class="grid-3">
+<div class="g3">
   <div class="card">
-    <div class="card-title"><div class="icon" style="background:rgba(14,165,233,.15);color:var(--accent)">1</div> Discovery</div>
-    <p style="font-size:.9rem">10 core + 2 dinamik friction branch sorusu ile müşteri profili çıkarır.</p>
+    <h4>🎯 For the Customer</h4>
+    <p>It feels like a premium consultation — not a boring survey. They answer simple questions about their lifestyle, and the system finds their perfect chair match.</p>
   </div>
   <div class="card">
-    <div class="card-title"><div class="icon" style="background:rgba(34,197,94,.15);color:var(--green)">2</div> Live Match</div>
-    <p style="font-size:.9rem">Bütçeye göre filtrelenmiş koltuk önerisi + rep'e demo stratejisi.</p>
+    <h4>🧑‍💼 For the Sales Rep</h4>
+    <p>It gives them a script, tells them which chairs to show, what to emphasize during the demo, and what objections to expect. After the visit, it writes the follow-up messages for them.</p>
   </div>
   <div class="card">
-    <div class="card-title"><div class="icon" style="background:rgba(167,139,250,.15);color:var(--purple)">3</div> Intelligence</div>
-    <p style="font-size:.9rem">28 alanlık post-demo form → final karar motoru → follow-up otomasyonu.</p>
+    <h4>📊 For the Owner</h4>
+    <p>It creates a CRM dashboard showing every customer, their interest level (hot/warm/cold), which chair they liked, and exactly what to do next to close the sale.</p>
   </div>
 </div>
 
-<div class="callout">
-  <p><strong>Design Prensibi:</strong> Müşteri form doldurduğunu hissetmemeli. Sistem rep'i yönlendirmeli ama robotlaştırmamalı. Her lead için mutlaka best-fit chair, backup chair, sıcaklık puanı ve next best action üretilmeli.</p>
+<div class="tip">
+  <p><strong>The Big Idea:</strong> Half the real buying decision happens <em>during</em> and <em>after</em> the physical demo — not during the initial questions. This system captures both halves and combines them into one smart recommendation.</p>
 </div>
 </section>
 
-<!-- ════════════════════════════════════════════ -->
-<!-- 2. ARCHITECTURE -->
-<!-- ════════════════════════════════════════════ -->
-<section id="architecture">
-<h2><span class="num">02</span> 9-Fazlı State Machine</h2>
-<p class="section-desc">Uygulama aşağıdaki 9 aşamalı bir state machine ile yönetilir. Her aşama bağımsız bir React ekranıdır ve App.jsx merkezi orchestrator olarak görev yapar.</p>
+<!-- ══════ 2. CUSTOMER JOURNEY ══════ -->
+<section id="journey">
+<h2><span class="n">02</span> The 9-Step Customer Journey</h2>
+<p class="lead">Every customer goes through the same 9 steps, in order. Think of it like chapters in a story — each one builds on the previous one. Here's every step explained:</p>
 
 <div class="mermaid">
 graph LR
-  A["DASHBOARD"] --> B["WELCOME"]
-  B --> C["CONSENT"]
-  C --> D["LEAD CAPTURE"]
-  D --> E["QUESTIONS<br/>10 core + 2 branch"]
-  E --> F["LIVE MATCH<br/>Budget-filtered"]
-  F --> G["GUIDED DEMO<br/>Rep Strategy"]
-  G --> H["REP POST-DEMO<br/>28 fields"]
-  H --> I["FINAL OUTPUT<br/>Intelligence Report"]
+  A["1. Dashboard"] --> B["2. Welcome"]
+  B --> C["3. Consent"]
+  C --> D["4. Lead Capture"]
+  D --> E["5. Questions"]
+  E --> F["6. Chair Match"]
+  F --> G["7. Guided Demo"]
+  G --> H["8. Rep Report"]
+  H --> I["9. Final Output"]
   I --> A
   style A fill:#1e293b,stroke:#0ea5e9,color:#f1f5f9
   style F fill:#1e293b,stroke:#22c55e,color:#f1f5f9
   style I fill:#1e293b,stroke:#a78bfa,color:#f1f5f9
 </div>
 
-<div class="grid-2">
-  <div class="card">
-    <div class="card-title">📋 Phase 1–4: Toplama</div>
-    <p style="font-size:.85rem"><strong>Welcome:</strong> Premium karşılama<br><strong>Consent:</strong> 3 medikal + 1 contact onay<br><strong>Lead:</strong> İsim, email, telefon, follow-up tercihi (Text/Email/Phone)<br><strong>Questions:</strong> 10 core → friction branch tespiti → 2 dinamik soru</p>
-  </div>
-  <div class="card">
-    <div class="card-title">🧠 Phase 5–9: Zekâ</div>
-    <p style="font-size:.85rem"><strong>Live Match:</strong> Bütçe + lane → koltuk önerisi (fiyatlarla)<br><strong>Guided Demo:</strong> Rep'e demo stratejisi<br><strong>Post-Demo:</strong> 28 alan, 5 section rep formu<br><strong>Final Output:</strong> Chair decision + score + next action<br><strong>Dashboard:</strong> CRM board, lead detail, follow-up</p>
-  </div>
-</div>
-</section>
-
-<!-- ════════════════════════════════════════════ -->
-<!-- 3. DISCOVERY ENGINE -->
-<!-- ════════════════════════════════════════════ -->
-<section id="discovery">
-<h2><span class="num">03</span> Discovery Engine — Sorular</h2>
-<p class="section-desc">Müşteriye sorulan 10 core soru, her biri 9 farklı puanlama boyutuna tag'lar atar. Soru 10 cevaplandığında sistem en yüksek puanlı friction'ı tespit eder ve o friction'a özel 2 ek soru inject eder.</p>
-
-<h3>10 Core Soru</h3>
 <table>
-<thead><tr><th>#</th><th>Kısa Başlık</th><th>Soru</th><th>Seçenek Sayısı</th><th>Ana Boyutlar</th></tr></thead>
+<thead><tr><th>Step</th><th>What Happens</th><th>Who Sees It</th><th>Why It Matters</th></tr></thead>
 <tbody>
-<tr><td>Q1</td><td>Primary User</td><td>Who is this chair primarily for?</td><td>5</td><td>buyerOrientation, decisionComplexity</td></tr>
-<tr><td>Q2</td><td>Visit Reason</td><td>What brought you in today?</td><td>6</td><td>buyerOrientation, demoLane, timing</td></tr>
-<tr><td>Q3</td><td>Daily Routine</td><td>What best describes your day-to-day routine?</td><td>5</td><td>demoLane, followUpAngle</td></tr>
-<tr><td>Q4</td><td>Decision Priority</td><td>What matters most if you decide today?</td><td>5</td><td>primaryFriction, certaintyNeed</td></tr>
-<tr><td>Q5</td><td>Budget Band</td><td>What level of investment feels right?</td><td>6</td><td>budgetBand, buyerOrientation</td></tr>
-<tr><td>Q6</td><td>Decision Structure</td><td>How do you usually make a purchase like this?</td><td>5</td><td>primaryFriction, decisionComplexity</td></tr>
-<tr><td>Q7</td><td>Body Focus</td><td>Where do you most want to feel the difference?</td><td>5</td><td>demoLane, followUpAngle</td></tr>
-<tr><td>Q8</td><td>Decision Simplifier</td><td>What would make this decision easiest today?</td><td>5</td><td>primaryFriction, followUpAngle</td></tr>
-<tr><td>Q9</td><td>Blocker</td><td>What would still stop you from moving forward?</td><td>5</td><td>primaryFriction, timing</td></tr>
-<tr><td>Q10</td><td>Timing</td><td>How soon would you like to start using your chair?</td><td>4</td><td>timing, leadHeatBase</td></tr>
-</tbody>
-</table>
-
-<h3>6 Friction Branch (Dinamik)</h3>
-<p>Soru 10 cevaplandığında, <code>calculateBranchTarget()</code> tüm cevaplardaki <code>primaryFriction</code> boyutunu toplar ve en yüksek puanlı friction'ı bulur. O friction'a ait 2 ek soru otomatik olarak soru kuyruğuna eklenir.</p>
-
-<table>
-<thead><tr><th>Friction</th><th>Soru 1</th><th>Soru 2</th></tr></thead>
-<tbody>
-<tr><td><span class="tag tag-amber">Spouse / joint decision</span></td><td>Spouse summary ister misiniz?</td><td>Partneriniz neye önem verir?</td></tr>
-<tr><td><span class="tag tag-green">Payment comfort</span></td><td>En düşük ödeme mi, uzun vadeli değer mi?</td><td>Cash vs financing karşılaştırması yardımcı olur mu?</td></tr>
-<tr><td><span class="tag tag-blue">Space-fit</span></td><td>Koltuk nereye konacak?</td><td>Ölçüleri biliyor musunuz?</td></tr>
-<tr><td><span class="tag tag-purple">Comparison overload</span></td><td>En iyi 2 mi, 3-4 mü?</td><td>Kararı en çok ne basitleştirir?</td></tr>
-<tr><td><span class="tag tag-red">Confidence / service</span></td><td>Tam güven için ne gerekir?</td><td>İlk ciddi koltuk alımınız mı?</td></tr>
-<tr><td><span class="tag tag-amber">Think-about-it inertia</span></td><td>Daha erken hazır hissetmek için ne yardımcı olur?</td><td>Her şey uygunsa ne zaman uygun?</td></tr>
+<tr><td><strong>1. Dashboard</strong></td><td>The rep sees all previous customers in a list with their status (new, follow-up needed, closed). They click "New Consultation" to start.</td><td>Rep only</td><td>This is the CRM home base. It shows every lead the rep has worked on.</td></tr>
+<tr><td><strong>2. Welcome</strong></td><td>A premium greeting screen appears. It sets the tone: "We're here to find your perfect match, not push a product."</td><td>Customer</td><td>First impressions matter. This makes the customer feel like they're getting a VIP experience, not filling out a form.</td></tr>
+<tr><td><strong>3. Consent</strong></td><td>The customer checks 4 boxes: 3 medical safety acknowledgments + 1 permission to contact them later.</td><td>Customer</td><td>Legal protection for the business. Medical disclaimers are required because massage chairs affect the body.</td></tr>
+<tr><td><strong>4. Lead Capture</strong></td><td>Customer enters: first name, last name, email, phone number, and preferred follow-up method (text, email, or phone call).</td><td>Customer</td><td>This is how the business contacts them later. The follow-up method preference ensures they get reached the way they prefer.</td></tr>
+<tr><td><strong>5. Questions</strong></td><td>10 multiple-choice questions about their needs. Then 2 bonus questions appear based on their biggest concern. (12 total)</td><td>Customer</td><td>This is the discovery engine. Each answer secretly scores across 9 different dimensions to build a buyer profile.</td></tr>
+<tr><td><strong>6. Chair Match</strong></td><td>The system recommends a #1 chair and backup options — all filtered by their stated budget. Shows real prices, original prices crossed out, and available colors.</td><td>Customer + Rep</td><td>This is the moment the customer sees their personalized recommendation with actual pricing.</td></tr>
+<tr><td><strong>7. Guided Demo</strong></td><td>A strategy screen for the rep: which features to highlight, what NOT to lead with, and what objection to expect.</td><td>Rep only</td><td>The rep takes the customer to physically sit in the recommended chair(s). This screen coaches them on how to run the demo effectively.</td></tr>
+<tr><td><strong>8. Rep Report</strong></td><td>After the demo, the rep fills out a 28-field form about what happened: which chairs they tried, body language, objections, purchase status, etc.</td><td>Rep only</td><td>This captures the other half of the buying decision — the live human signals that questions alone can't capture.</td></tr>
+<tr><td><strong>9. Final Output</strong></td><td>The system combines question data (35%) + demo data (65%) into a final intelligence report: best chair, temperature score, and next action.</td><td>Rep + Dashboard</td><td>This is the final deliverable. It tells the rep exactly what to do next and generates personalized follow-up messages.</td></tr>
 </tbody>
 </table>
 </section>
 
-<!-- ════════════════════════════════════════════ -->
-<!-- 4. SCORING ENGINE -->
-<!-- ════════════════════════════════════════════ -->
-<section id="scoring">
-<h2><span class="num">04</span> 9-Boyutlu Puanlama Motoru</h2>
-<p class="section-desc">Her soru cevabı, aşağıdaki 9 boyuttan bir veya birkaçına puan ekler. Cevaplar toplandığında her boyutta en yüksek puanı alan değer kazanır.</p>
+<!-- ══════ 3. QUESTIONS ══════ -->
+<section id="questions">
+<h2><span class="n">03</span> The 10 Questions (+ Bonus Questions)</h2>
+<p class="lead">The customer answers 10 questions. Each answer has hidden "tags" that score the customer across 9 different categories. After question 10, the system checks which concern scored highest and adds 2 more targeted questions about that concern.</p>
 
-<div class="grid-3">
-  <div class="card"><div class="card-title" style="color:var(--accent2)">buyerOrientation</div><p style="font-size:.8rem">Value-Oriented · Premium-Certainty · Recovery-Oriented · Shared-Use · Research-Oriented</p></div>
-  <div class="card"><div class="card-title" style="color:var(--amber)">primaryFriction</div><p style="font-size:.8rem">Space-fit · Payment comfort · Spouse/joint · Comparison overload · Confidence · Think-about-it</p></div>
-  <div class="card"><div class="card-title" style="color:var(--green)">demoLane</div><p style="font-size:.8rem">Value Starter · Recovery Relief · Premium Certainty · Shared Home Fit · Compare with Confidence · Space-Safe Fit</p></div>
-  <div class="card"><div class="card-title" style="color:var(--purple)">budgetBand</div><p style="font-size:.8rem">Under $4k · $4k-$8k · $8k-$12k · $12k-$16k · $16k+ · Flexible</p></div>
-  <div class="card"><div class="card-title" style="color:var(--red)">timing</div><p style="font-size:.8rem">Hot · Warm · Cold</p></div>
-  <div class="card"><div class="card-title" style="color:var(--accent2)">decisionComplexity</div><p style="font-size:.8rem">Low · Medium · High</p></div>
-  <div class="card"><div class="card-title" style="color:var(--amber)">certaintyNeed</div><p style="font-size:.8rem">Low · Medium · High</p></div>
-  <div class="card"><div class="card-title" style="color:var(--green)">followUpAngle</div><p style="font-size:.8rem">spouse summary · payment comfort · fit checklist · comparison simplifier · precision + upper-back · service certainty · premium certainty</p></div>
-  <div class="card"><div class="card-title" style="color:var(--purple)">leadHeatBase</div><p style="font-size:.8rem">Başlangıç: 30 puan. Her cevap +/- puan ekler. Maks 100. Discovery sıcaklık tabanı.</p></div>
-</div>
+<h3>The 10 Core Questions</h3>
+<table>
+<thead><tr><th>#</th><th>Question</th><th>Answer Choices</th><th>What the System Learns</th></tr></thead>
+<tbody>
+<tr><td>1</td><td><strong>Who is this chair primarily for?</strong></td><td>Just me · Me and my partner · A parent · The whole household · Still figuring out</td><td>Whether this is a solo or shared-use decision, and how many people are involved in the buying decision.</td></tr>
+<tr><td>2</td><td><strong>What brought you in today?</strong></td><td>Pain/tension · Better sleep · Comparing premium · Replacing old chair · Saw online · Just exploring</td><td>How serious they are (hot vs. cold lead) and whether they need recovery, luxury, or value.</td></tr>
+<tr><td>3</td><td><strong>What's your day-to-day routine?</strong></td><td>Desk job · On my feet · Active/workout · Mixed · Shopping for someone else</td><td>What body areas need attention, which helps pick the right demo focus (neck, back, legs, etc.).</td></tr>
+<tr><td>4</td><td><strong>What matters most if you decide today?</strong></td><td>Body fit · Confidence in choice · Monthly payment · Premium quality · Easy delivery</td><td>Their primary concern — this directly influences the demo strategy and follow-up angle.</td></tr>
+<tr><td>5</td><td><strong>What level of investment feels right?</strong></td><td>Under $4k · $4k–$8k · $8k–$12k · $12k–$16k · $16k+ · Flexible</td><td>The budget band — this is the most important filter. The system will ONLY recommend chairs they can afford.</td></tr>
+<tr><td>6</td><td><strong>How do you usually make a purchase like this?</strong></td><td>I decide alone · With my partner · Narrow down first · Need clear comparison · Need measurements</td><td>Decision complexity and whether a partner, space concern, or comparison is the main blocker.</td></tr>
+<tr><td>7</td><td><strong>Where do you want to feel the difference most?</strong></td><td>Neck/shoulders · Lower back/hips · Legs/feet · Full-body stretch · Overall premium feel</td><td>Which body zones to focus on during the demo — the rep will emphasize these features.</td></tr>
+<tr><td>8</td><td><strong>What would make this decision easiest?</strong></td><td>Seeing best 2 only · Premium vs value comparison · Payment clarity · Warranty clarity · Space-fit clarity</td><td>What specific information would remove their hesitation — this feeds directly into follow-up messages.</td></tr>
+<tr><td>9</td><td><strong>What would still stop you from moving forward?</strong></td><td>Want to think · Need partner involved · Confirm measurements · Compare payments · Nothing major</td><td>The biggest blocker. This is the most important signal for follow-up strategy.</td></tr>
+<tr><td>10</td><td><strong>How soon would you like to start using your chair?</strong></td><td>ASAP · 1–2 weeks · Within a month · Just researching</td><td>Timing urgency — "ASAP" = hot lead (close today), "just researching" = cold lead (nurture slowly).</td></tr>
+</tbody>
+</table>
 
-<h3>Puanlama Akışı</h3>
-<div class="mermaid">
-graph TD
-  A["Her Cevap<br/>(option.tags array)"] --> B["aggregateDimension()<br/>Boyut bazlı puan topla"]
-  B --> C["getTopValue()<br/>Her boyutta en yüksek puanlı olanı al"]
-  C --> D["9 boyutun kesinleşmiş değerleri"]
-  D --> E["selectChairsForBudget()<br/>Lane + Budget → Koltuk Filtresi"]
-  E --> F["topChairs + backupChairs<br/>+ repFraming + matchReason"]
-  style F fill:#1e293b,stroke:#22c55e,color:#f1f5f9
+<h3>The 2 Bonus Questions</h3>
+<p>After question 10, the system looks at all the answers and finds the customer's <strong>biggest concern</strong> (we call it their "friction"). Then it asks 2 more questions about that specific concern. There are 6 possible concern categories:</p>
+
+<div class="g2">
+<div class="card"><h4>🤝 Partner/Spouse Decision</h4><p>"Would a side-by-side summary help you review this together?" and "What would matter most to your partner?"</p></div>
+<div class="card"><h4>💰 Payment Comfort</h4><p>"Do you prefer lowest monthly payment or best long-term value?" and "Would cash vs. financing comparison help?"</p></div>
+<div class="card"><h4>📐 Space/Fit Concerns</h4><p>"Where will the chair go?" and "Do you know the room measurements?"</p></div>
+<div class="card"><h4>🔍 Comparison Overload</h4><p>"Would you rather see the best 2 or compare 3–4?" and "What would simplify the decision most?"</p></div>
+<div class="card"><h4>🛡️ Confidence/Trust</h4><p>"What would help you feel fully confident?" and "Is this your first serious massage chair purchase?"</p></div>
+<div class="card"><h4>🤔 "Let Me Think About It"</h4><p>"What would help you feel ready sooner?" and "If everything checked out, when would feel right?"</p></div>
 </div>
 </section>
 
-<!-- ════════════════════════════════════════════ -->
-<!-- 5. DEMO LANES -->
-<!-- ════════════════════════════════════════════ -->
-<section id="demo-lanes">
-<h2><span class="num">05</span> 6 Demo Lane Matrisi</h2>
-<p class="section-desc">Her lane, rep'e hangi koltukları hangi sırayla göstermesi gerektiğini, neyi vurgulamasını, neyle başlamamasını ve müşterinin muhtemel itirazını söyler.</p>
+<!-- ══════ 4. HOW IT THINKS ══════ -->
+<section id="brain">
+<h2><span class="n">04</span> How the Scoring Brain Works</h2>
+<p class="lead">Every time the customer picks an answer, invisible "tags" are added to their profile. Think of it like a scorecard with 9 categories. At the end, the system looks at which values got the most points in each category.</p>
 
+<h3>The 9 Categories Explained</h3>
 <table>
-<thead><tr><th>Lane</th><th>Koltuk Havuzu</th><th>Vurgu</th><th>Muhtemel İtiraz</th></tr></thead>
+<thead><tr><th>Category</th><th>What It Measures</th><th>Possible Values</th><th>Example</th></tr></thead>
 <tbody>
-<tr><td><span class="tag tag-green">Value Starter</span></td><td>Solara, Brio Plus, MAF1, KOYO 303TS, DualTech 4D</td><td>SL-Track, Zero Gravity, heat, easy controls</td><td>Payment</td></tr>
-<tr><td><span class="tag tag-blue">Recovery Relief</span></td><td>Brio Sport, DualTech Pro AI 4D, DualTech 4D, D.Core Stratus JP, Brio Plus</td><td>Deep-tissue, neck/shoulder, lower-body</td><td>Think about it</td></tr>
-<tr><td><span class="tag tag-purple">Premium Certainty</span></td><td>OHCO M8 NEO LE, MAN1, OHCO M8 NEO, Cirrus JP, D.Core 2, MAK1</td><td>Build quality, warranty, precision</td><td>Comparison</td></tr>
-<tr><td><span class="tag tag-amber">Shared Home Fit</span></td><td>Brio Plus, KOYO 303TS, DualTech 4D, MAF1, Solara</td><td>Multi-user, body scan, easy controls</td><td>Spouse</td></tr>
-<tr><td><span class="tag tag-red">Compare w/ Confidence</span></td><td>D.Core Stratus JP, OHCO R6, Cirrus JP, MAN1, OHCO M8 NEO, Brio Sport, DualTech Pro AI 4D</td><td>Side-by-side, design vs precision</td><td>Comparison</td></tr>
-<tr><td><span class="tag tag-blue">Space-Safe Fit</span></td><td>MAF1, DualTech 4D, Brio Plus, Solara, OHCO R6, Cirrus JP</td><td>Compact footprint, wall-hugging</td><td>Space</td></tr>
+<tr><td><strong>Buyer Orientation</strong></td><td>What kind of buyer is this person?</td><td>Value-Oriented · Recovery-Oriented · Premium-Certainty · Shared-Use · Research-Oriented</td><td>If they say "pain/tension" and "active/workout" they score high on <em>Recovery-Oriented</em></td></tr>
+<tr><td><strong>Primary Friction</strong></td><td>What is the main thing blocking them from buying?</td><td>Space-fit · Payment · Spouse · Comparison overload · Confidence · Think-about-it</td><td>If they mention needing partner approval twice, <em>Spouse/joint decision</em> wins</td></tr>
+<tr><td><strong>Demo Lane</strong></td><td>Which showroom strategy the rep should use</td><td>Value Starter · Recovery Relief · Premium Certainty · Shared Home Fit · Compare · Space-Safe</td><td>A recovery-oriented buyer on a $4-8k budget → <em>Recovery Relief</em> lane</td></tr>
+<tr><td><strong>Budget Band</strong></td><td>How much they're willing to spend</td><td>Under $4k · $4k–$8k · $8k–$12k · $12k–$16k · $16k+ · Flexible</td><td>Selected directly from Question 5</td></tr>
+<tr><td><strong>Timing</strong></td><td>How urgently they want to buy</td><td>Hot · Warm · Cold</td><td>"ASAP" → Hot, "Just researching" → Cold</td></tr>
+<tr><td><strong>Decision Complexity</strong></td><td>How complicated their buying process is</td><td>Low · Medium · High</td><td>Solo buyer who decides alone → Low. Whole household → High</td></tr>
+<tr><td><strong>Certainty Need</strong></td><td>How much reassurance they need before buying</td><td>Low · Medium · High</td><td>First-time buyer comparing many models → High</td></tr>
+<tr><td><strong>Follow-Up Angle</strong></td><td>What topic to lead with in follow-up messages</td><td>spouse summary · payment comfort · fit checklist · comparison · precision · service · etc.</td><td>If space was their concern → follow up with dimensions and a fit checklist</td></tr>
+<tr><td><strong>Lead Heat</strong></td><td>A 0–100 "temperature" score of how likely they are to buy</td><td>Number from 0 to 100</td><td>Starts at 30. "Pain/tension" adds +8. "Just exploring" only adds +3. "Nothing stops me" adds +8.</td></tr>
+</tbody>
+</table>
+
+<div class="tip s">
+<p><strong>How It Works In Practice:</strong> After all 12 questions, the system has a complete buyer profile. For example: "Recovery-Oriented buyer, primary friction is Payment comfort, wants Recovery Relief demo, budget is $4k–$8k, timing is Hot, decision complexity is Low, certainty need is Medium, follow-up should lead with payment comfort, lead heat is 72/100."</p>
+</div>
+</section>
+
+<!-- ══════ 5. CHAIR MATCHING ══════ -->
+<section id="chairs">
+<h2><span class="n">05</span> How It Picks the Right Chair</h2>
+<p class="lead">The scoring system determines a "Demo Lane" (the rep's showroom strategy), and each lane has a pool of chairs that are pre-assigned to it. Then the system filters that pool by the customer's budget. Only chairs they can afford are shown.</p>
+
+<h3>6 Demo Lanes and Their Chair Pools</h3>
+<table>
+<thead><tr><th>Lane</th><th>When It's Selected</th><th>Chairs in This Pool</th></tr></thead>
+<tbody>
+<tr><td><span class="t tg">Value Starter</span></td><td>Budget-conscious buyers looking for quality without overspending</td><td>Solara, Brio Plus, Panasonic MAF1, KOYO 303TS, DualTech 4D</td></tr>
+<tr><td><span class="t tb">Recovery Relief</span></td><td>People with pain, tension, or active recovery needs</td><td>Brio Sport, DualTech Pro AI 4D, DualTech 4D, D.Core Stratus JP, Brio Plus</td></tr>
+<tr><td><span class="t tp">Premium Certainty</span></td><td>Buyers who want the best and need confidence in their choice</td><td>OHCO M8 NEO LE, Panasonic MAN1, OHCO M8 NEO, D.Core Cirrus JP, D.Core 2, Panasonic MAK1</td></tr>
+<tr><td><span class="t ta">Shared Home Fit</span></td><td>Couples or families where multiple people will use the chair</td><td>Brio Plus, KOYO 303TS, DualTech 4D, Panasonic MAF1, Solara</td></tr>
+<tr><td><span class="t tr">Compare with Confidence</span></td><td>Research-heavy buyers who want to see clear comparisons</td><td>D.Core Stratus JP, OHCO R6, D.Core Cirrus JP, Panasonic MAN1, OHCO M8 NEO, Brio Sport, DualTech Pro AI 4D</td></tr>
+<tr><td><span class="t tb">Space-Safe Fit</span></td><td>Buyers worried about whether the chair will fit their space</td><td>Panasonic MAF1, DualTech 4D, Brio Plus, Solara, OHCO R6, D.Core Cirrus JP</td></tr>
 </tbody>
 </table>
 </section>
 
-<!-- ════════════════════════════════════════════ -->
-<!-- 6. BUDGET LOGIC -->
-<!-- ════════════════════════════════════════════ -->
+<!-- ══════ 6. BUDGET FILTER ══════ -->
 <section id="budget">
-<h2><span class="num">06</span> Bütçe Farkındalıklı Koltuk Seçimi</h2>
-<p class="section-desc"><code>selectChairsForBudget(lane, budgetBand)</code> fonksiyonu, lane'deki koltuk havuzunu müşterinin bütçe bandına göre filtreler. Fiyat verisi <code>productKnowledge</code> dosyasından gelir.</p>
+<h2><span class="n">06</span> Budget-Smart Filtering</h2>
+<p class="lead">The system never recommends a chair the customer can't afford. After selecting the demo lane, it checks each chair's real sale price and removes anything outside their budget. If no chairs in the lane fit their budget, it finds the closest affordable chair from the full catalog.</p>
 
-<h3>Fiyat Tablosu (Sale Price)</h3>
+<h3>All 15 Chairs — Sorted by Price</h3>
 <table>
-<thead><tr><th>Koltuk</th><th>Marka</th><th>Liste Fiyatı</th><th>Satış Fiyatı</th><th>Bütçe Bandı</th></tr></thead>
+<thead><tr><th>Chair Name</th><th>Brand</th><th>Original Price</th><th>Sale Price</th><th>Budget Band</th></tr></thead>
 <tbody>
-<tr><td>Solara</td><td>Positive Posture</td><td>$4,000</td><td class="price">$2,499</td><td><span class="tag tag-green">Under $4k</span></td></tr>
-<tr><td>Brio Plus</td><td>Positive Posture</td><td>$6,999</td><td class="price">$4,999</td><td><span class="tag tag-blue">$4k-$8k</span></td></tr>
-<tr><td>Panasonic MAF1</td><td>Panasonic</td><td>$10,000</td><td class="price">$5,999</td><td><span class="tag tag-blue">$4k-$8k</span></td></tr>
-<tr><td>DualTech 4D</td><td>Positive Posture</td><td>$10,000</td><td class="price">$7,999</td><td><span class="tag tag-blue">$4k-$8k</span></td></tr>
-<tr><td>KOYO 303TS</td><td>KOYO</td><td>$10,000</td><td class="price">$7,999</td><td><span class="tag tag-blue">$4k-$8k</span></td></tr>
-<tr><td>Brio Sport</td><td>Positive Posture</td><td>$11,000</td><td class="price">$8,999</td><td><span class="tag tag-purple">$8k-$12k</span></td></tr>
-<tr><td>OHCO R6</td><td>OHCO</td><td>$12,000</td><td class="price">$9,999</td><td><span class="tag tag-purple">$8k-$12k</span></td></tr>
-<tr><td>D.Core Stratus JP</td><td>D.Core</td><td>$15,000</td><td class="price">$11,499</td><td><span class="tag tag-purple">$8k-$12k</span></td></tr>
-<tr><td>DualTech Pro AI 4D</td><td>Positive Posture</td><td>$13,999</td><td class="price">$11,999</td><td><span class="tag tag-purple">$8k-$12k</span></td></tr>
-<tr><td>Panasonic MAK1</td><td>Panasonic</td><td>$16,000</td><td class="price">$12,499</td><td><span class="tag tag-amber">$12k-$16k</span></td></tr>
-<tr><td>D.Core Cirrus JP</td><td>D.Core</td><td>$18,500</td><td class="price">$12,999</td><td><span class="tag tag-amber">$12k-$16k</span></td></tr>
-<tr><td>Panasonic MAN1</td><td>Panasonic</td><td>$15,299</td><td class="price">$13,999</td><td><span class="tag tag-amber">$12k-$16k</span></td></tr>
-<tr><td>D.Core 2</td><td>D.Core</td><td>$20,000</td><td class="price">$14,999</td><td><span class="tag tag-amber">$12k-$16k</span></td></tr>
-<tr><td>OHCO M8 NEO</td><td>OHCO</td><td>$15,999</td><td class="price">$14,999</td><td><span class="tag tag-amber">$12k-$16k</span></td></tr>
-<tr><td>OHCO M8 NEO LE</td><td>OHCO</td><td>$20,000</td><td class="price">$18,000</td><td><span class="tag tag-red">$16k+</span></td></tr>
+<tr><td>Solara</td><td>Positive Posture</td><td>$4,000</td><td class="price">$2,499</td><td><span class="t tg">Under $4k</span></td></tr>
+<tr><td>Brio Plus</td><td>Positive Posture</td><td>$6,999</td><td class="price">$4,999</td><td><span class="t tb">$4k–$8k</span></td></tr>
+<tr><td>Panasonic MAF1</td><td>Panasonic</td><td>$10,000</td><td class="price">$5,999</td><td><span class="t tb">$4k–$8k</span></td></tr>
+<tr><td>DualTech 4D</td><td>Positive Posture</td><td>$10,000</td><td class="price">$7,999</td><td><span class="t tb">$4k–$8k</span></td></tr>
+<tr><td>KOYO 303TS</td><td>KOYO</td><td>$10,000</td><td class="price">$7,999</td><td><span class="t tb">$4k–$8k</span></td></tr>
+<tr><td>Brio Sport</td><td>Positive Posture</td><td>$11,000</td><td class="price">$8,999</td><td><span class="t tp">$8k–$12k</span></td></tr>
+<tr><td>OHCO R6</td><td>OHCO</td><td>$12,000</td><td class="price">$9,999</td><td><span class="t tp">$8k–$12k</span></td></tr>
+<tr><td>D.Core Stratus JP</td><td>D.Core</td><td>$15,000</td><td class="price">$11,499</td><td><span class="t tp">$8k–$12k</span></td></tr>
+<tr><td>DualTech Pro AI 4D</td><td>Positive Posture</td><td>$13,999</td><td class="price">$11,999</td><td><span class="t tp">$8k–$12k</span></td></tr>
+<tr><td>Panasonic MAK1</td><td>Panasonic</td><td>$16,000</td><td class="price">$12,499</td><td><span class="t ta">$12k–$16k</span></td></tr>
+<tr><td>D.Core Cirrus JP</td><td>D.Core</td><td>$18,500</td><td class="price">$12,999</td><td><span class="t ta">$12k–$16k</span></td></tr>
+<tr><td>Panasonic MAN1</td><td>Panasonic</td><td>$15,299</td><td class="price">$13,999</td><td><span class="t ta">$12k–$16k</span></td></tr>
+<tr><td>D.Core 2</td><td>D.Core</td><td>$20,000</td><td class="price">$14,999</td><td><span class="t ta">$12k–$16k</span></td></tr>
+<tr><td>OHCO M8 NEO</td><td>OHCO</td><td>$15,999</td><td class="price">$14,999</td><td><span class="t ta">$12k–$16k</span></td></tr>
+<tr><td>OHCO M8 NEO LE</td><td>OHCO</td><td>$20,000</td><td class="price">$18,000</td><td><span class="t tr">$16k+</span></td></tr>
 </tbody>
 </table>
 
-<h3>Filtreleme Mantığı</h3>
-<div class="mermaid">
-graph TD
-  A["Lane belirlendi<br/>(ör: Recovery Relief)"] --> B["Lane'deki koltuk havuzu<br/>(ör: Brio Sport, DualTech Pro...)"]
-  B --> C{"Bütçe bandındaki<br/>koltuklarda kesişim var mı?"}
-  C -->|"≥ 2 koltuk"| D["İlk 2'yi topChairs olarak sun"]
-  C -->|"1 koltuk"| E["1 lane koltuğu + 1 global bütçe koltuğu"]
-  C -->|"0 koltuk"| F["Global bütçe havuzundan en uygunları al"]
-  D --> G["backupChairs = kalan lane koltukları"]
-  E --> G
-  F --> G
-  style D fill:#1e293b,stroke:#22c55e,color:#f1f5f9
-</div>
-
-<div class="callout success">
-  <p><strong>Örnek:</strong> Müşteri "Under $4k" + "Recovery Relief" seçerse → Recovery lane'inde $4k altı koltuk yok → Sistem global havuzdan <strong>Solara ($2,499)</strong>'yı önerir. Backup olarak DualTech 4D ($7,999) gösterilir.</p>
+<div class="tip s">
+<p><strong>Real Example:</strong> A customer says "Under $4k" budget and their answers put them in the "Recovery Relief" lane. Recovery Relief's chair pool (Brio Sport $8,999, DualTech Pro AI 4D $11,999...) has no chairs under $4k. So the system looks at the entire catalog and finds <strong>Solara at $2,499</strong> — the only chair they can afford. It becomes the top recommendation, with higher-priced recovery chairs shown as "upgrade options."</p>
 </div>
 </section>
 
-<!-- ════════════════════════════════════════════ -->
-<!-- 7. POST-DEMO -->
-<!-- ════════════════════════════════════════════ -->
-<section id="post-demo">
-<h2><span class="num">07</span> Post-Demo Rep Formu (28 Alan)</h2>
-<p class="section-desc">Fiziksel demo tamamlandıktan sonra rep, 5 bölüm ve 28 alanlık bir form doldurur. Bu veriler, final karar motorunun girdi sinyalleridir.</p>
+<!-- ══════ 7. GUIDED DEMO ══════ -->
+<section id="demo">
+<h2><span class="n">07</span> The Guided Demo Screen</h2>
+<p class="lead">After the customer sees their chair recommendation, the rep presses "Begin Showroom Demo." A strategy screen appears that tells the rep exactly how to run the physical demo. This screen is for the rep's eyes only.</p>
 
-<div class="grid-2">
-<div class="card">
-  <div class="card-title" style="color:var(--accent2)">A — Chair Selection (6 alan)</div>
-  <p style="font-size:.85rem">
-  <strong>1-2.</strong> triedChairs (4 dropdown, en az 1 zorunlu)<br>
-  <strong>3.</strong> mostTimeSpent → en uzun süre oturulan koltuk<br>
-  <strong>4.</strong> mostQuestions → en çok sorulan koltuk<br>
-  <strong>5.</strong> strongestReaction → en güçlü pozitif tepki<br>
-  <strong>6.</strong> repBestFit → rep'in önerisi (zorunlu)</p>
-</div>
-<div class="card">
-  <div class="card-title" style="color:var(--green)">B — Demo Behavior (3 alan)</div>
-  <p style="font-size:.85rem">
-  <strong>7.</strong> engagementLevel → 5 seviye chip<br>
-  <strong>8.</strong> reactionType → 5 seviye chip<br>
-  <strong>9.</strong> decisiveness → 5 seviye chip</p>
-</div>
-<div class="card">
-  <div class="card-title" style="color:var(--amber)">C — Buying Signals (8 toggle)</div>
-  <p style="font-size:.85rem">
-  <strong>10.</strong> askedPayment<br><strong>11.</strong> askedDelivery<br><strong>12.</strong> askedWarranty<br><strong>13.</strong> gaveTimeline<br><strong>14.</strong> revisitedChair<br><strong>15.</strong> requestedSummary<br><strong>16.</strong> mentionedPartner<br><strong>17.</strong> mentionedMeasurements</p>
-</div>
-<div class="card">
-  <div class="card-title" style="color:var(--red)">D — Objection Analysis (5 alan)</div>
-  <p style="font-size:.85rem">
-  <strong>18.</strong> statedObjection → 7 seçenek<br><strong>19.</strong> objectionRealness → Gerçek mi, yüzeysel mi?<br><strong>20.</strong> likelyHiddenObjection → Gizli itiraz<br><strong>21.</strong> purchaseStatus → Open / Closed Won<br><strong>22.</strong> repConfidence → rep güven seviyesi</p>
-</div>
-<div class="card" style="grid-column: 1 / -1">
-  <div class="card-title" style="color:var(--purple)">E — Next-Step Lock (6 alan)</div>
-  <p style="font-size:.85rem">
-  <strong>23.</strong> nextStepLocked → Bir sonraki adım kilitlendi mi?<br>
-  <strong>24.</strong> nextStepType → 6 seçenek (Spouse summary, Measurement follow-up, Financing, Return visit, etc.)<br>
-  <strong>25.</strong> followUpDatePreference → (opsiyonel açık alan)<br>
-  <strong>26.</strong> repInternalNotes → Serbest metin<br>
-  <strong>27.</strong> repOwnRating → 1-5 yıldız<br>
-  <strong>28.</strong> repSellingDifficulty → Easy / Normal / Hard / Very Hard</p>
-</div>
+<h3>What the Rep Sees</h3>
+<div class="g2">
+<div class="card"><h4>✅ What to Emphasize</h4><p>A list of features to highlight during the demo. For example: "deep-tissue intensity, neck/shoulder precision, lower-body recovery, guided programs." These are chosen based on the customer's body focus and lifestyle answers.</p></div>
+<div class="card"><h4>🚫 What NOT to Lead With</h4><p>Things to avoid mentioning first. For example: "Don't lead with aesthetics over function" or "Don't show more than 2 chairs initially." This prevents the rep from overwhelming the customer.</p></div>
+<div class="card"><h4>⚠️ Likely Objection</h4><p>The most probable objection the customer will raise. For example: "Let me think about it" or "I need to check with my spouse." The rep can mentally prepare a response before the customer even says it.</p></div>
+<div class="card"><h4>💡 Why These Two</h4><p>A short explanation of why the #1 and backup chairs were chosen. For example: "Focus on active recovery feel and body-specific attention. Lead with the strongest deep-tissue models in their budget."</p></div>
 </div>
 </section>
 
-<!-- ════════════════════════════════════════════ -->
-<!-- 8. DECISION ENGINE -->
-<!-- ════════════════════════════════════════════ -->
-<section id="decision-engine">
-<h2><span class="num">08</span> Final Karar Motoru</h2>
-<p class="section-desc"><code>calculateFinalDecision()</code> fonksiyonu, discovery zekâsı (35%) ve demo sinyalleri (65%) birleştirerek nihai koltuk önerisi, sıcaklık puanı ve sonraki aksiyon belirler.</p>
+<!-- ══════ 8. AFTER THE DEMO ══════ -->
+<section id="after-demo">
+<h2><span class="n">08</span> The Rep's Post-Demo Report (28 Fields)</h2>
+<p class="lead">After the customer finishes trying the chairs, the rep fills out a detailed form about what happened. This is critical because the customer's real buying signals show up during the demo — not just during the questions.</p>
 
-<h3>Demo Puanlama (0-100)</h3>
+<h3>The 5 Sections of the Report</h3>
 <table>
-<thead><tr><th>Sinyal</th><th>Puan</th><th>Detay</th></tr></thead>
+<thead><tr><th>Section</th><th>Fields</th><th>What the Rep Records</th></tr></thead>
 <tbody>
-<tr><td>Engagement Level</td><td>0–12</td><td>Very engaged=12, Engaged=8, Neutral=4, Distracted=1, Low=0</td></tr>
-<tr><td>Reaction Type</td><td>0–15</td><td>Visibly excited=15, Relaxed=10, Thoughtful=7, Hard to read=3, Unimpressed=0</td></tr>
-<tr><td>Decisiveness</td><td>0–15</td><td>Ready=15, Close but=12, Interested=7, Exploring=3, Non-committal=0</td></tr>
-<tr><td>Buying Signals</td><td>0–42</td><td>Asked payment/delivery/warranty=6 ea, Timeline=6, Revisited=10, Summary=4, Partner/Measurements=2 ea</td></tr>
-<tr><td>Objection Penalty</td><td>-3 to -10</td><td>Research=-8, Not convinced=-10, Price=-6, Partner=-5, Space=-5, Delivery=-4, None=-3</td></tr>
-<tr><td>Next-Step Bonus</td><td>0–20</td><td>Return visit=10, Purchased=20, diğerleri=5</td></tr>
-</tbody>
-</table>
-
-<h3>Koltuk Puanlama Ağırlıkları</h3>
-<table>
-<thead><tr><th>Sinyal</th><th>Ağırlık</th><th>Açıklama</th></tr></thead>
-<tbody>
-<tr><td>Discovery Fit</td><td><strong>35%</strong></td><td>Koltuk discovery'den gelen topChairs'da mı?</td></tr>
-<tr><td>Demo Reaction</td><td><strong>25%</strong></td><td>En güçlü pozitif tepki bu koltuğa mı?</td></tr>
-<tr><td>Rep Best-Fit</td><td><strong>15%</strong></td><td>Rep bu koltuğu mu önerdi?</td></tr>
-<tr><td>Most Time</td><td><strong>10%</strong></td><td>Müşteri en uzun süre bu koltuğa mı oturdu?</td></tr>
-<tr><td>Most Questions</td><td><strong>10%</strong></td><td>En çok soru bu koltuk hakkında mı?</td></tr>
-<tr><td>Objection Align</td><td><strong>5%</strong></td><td>İtiraz tipiyle koltuk uyumlu mu?</td></tr>
-</tbody>
-</table>
-
-<h3>Sıcaklık Hesaplama</h3>
-<div class="mermaid">
-graph LR
-  A["Discovery leadHeatBase<br/>(30-100 arası)"] -->|"× 0.35"| C["Combined Score"]
-  B["Demo Score<br/>(0-100 arası)"] -->|"× 0.65"| C
-  C --> D{"finalScore"}
-  D -->|"≥ 85"| E["🔥 HOT"]
-  D -->|"65-84"| F["🟡 WARM"]
-  D -->|"45-64"| G["🟠 LUKEWARM"]
-  D -->|"< 45"| H["❄️ COLD"]
-  style E fill:#1e293b,stroke:#22c55e,color:#f1f5f9
-  style F fill:#1e293b,stroke:#f59e0b,color:#f1f5f9
-  style H fill:#1e293b,stroke:#ef4444,color:#f1f5f9
-</div>
-
-<h3>Next Best Action Matrisi</h3>
-<table>
-<thead><tr><th>Sıcaklık</th><th>İtiraz</th><th>Aksiyon</th></tr></thead>
-<tbody>
-<tr><td rowspan="4">HOT</td><td>Partner/spouse</td><td>Send Spouse Summary</td></tr>
-<tr><td>Space</td><td>Send Dimensions</td></tr>
-<tr><td>Price</td><td>Send Financing</td></tr>
-<tr><td>Diğer</td><td>Close Today</td></tr>
-<tr><td rowspan="2">WARM</td><td>Research</td><td>Send Comparison</td></tr>
-<tr><td>Diğer</td><td>Send Comparison</td></tr>
-<tr><td>LUKEWARM</td><td>Partner</td><td>Send Spouse Summary</td></tr>
-<tr><td>COLD</td><td>Hepsi</td><td>Nurture Sequence</td></tr>
+<tr><td><strong>A. Chair Selection</strong><br><span class="t tb">6 fields</span></td><td>Which chairs did they try? (up to 4) · Which chair did they spend the most time in? · Which chair did they ask the most questions about? · Which chair got the strongest positive reaction? · What's the rep's personal best-fit recommendation?</td><td>These tell the system which chair the customer actually connected with during the physical demo — not just what the algorithm predicted.</td></tr>
+<tr><td><strong>B. Demo Behavior</strong><br><span class="t tg">3 fields</span></td><td>Engagement level (Very engaged → Low engagement) · Reaction type (Visibly excited → Unimpressed) · Decisiveness (Ready to decide → Very non-committal)</td><td>Body language and emotional engagement. A "visibly excited" customer who's "ready to decide" is handled very differently from someone who's "neutral" and "just exploring."</td></tr>
+<tr><td><strong>C. Buying Signals</strong><br><span class="t ta">8 toggles</span></td><td>Did they ask about payment? · Delivery? · Warranty? · Give a timeline? · Go back to re-try a chair? · Request a summary to take home? · Mention their partner? · Mention room measurements?</td><td>Each of these is a buying signal. Asking about payment = they're thinking about actually buying. Mentioning measurements = they're imagining it in their home.</td></tr>
+<tr><td><strong>D. Objection Analysis</strong><br><span class="t tr">5 fields</span></td><td>What did they say was stopping them? · Does the rep think that objection is real or just a polite excuse? · What's the hidden objection? · Purchase status (Open / Closed Won) · Rep's confidence level</td><td>The rep's gut feeling matters. Sometimes "let me think about it" really means "it's too expensive" — the rep captures these nuances.</td></tr>
+<tr><td><strong>E. Next Steps</strong><br><span class="t tp">6 fields</span></td><td>Is a next step locked? · What type? (return visit, spouse summary, financing, etc.) · Preferred follow-up date · Rep's private notes · Rep's quality rating (1–5 stars) · Selling difficulty (Easy → Very Hard)</td><td>This locks in the follow-up plan and gives managers insight into which leads need the most attention.</td></tr>
 </tbody>
 </table>
 </section>
 
-<!-- ════════════════════════════════════════════ -->
-<!-- 9. FOLLOW-UP -->
-<!-- ════════════════════════════════════════════ -->
+<!-- ══════ 9. FINAL DECISION ══════ -->
+<section id="decision">
+<h2><span class="n">09</span> How the Final Decision Is Made</h2>
+<p class="lead">After the rep submits the post-demo report, the system combines <em>everything</em> it knows — both the question answers (discovery) and the demo observations — into one final intelligence report.</p>
+
+<h3>The Weight Split: Discovery 35% + Demo 65%</h3>
+<p>The system believes that what happens during the physical demo matters more than what the customer said before trying the chairs. So demo signals count for almost twice as much.</p>
+
+<div class="g2">
+<div class="card">
+<h4>📝 Discovery Weight (35%)</h4>
+<p>The lead heat score from the 12 questions. A customer who said "ASAP," "pain/tension," and "nothing stops me" would have a high discovery score (~85/100). A customer who said "just researching," "just exploring," and "let me think about it" would score low (~25/100).</p>
+</div>
+<div class="card">
+<h4>🪑 Demo Weight (65%)</h4>
+<p>Calculated from the rep's 28-field report. Points are awarded for engagement (+12), positive reactions (+15), decisiveness (+15), buying signals (+6 each), and next-step commitment (+20). Points are subtracted for strong objections (-10).</p>
+</div>
+</div>
+
+<h3>Lead Temperature</h3>
+<p>The combined score (0–100) determines the lead's "temperature":</p>
+<table>
+<thead><tr><th>Score</th><th>Temperature</th><th>What It Means</th></tr></thead>
+<tbody>
+<tr><td>85–100</td><td>🔥 <strong>HOT</strong></td><td>Ready to buy. Follow up immediately with a closing action.</td></tr>
+<tr><td>65–84</td><td>🟡 <strong>WARM</strong></td><td>Interested but has one concern to resolve. Send targeted info.</td></tr>
+<tr><td>45–64</td><td>🟠 <strong>LUKEWARM</strong></td><td>Mild interest. Needs nurturing over days/weeks.</td></tr>
+<tr><td>0–44</td><td>❄️ <strong>COLD</strong></td><td>Just browsing. Add to long-term nurture list.</td></tr>
+</tbody>
+</table>
+
+<h3>The Final Chair Decision</h3>
+<p>The system picks the final best-fit chair by weighing 6 factors:</p>
+<table>
+<thead><tr><th>Factor</th><th>Weight</th><th>Meaning</th></tr></thead>
+<tbody>
+<tr><td>Discovery match</td><td><strong>35%</strong></td><td>Was this chair recommended by the question-based algorithm?</td></tr>
+<tr><td>Strongest demo reaction</td><td><strong>25%</strong></td><td>Did the customer react most positively to this chair during the demo?</td></tr>
+<tr><td>Rep's recommendation</td><td><strong>15%</strong></td><td>Is this the chair the experienced sales rep believes is the best fit?</td></tr>
+<tr><td>Most time spent</td><td><strong>10%</strong></td><td>Did the customer spend the most time sitting in this chair?</td></tr>
+<tr><td>Most questions asked</td><td><strong>10%</strong></td><td>Did the customer ask the most questions about this chair?</td></tr>
+<tr><td>Objection alignment</td><td><strong>5%</strong></td><td>Does this chair address the customer's stated objection?</td></tr>
+</tbody>
+</table>
+</section>
+
+<!-- ══════ 10. FOLLOW-UP ══════ -->
 <section id="followup">
-<h2><span class="num">09</span> Follow-Up Otomasyonu</h2>
-<p class="section-desc">Her lead için friction'a göre kişiselleştirilmiş 3 aşamalı (24h / 72h / 7d) mesaj dizisi üretilir. Mesajlarda müşterinin adı, önerilen koltuğun adı ve ürün linki dinamik olarak enjekte edilir.</p>
+<h2><span class="n">10</span> Automatic Follow-Up Messages</h2>
+<p class="lead">For every customer who doesn't buy on the spot, the system generates 3 personalized follow-up messages — sent at 24 hours, 72 hours, and 7 days. The content changes based on their specific concern.</p>
 
 <table>
-<thead><tr><th>Friction</th><th>24 Saat</th><th>72 Saat</th><th>7 Gün</th></tr></thead>
+<thead><tr><th>Customer's Concern</th><th>24 Hours</th><th>72 Hours</th><th>7 Days</th></tr></thead>
 <tbody>
-<tr><td><span class="tag tag-amber">Partner/Spouse</span></td><td>Kısa spouse summary</td><td>VIP ikili demo daveti</td><td>Comfort + fit for both</td></tr>
-<tr><td><span class="tag tag-green">Price/Payment</span></td><td>Cash vs financing breakdown</td><td>Monthly payment breakdown</td><td>Ownership value (cost/day)</td></tr>
-<tr><td><span class="tag tag-blue">Space</span></td><td>Dimensions + fit checklist</td><td>FaceTime ölçüm yardımı</td><td>Compact alternative</td></tr>
-<tr><td><span class="tag tag-purple">Research/Compare</span></td><td>Best 2 only comparison</td><td>Premium vs value simplifier</td><td>Return visit daveti</td></tr>
-<tr><td><span class="tag tag-red">Confidence</span></td><td>Service + warranty açıklama</td><td>Why this model won</td><td>Soft reassurance check-in</td></tr>
-<tr><td><span class="tag tag-amber">No objection</span></td><td>Product summary + next step</td><td>Availability check</td><td>Soft ping</td></tr>
+<tr><td><strong>Partner/Spouse</strong></td><td>Send a simple side-by-side summary they can show their partner</td><td>Invite both to return for a quick VIP session</td><td>Highlight how the chair adapts to different body types (for couples)</td></tr>
+<tr><td><strong>Price/Payment</strong></td><td>Send financing breakdown with 0% APR options</td><td>Share the comfortable monthly payment amount</td><td>Frame the cost as "less than a coffee per day over its lifetime"</td></tr>
+<tr><td><strong>Space/Size</strong></td><td>Send exact chair dimensions + room-fit checklist</td><td>Offer a quick FaceTime call to look at the room together</td><td>Suggest a more compact alternative if the first choice is too big</td></tr>
+<tr><td><strong>Research/Comparison</strong></td><td>Send a clean side-by-side comparison of top 2 chairs</td><td>Highlight the key real-world difference between the options</td><td>Invite back for a second sit — "the second visit usually makes everything click"</td></tr>
+<tr><td><strong>Confidence/Trust</strong></td><td>Send warranty, delivery, and service details</td><td>Explain why this specific model is the strongest match</td><td>Offer a private appointment for a relaxed second visit</td></tr>
+<tr><td><strong>No objection (Hot lead)</strong></td><td>Send product page + "let me know the best delivery day"</td><td>Check availability + offer priority delivery slot</td><td>Soft ping about inventory and seasonal promotions</td></tr>
 </tbody>
 </table>
 
-<div class="callout">
-  <p><strong>Post-Purchase Flow:</strong> Müşteri "Closed Won" ile kapandığında farklı bir dizi aktive olur: 24h onay → 1 hafta teslimat → 1 ay garanti check-in → 3 ay referral bonus.</p>
+<div class="tip">
+<p><strong>If the customer bought:</strong> A different 4-step flow activates — order confirmation (24h) → delivery update (1 week) → warranty check-in (1 month) → referral bonus offer (3 months).</p>
 </div>
 </section>
 
-<!-- ════════════════════════════════════════════ -->
-<!-- 10. PRODUCTS -->
-<!-- ════════════════════════════════════════════ -->
+<!-- ══════ 11. PRODUCTS ══════ -->
 <section id="products">
-<h2><span class="num">10</span> Ürün Bilgi Yönetimi (PIM)</h2>
-<p class="section-desc">15 koltuk modeli için derinlemesine teknik özellikler, fiyatlandırma, renk seçenekleri, kullanım senaryoları ve rep'e coaching metinleri içeren merkezi <code>productKnowledge.js</code> kütüphanesi (3.000+ satır).</p>
+<h2><span class="n">11</span> Product Knowledge Database</h2>
+<p class="lead">The system has deep knowledge about every single chair — not just the name and price. For each of the 15 chairs, the database stores detailed information that powers the matching algorithm and the customer-facing recommendation screen.</p>
 
-<h3>Her Koltuk İçin Tutulan Veri</h3>
-<div class="grid-3">
-<div class="card"><p style="font-size:.85rem;margin:0"><strong>Pricing:</strong> listPrice, salePrice, currency</p></div>
-<div class="card"><p style="font-size:.85rem;margin:0"><strong>Availability:</strong> inStock, financing, warranty</p></div>
-<div class="card"><p style="font-size:.85rem;margin:0"><strong>Colors:</strong> Mevcut renk seçenekleri</p></div>
-<div class="card"><p style="font-size:.85rem;margin:0"><strong>Core Positioning:</strong> primaryUseCase, secondaryUseCases</p></div>
-<div class="card"><p style="font-size:.85rem;margin:0"><strong>Massage System:</strong> mechanismType (3D/4D), actions</p></div>
-<div class="card"><p style="font-size:.85rem;margin:0"><strong>Track System:</strong> L-Track, SL-Track coverage</p></div>
-<div class="card"><p style="font-size:.85rem;margin:0"><strong>Heat System:</strong> zones, temperature, coverage</p></div>
-<div class="card"><p style="font-size:.85rem;margin:0"><strong>Air Massage:</strong> coverage zones, positioning</p></div>
-<div class="card"><p style="font-size:.85rem;margin:0"><strong>Zero Gravity:</strong> stages, angles, features</p></div>
+<h3>What's Stored For Each Chair</h3>
+<div class="g2">
+<div class="card"><h4>💰 Pricing</h4><p>Original list price, current sale price, financing availability (Affirm), and extended warranty option.</p></div>
+<div class="card"><h4>🎨 Availability</h4><p>In-stock status, estimated delivery time (5–14 business days), and available color options.</p></div>
+<div class="card"><h4>🎯 Positioning</h4><p>Who this chair is best for (primary use case), secondary use cases, and positioning notes for the rep.</p></div>
+<div class="card"><h4>💆 Massage System</h4><p>Type of mechanism (3D, 4D, dual), massage actions (kneading, tapping, shiatsu), and roller design details.</p></div>
+<div class="card"><h4>🔥 Heat System</h4><p>Which body zones have heat, temperature type (infrared, ceramic), and coverage area.</p></div>
+<div class="card"><h4>♻️ Zero Gravity</h4><p>Number of recline stages, whether it has True Zero Gravity, and the recline angle.</p></div>
+<div class="card"><h4>💨 Air Massage</h4><p>Which body zones have air compression (shoulders, arms, hips, calves, feet).</p></div>
+<div class="card"><h4>📏 Dimensions</h4><p>Upright and reclined footprint, wall clearance needed, and weight capacity.</p></div>
 </div>
-</section>
 
-<!-- ════════════════════════════════════════════ -->
-<!-- 11. FILE MAP -->
-<!-- ════════════════════════════════════════════ -->
-<section id="files">
-<h2><span class="num">11</span> Dosya Haritası</h2>
-<p class="section-desc">Projedeki her dosyanın görevi ve hangi motora/ekrana hizmet ettiği.</p>
-
-<div class="file-tree">
-<span class="dir">src/</span><br>
-├── <span class="mod">App.jsx</span> — 9-fazlı state machine, orchestrator<br>
-├── <span class="dir">screens/</span><br>
-│ ├── <span class="mod">DashboardScreen.jsx</span> — CRM board (7 kolon + lead detail + follow-up)<br>
-│ ├── <span class="mod">WelcomeScreen.jsx</span> — Premium consultation karşılama<br>
-│ ├── <span class="mod">ConsentScreen.jsx</span> — 3 medikal + 1 contact consent<br>
-│ ├── <span class="mod">LeadCaptureScreen.jsx</span> — İsim, email, telefon, follow-up tercihi<br>
-│ ├── QuestionScreen.jsx — Soru render + progress bar<br>
-│ ├── <span class="mod">CustomerMatchScreen.jsx</span> — Budget-filtered koltuk önerisi + fiyat<br>
-│ ├── <span class="new">GuidedDemoScreen.jsx</span> — Rep'e demo stratejisi ekranı<br>
-│ ├── <span class="mod">RepPostDemoScreen.jsx</span> — 28 alan, 5 section rep formu<br>
-│ └── <span class="mod">OutputScreen.jsx</span> — Final intelligence raporu<br>
-├── <span class="dir">data/</span><br>
-│ ├── <span class="mod">questions.js</span> — 10 core + 6 friction branch (649 satır)<br>
-│ ├── <span class="mod">productKnowledge.js</span> — 15 koltuk deep data (3,083 satır)<br>
-│ └── productLibrary.js — URL + SEO description (100 satır)<br>
-├── <span class="dir">store/</span><br>
-│ ├── <span class="mod">scoringLogic.js</span> — 9 boyut puanlama + budget-aware seçim<br>
-│ ├── <span class="new">demoScoringLogic.js</span> — Post-demo 0-100 puan motoru<br>
-│ ├── <span class="new">finalDecisionEngine.js</span> — Discovery (35%) + Demo (65%) merge<br>
-│ └── <span class="mod">followUpLogic.js</span> — Friction-specific 3 aşamalı mesajlar<br>
-├── <span class="dir">services/</span><br>
-│ ├── db.js — localStorage + Supabase fallback<br>
-│ ├── supabase.js — Supabase client + auth<br>
-│ ├── supabaseDb.js — Supabase CRUD operations<br>
-│ └── googleSheets.js — Webhook export (placeholder)<br>
-└── <span class="dir">components/</span><br>
-  └── ProgressIndicator.jsx — Soru progress bar<br>
-<br>
-<span style="color:var(--green)">■ new</span> &nbsp; <span style="color:var(--amber)">■ modified</span> &nbsp; ■ unchanged
+<div class="tip w">
+<p><strong>Why this matters:</strong> When the Match Screen shows a recommendation, the description, price, and color options you see are pulled directly from this database — not hardcoded. If a price changes, updating it in one place updates it everywhere in the app.</p>
 </div>
 </section>
 
 <!-- FOOTER -->
 <div style="padding:4rem 0;text-align:center;border-top:1px solid var(--border)">
-  <p style="color:var(--text3);font-size:.85rem">CRM v2 Technical Walkthrough — House of Massage Chairs<br>
-  Built with React + Vite · 15 Chair Knowledge Base · 9-Dimension Scoring</p>
+<p style="color:var(--text3);font-size:.85rem">Massage Chair CRM — Complete System Guide<br>15 chairs · 9 scoring dimensions · 6 demo strategies · automatic follow-ups</p>
 </div>
 
-</div><!-- container -->
+</div>
 
 <script>
-mermaid.initialize({ theme: 'dark', themeVariables: { primaryColor: '#1e293b', primaryTextColor: '#f1f5f9', primaryBorderColor: '#0ea5e9', lineColor: '#64748b', secondaryColor: '#1e293b', tertiaryColor: '#0f172a' }});
-// Smooth scroll
-document.querySelectorAll('a[href^="#"]').forEach(a => {
-  a.addEventListener('click', e => {
-    e.preventDefault();
-    document.querySelector(a.getAttribute('href'))?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  });
-});
+mermaid.initialize({theme:'dark',themeVariables:{primaryColor:'#1e293b',primaryTextColor:'#f1f5f9',primaryBorderColor:'#0ea5e9',lineColor:'#64748b',secondaryColor:'#1e293b',tertiaryColor:'#0f172a'}});
+document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click',e=>{e.preventDefault();document.querySelector(a.getAttribute('href'))?.scrollIntoView({behavior:'smooth',block:'start'})})});
 </script>
 </body>
 </html>
