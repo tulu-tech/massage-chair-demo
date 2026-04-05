@@ -2852,6 +2852,211 @@ export const productKnowledge = {
       "health-outcome language should not be stored as hard technical spec",
     ],
   },
+
+  "OHCO M8 NEO": {
+    slug: "ohco-m8-neo",
+    displayName: "OHCO M8 NEO Massage Chair",
+    brand: "OHCO",
+    model: "M8 NEO",
+    category: "massage-chair",
+
+    pricing: {
+      listPrice: 15999,
+      salePrice: 14999,
+      currency: "USD",
+    },
+
+    availability: {
+      inStock: true,
+      estimatedDelivery: "5–14 business days",
+      financingAvailable: true,
+      financingProvider: "Affirm",
+      extendedFactoryWarrantyAvailable: true,
+    },
+
+    colors: ["Black", "Pearl", "Walnut"],
+
+    corePositioning: {
+      primaryUseCase: "feature-forward luxury OHCO massage chair",
+      secondaryUseCases: [
+        "desk-heavy upper-back stress",
+        "buyers wanting calm without complication",
+        "partner/household premium buyers who care about home aesthetics",
+        "buyers refusing one-size-fits-all pressure and wanting more control",
+        "buyers who want a luxury routine with a broader atmosphere stack",
+      ],
+      positioningNotes: [
+        "Page positions this model around balance of design, comfort, and customization",
+        "Dual mechanisms are a major differentiator",
+        "The atmosphere stack is part of the value story: sound, scent, ionizer",
+        "The chair is framed as easy to use despite premium depth",
+      ],
+    },
+
+    massageSystem: {
+      mechanismType: "4D dual mechanism",
+      mechanismName:
+        "Sens8 4D Massage Mechanism + Movesync Dual Massage System",
+      massageCharacter: [
+        "lifelike feel",
+        "more intentional rhythm",
+        "less repetitive than one-track massage",
+        "specific back and neck attention through two mechanisms",
+      ],
+    },
+
+    trackAndCoverage: {
+      fullBodyPositioning: true,
+      coverageDescription:
+        "page frames it as a true full-session / full-body experience including legs and feet",
+    },
+
+    bodyScanning: {
+      hasBodyScan: true,
+      bodyScanName: "Back Scan",
+      description: "personalizes the session to the user's body",
+    },
+
+    reclineAndPosture: {
+      hasZeroGravity: true,
+      hasLayFlat: true,
+      reclineOptions: ["Zero Gravity", "Lay Flat"],
+      gravityPositioning: true,
+    },
+
+    heatSystem: {
+      hasHeat: true,
+      heatComponents: [
+        "independently controlled total-body heat zones",
+      ],
+      heatDescription:
+        "heat zones can be controlled independently",
+    },
+
+    calfAndFootSystem: {
+      calfMassage: {
+        hasCalfMassage: true,
+        featureName: "Calf Kneading System",
+        description:
+          "designed to feel more like hands than a squeeze",
+      },
+      footMassage: {
+        hasFootRollers: true,
+        description:
+          "foot roller action designed for daily-use comfort",
+      },
+    },
+
+    armAndHandSystem: {
+      hasArmMassage: true,
+      featureName: "Arm Air Massage Arrays",
+      description:
+        "precision patterning for hands and forearms",
+    },
+
+    accessAndEntry: {
+      sideEntryDoors: true,
+      description:
+        "side-entry doors for easier in-and-out access",
+    },
+
+    sensoryFeatures: {
+      bluetoothAudio: true,
+      aromatherapy: true,
+      airIonizer: true,
+    },
+
+    controlsAndConvenience: {
+      usbChargingPorts: true,
+      controlOverSpeed: true,
+      controlOverRecline: true,
+      controlOverZones: true,
+    },
+
+    experientialProfile: {
+      strongestSensations: [
+        "session feels more choreographed than basic premium chairs",
+        "neck and back can feel more specifically worked because of dual mechanisms",
+        "heat feels layered rather than generic",
+        "foot rollers feel steady enough for repeat daily use",
+        "air compression feels organized by zone",
+      ],
+      firstFiveMinutes: [
+        "chair guides the body into position quickly",
+        "shoulders feel supported as the session starts",
+        "heat feels like a comfort layer, not a sudden blast",
+        "foot rollers establish a steady usable rhythm",
+        "recline changes how the back settles into the chair",
+        "air compression feels organized instead of random",
+      ],
+    },
+
+    buyerFit: {
+      bestFor: [
+        "buyers wanting a luxury OHCO routine with deeper feature stack",
+        "buyers who want premium feel without a complicated interface",
+        "desk-heavy professionals with upper-back tension",
+        "partner/household buyers who care about aesthetics",
+        "buyers who want more control over speed, recline, and zones",
+        "buyers stepping up from simpler premium chairs",
+      ],
+      lessIdealFor: [
+        "buyers who want the simplest lower-tier OHCO decision",
+        "buyers who do not value dual-mechanism nuance or atmosphere features",
+      ],
+    },
+
+    comparisons: [
+      {
+        model: "OHCO M8 Massage Chair",
+        difference:
+          "M8 baseline is framed as signature luxury routine; NEO adds a deeper feature stack and dual-mechanism design",
+      },
+      {
+        model: "OHCO R6",
+        difference:
+          "R6 is framed as the simpler lower-tier OHCO decision",
+      },
+    ],
+
+    verifiedClaims: [
+      "4D massage mechanism",
+      "Sens8 4D Massage Mechanism",
+      "dual massage mechanisms",
+      "Movesync Dual Massage System",
+      "Back Scan",
+      "Zero Gravity recline",
+      "Lay Flat recline",
+      "independently controlled total-body heat zones",
+      "foot roller action",
+      "calf kneading system",
+      "arm air massage arrays for hands and forearms",
+      "side-entry doors",
+      "Bluetooth audio",
+      "aromatherapy slot",
+      "air ionizer",
+      "USB charging ports",
+      "in stock",
+      "5–14 business day estimated delivery",
+      "financing available",
+      "extended factory warranty available",
+      "colors: Black, Pearl, Walnut",
+    ],
+
+    softNotes: [
+      "described as balance of design, comfort, and customization",
+      "described as a feature-forward evolution of the line",
+      "described as having a broader atmosphere stack",
+      "described as easy to use despite premium depth",
+    ],
+
+    excludedData: [
+      "FAQ price says $13,999 while product header shows $14,999; FAQ price should not be trusted as hard product data",
+      "customer review quotes should not be used as hard product spec",
+      "booking/demo language intentionally excluded",
+      "health-outcome language should not be stored as hard technical spec",
+    ],
+  },
 };
 
 // ── Helpers ──
