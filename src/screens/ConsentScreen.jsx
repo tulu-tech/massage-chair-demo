@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { ShieldCheck, ArrowRight, AlertTriangle } from 'lucide-react';
 
-const consentItems = [
+const medicalItems = [
   {
     id: 'notPregnant',
     label: 'I confirm that I am not currently pregnant.',
@@ -24,6 +24,7 @@ export default function ConsentScreen({ onAccept }) {
     notPregnant: false,
     ageRequirement: false,
     noMedicalIssue: false,
+    contactConsent: false,
   });
 
   const allChecked = Object.values(checks).every(Boolean);
@@ -32,13 +33,25 @@ export default function ConsentScreen({ onAccept }) {
     setChecks(prev => ({ ...prev, [id]: !prev[id] }));
   };
 
+  const handleAccept = () => {
+    onAccept({
+      medicalConsent: {
+        notPregnant: checks.notPregnant,
+        ageRequirement: checks.ageRequirement,
+        noMedicalIssue: checks.noMedicalIssue,
+      },
+      contactConsent: checks.contactConsent,
+      consentTimestamp: new Date().toISOString(),
+    });
+  };
+
   return (
     <div className="main-content slide-up" style={{
       display: 'flex',
       flexDirection: 'column',
       justifyContent: 'center',
       alignItems: 'center',
-      height: '100vh',
+      minHeight: '100vh',
       textAlign: 'center',
       padding: '2rem',
     }}>
@@ -67,24 +80,24 @@ export default function ConsentScreen({ onAccept }) {
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
           }}>
-            Safety Acknowledgment
+            Safety & Consent
           </h2>
         </div>
 
         <p style={{
           fontSize: '1.05rem',
           color: 'var(--text-secondary)',
-          marginBottom: '2.5rem',
+          marginBottom: '2rem',
           lineHeight: '1.6',
           maxWidth: '550px',
-          margin: '0 auto 2.5rem',
+          margin: '0 auto 2rem',
         }}>
           Before we begin your personalized chair match, please confirm the following for your safety and comfort.
         </p>
 
-        {/* Consent Items */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', marginBottom: '2.5rem' }}>
-          {consentItems.map(item => (
+        {/* Medical Consent Items */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', marginBottom: '1.5rem' }}>
+          {medicalItems.map(item => (
             <label
               key={item.id}
               onClick={() => toggle(item.id)}
@@ -92,7 +105,7 @@ export default function ConsentScreen({ onAccept }) {
                 display: 'flex',
                 alignItems: 'center',
                 gap: '1rem',
-                padding: '1.25rem 1.5rem',
+                padding: '1.1rem 1.5rem',
                 borderRadius: 'var(--radius-md)',
                 background: checks[item.id]
                   ? 'rgba(14, 165, 233, 0.12)'
@@ -103,7 +116,6 @@ export default function ConsentScreen({ onAccept }) {
                 textAlign: 'left',
               }}
             >
-              {/* Custom checkbox */}
               <div style={{
                 width: '26px',
                 height: '26px',
@@ -125,7 +137,7 @@ export default function ConsentScreen({ onAccept }) {
               </div>
               <span style={{
                 color: checks[item.id] ? 'var(--text-primary)' : 'var(--text-secondary)',
-                fontSize: '1rem',
+                fontSize: '0.95rem',
                 lineHeight: '1.5',
                 transition: 'var(--transition)',
               }}>
@@ -134,6 +146,69 @@ export default function ConsentScreen({ onAccept }) {
             </label>
           ))}
         </div>
+
+        {/* Divider */}
+        <hr style={{ border: 'none', borderTop: '1px solid var(--glass-border)', margin: '1.5rem 0' }} />
+
+        {/* Contact Consent */}
+        <label
+          onClick={() => toggle('contactConsent')}
+          style={{
+            display: 'flex',
+            alignItems: 'flex-start',
+            gap: '1rem',
+            padding: '1.25rem 1.5rem',
+            borderRadius: 'var(--radius-md)',
+            background: checks.contactConsent
+              ? 'rgba(52, 211, 153, 0.1)'
+              : 'rgba(255, 255, 255, 0.03)',
+            border: `1px solid ${checks.contactConsent ? 'rgba(52, 211, 153, 0.4)' : 'var(--glass-border)'}`,
+            cursor: 'pointer',
+            transition: 'var(--transition)',
+            textAlign: 'left',
+            marginBottom: '1.5rem',
+          }}
+        >
+          <div style={{
+            width: '26px',
+            height: '26px',
+            minWidth: '26px',
+            borderRadius: '6px',
+            border: `2px solid ${checks.contactConsent ? '#34d399' : 'rgba(255,255,255,0.2)'}`,
+            background: checks.contactConsent
+              ? 'linear-gradient(135deg, #34d399 0%, #059669 100%)'
+              : 'rgba(0,0,0,0.3)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            transition: 'var(--transition)',
+            fontSize: '14px',
+            color: '#fff',
+            fontWeight: 700,
+            marginTop: '2px',
+          }}>
+            {checks.contactConsent && '✓'}
+          </div>
+          <div>
+            <span style={{
+              color: checks.contactConsent ? 'var(--text-primary)' : 'var(--text-secondary)',
+              fontSize: '0.95rem',
+              lineHeight: '1.5',
+              display: 'block',
+            }}>
+              I authorize this store to save my profile, recommendations, and contact me regarding my consultation.
+            </span>
+            <span style={{
+              color: 'var(--text-tertiary)',
+              fontSize: '0.8rem',
+              marginTop: '0.5rem',
+              display: 'block',
+              lineHeight: '1.4',
+            }}>
+              The information captured will be processed by the sales person to provide you with personalized recommendations and follow-up assistance.
+            </span>
+          </div>
+        </label>
 
         {/* Warning */}
         {!allChecked && (
@@ -155,7 +230,7 @@ export default function ConsentScreen({ onAccept }) {
         <button
           className="btn btn-primary"
           disabled={!allChecked}
-          onClick={onAccept}
+          onClick={handleAccept}
           style={{
             width: '100%',
             padding: '1.25rem 3rem',
