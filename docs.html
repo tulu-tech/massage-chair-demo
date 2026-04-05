@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Masaj Koltuğu CRM Sistemi — Komple Rehber</title>
+<title>Masaj Koltuğu CRM — Sistem Rehberi</title>
 <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
@@ -11,52 +11,71 @@
 :root{--bg:#0a0f1a;--bg2:#111827;--bg3:#1e293b;--accent:#0ea5e9;--accent2:#38bdf8;--text:#f1f5f9;--text2:#94a3b8;--text3:#64748b;--border:rgba(255,255,255,.08);--radius:16px;--green:#22c55e;--amber:#f59e0b;--red:#ef4444;--purple:#a78bfa}
 body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-height:1.8;-webkit-font-smoothing:antialiased}
 a{color:var(--accent2);text-decoration:none}
-a:hover{text-decoration:underline}
-.topbar{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(10,15,26,.9);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:0 2rem;height:56px;display:flex;align-items:center;gap:1.5rem}
-.topbar .logo{font-weight:700;font-size:1.1rem;color:var(--accent);letter-spacing:-.02em;white-space:nowrap}
-.topbar nav{display:flex;gap:.75rem;flex:1;overflow-x:auto;scrollbar-width:none}
+.topbar{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(10,15,26,.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:0 2rem;height:56px;display:flex;align-items:center;gap:1.5rem}
+.topbar .logo{font-weight:700;font-size:1.1rem;color:var(--accent);white-space:nowrap}
+.topbar nav{display:flex;gap:.5rem;flex:1;overflow-x:auto;scrollbar-width:none}
 .topbar nav::-webkit-scrollbar{display:none}
 .topbar nav a{color:var(--text2);font-size:.78rem;font-weight:500;white-space:nowrap;padding:.25rem .5rem;border-radius:6px;transition:.2s}
 .topbar nav a:hover{color:white;background:rgba(255,255,255,.05);text-decoration:none}
-.hero{padding:8rem 2rem 4rem;text-align:center;background:radial-gradient(ellipse at 50% 0%,rgba(14,165,233,.08) 0%,transparent 60%)}
-.hero h1{font-size:2.8rem;font-weight:800;letter-spacing:-.04em;background:linear-gradient(135deg,#fff 0%,#94a3b8 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:1rem}
-.hero .sub{font-size:1.1rem;color:var(--text2);max-width:750px;margin:0 auto 2rem;font-weight:300;line-height:1.9}
-.badges{display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap}
-.badge{padding:.4rem 1rem;border-radius:100px;font-size:.8rem;font-weight:600;border:1px solid var(--border);background:rgba(255,255,255,.03)}
+.hero{padding:7rem 2rem 3rem;text-align:center;background:radial-gradient(ellipse at 50% 0%,rgba(14,165,233,.08) 0%,transparent 60%)}
+.hero h1{font-size:2.6rem;font-weight:800;letter-spacing:-.04em;background:linear-gradient(135deg,#fff,#94a3b8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:.75rem}
+.hero p{font-size:1.05rem;color:var(--text2);max-width:650px;margin:0 auto 1.5rem}
+.badges{display:flex;gap:.6rem;justify-content:center;flex-wrap:wrap}
+.badge{padding:.35rem .9rem;border-radius:100px;font-size:.78rem;font-weight:600;border:1px solid var(--border);background:rgba(255,255,255,.03)}
 .badge.b{border-color:rgba(14,165,233,.3);color:var(--accent2)}
 .badge.g{border-color:rgba(34,197,94,.3);color:var(--green)}
 .badge.p{border-color:rgba(167,139,250,.3);color:var(--purple)}
 .badge.a{border-color:rgba(245,158,11,.3);color:var(--amber)}
-.container{max-width:960px;margin:0 auto;padding:0 2rem}
-section{padding:4rem 0;border-top:1px solid var(--border)}
+.container{max-width:1000px;margin:0 auto;padding:0 2rem}
+section{padding:3.5rem 0;border-top:1px solid var(--border)}
 section:first-of-type{border-top:none}
-h2{font-size:1.85rem;font-weight:700;letter-spacing:-.03em;margin-bottom:.75rem}
-h2 .n{color:var(--accent);font-size:.9rem;font-weight:600;margin-right:.5rem}
-h3{font-size:1.2rem;font-weight:600;margin:2rem 0 .75rem;color:var(--accent2)}
-p,.desc{color:var(--text2);margin-bottom:1rem;font-size:1rem;line-height:1.9}
-.lead{font-size:1.05rem;color:var(--text2);margin-bottom:2rem;max-width:800px;line-height:1.9}
-strong{color:var(--text)}em{color:var(--accent2);font-style:normal;font-weight:500}
-.card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:1.75rem;margin-bottom:1.25rem}
-.card h4{margin-top:0;color:var(--text);font-size:1.05rem}
-.g2{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem}
+h2{font-size:1.7rem;font-weight:700;margin-bottom:.5rem}
+h2 .n{color:var(--accent);font-size:.85rem;font-weight:600;margin-right:.4rem}
+h3{font-size:1.15rem;font-weight:600;margin:1.75rem 0 .6rem;color:var(--accent2)}
+p{color:var(--text2);margin-bottom:.75rem;line-height:1.8}
+strong{color:var(--text)}
+em{color:var(--accent2);font-style:normal;font-weight:500}
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;margin-bottom:1rem}
+.card h4{margin:0 0 .4rem;color:var(--text);font-size:.95rem}
+.card p{font-size:.9rem;margin:0}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
 .g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem}
-@media(max-width:768px){.g2,.g3{grid-template-columns:1fr}}
-table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:.9rem}
-th{text-align:left;padding:.75rem 1rem;background:var(--bg3);color:var(--text2);font-weight:600;border-bottom:1px solid var(--border)}
-td{padding:.65rem 1rem;border-bottom:1px solid var(--border);color:var(--text2);vertical-align:top;line-height:1.7}
-tr:hover td{background:rgba(255,255,255,.02)}
-.t{display:inline-block;padding:.15rem .5rem;border-radius:4px;font-size:.75rem;font-weight:600;margin:.1rem}
+.g4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:.75rem}
+@media(max-width:768px){.g2,.g3,.g4{grid-template-columns:1fr}}
+table{width:100%;border-collapse:collapse;margin:.75rem 0;font-size:.85rem}
+th{text-align:left;padding:.6rem .75rem;background:var(--bg3);color:var(--text2);font-weight:600;border-bottom:1px solid var(--border)}
+td{padding:.5rem .75rem;border-bottom:1px solid var(--border);color:var(--text2);vertical-align:top;line-height:1.6}
+.t{display:inline-block;padding:.12rem .45rem;border-radius:4px;font-size:.7rem;font-weight:600}
 .tb{background:rgba(14,165,233,.15);color:var(--accent2)}
 .tg{background:rgba(34,197,94,.15);color:var(--green)}
 .ta{background:rgba(245,158,11,.15);color:var(--amber)}
 .tr{background:rgba(239,68,68,.15);color:var(--red)}
 .tp{background:rgba(167,139,250,.15);color:var(--purple)}
-.mermaid{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:2rem;margin:1.5rem 0;overflow-x:auto}
-.tip{border-left:3px solid var(--accent);background:rgba(14,165,233,.05);padding:1.25rem 1.5rem;border-radius:0 var(--radius) var(--radius) 0;margin:1.5rem 0}
+.mermaid{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;margin:1.25rem 0;overflow-x:auto}
+.tip{border-left:3px solid var(--accent);background:rgba(14,165,233,.05);padding:1rem 1.25rem;border-radius:0 12px 12px 0;margin:1.25rem 0;font-size:.92rem}
 .tip.w{border-color:var(--amber);background:rgba(245,158,11,.05)}
 .tip.s{border-color:var(--green);background:rgba(34,197,94,.05)}
-.tip p{margin:0;line-height:1.8}
+.tip p{margin:0}
 .price{font-weight:700;color:var(--green)}
+/* SCREENSHOTS */
+.ss{border-radius:12px;border:1px solid rgba(255,255,255,.1);margin:1rem 0;max-width:100%;box-shadow:0 8px 32px rgba(0,0,0,.4)}
+.ss-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1rem 0}
+.ss-row.tri{grid-template-columns:1fr 1fr 1fr}
+@media(max-width:768px){.ss-row,.ss-row.tri{grid-template-columns:1fr}}
+.ss-wrap{text-align:center}
+.ss-wrap img{width:100%;border-radius:10px;border:1px solid rgba(255,255,255,.08)}
+.ss-label{font-size:.75rem;color:var(--text3);margin-top:.4rem;font-weight:500}
+/* PHASE PILLS */
+.phases{display:flex;gap:0;margin:1.25rem 0;flex-wrap:wrap}
+.phase{flex:1;min-width:100px;text-align:center;padding:.75rem .25rem;position:relative;background:var(--bg2);border:1px solid var(--border)}
+.phase:first-child{border-radius:12px 0 0 12px}
+.phase:last-child{border-radius:0 12px 12px 0}
+.phase .num{font-size:1.4rem;font-weight:800;display:block}
+.phase .lbl{font-size:.65rem;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--text3)}
+.phase.blue .num{color:var(--accent2)}
+.phase.green .num{color:var(--green)}
+.phase.purple .num{color:var(--purple)}
+.phase.amber .num{color:var(--amber)}
 </style>
 </head>
 <body>
@@ -64,316 +83,382 @@ tr:hover td{background:rgba(255,255,255,.02)}
 <div class="topbar">
   <div class="logo">⬡ CRM Rehber</div>
   <nav>
-    <a href="#ne">Nedir</a>
-    <a href="#yolculuk">Müşteri Yolculuğu</a>
-    <a href="#sorular">Sorular</a>
-    <a href="#beyin">Puanlama</a>
-    <a href="#eslestirme">Koltuk Eşleştirme</a>
-    <a href="#butce">Bütçe Filtresi</a>
-    <a href="#demo">Demo Rehberi</a>
-    <a href="#demo-sonrasi">Demo Sonrası</a>
-    <a href="#karar">Final Karar</a>
-    <a href="#takip">Takip Mesajları</a>
-    <a href="#urunler">Ürün Veritabanı</a>
+    <a href="#ne">Nedir</a><a href="#yolculuk">Yolculuk</a><a href="#sorular">Sorular</a><a href="#puan">Puanlama</a><a href="#eslestirme">Eşleştirme</a><a href="#butce">Bütçe</a><a href="#demo">Demo</a><a href="#rapor">Rapor</a><a href="#karar">Karar</a><a href="#takip">Takip</a><a href="#urun">Ürünler</a>
   </nav>
 </div>
 
-<!-- HERO -->
 <div class="hero">
-  <h1>Masaj Koltuğu CRM Sistemi Nasıl Çalışır?</h1>
-  <p class="sub">Sistemin her parçasının ne yaptığını, neden yaptığını ve parçaların birbirine nasıl bağlandığını anlatan eksiksiz bir rehber. Yazılım bilgisi gerektirmez, herkes için yazılmıştır.</p>
+  <h1>Masaj Koltuğu CRM Sistemi</h1>
+  <p>Sistemin her parçasının ne yaptığını ve birbirine nasıl bağlandığını gösteren görsel rehber.</p>
   <div class="badges">
-    <span class="badge b">9 Adımlı Müşteri Yolculuğu</span>
-    <span class="badge g">15 Koltuk Veritabanı</span>
-    <span class="badge p">Akıllı Puanlama Sistemi</span>
-    <span class="badge a">Otomatik Takip Mesajları</span>
+    <span class="badge b">9 Adım</span><span class="badge g">15 Koltuk</span><span class="badge p">9 Puanlama Boyutu</span><span class="badge a">Otomatik Takip</span>
   </div>
 </div>
 
 <div class="container">
 
-<!-- 01 -->
+<!-- 01 — NE -->
 <section id="ne">
 <h2><span class="n">01</span> Bu Sistem Nedir?</h2>
-<p class="lead">Bu bir <strong>dijital satış asistanı</strong>dır. Showroom'a gelen bir müşteriye, satış temsilcisi (rep) tablet üzerinden bu uygulamayı açar. Uygulama konuşmayı yönlendirir, müşterinin neye ihtiyacı olduğunu öğrenir ve en uygun koltuğu önerir. Aynı zamanda ziyaret sonrası takip için gerekli tüm verileri toplar.</p>
-
-<div class="g3">
-  <div class="card"><h4>🎯 Müşteri İçin</h4><p>Sıkıcı bir anket değil, premium bir danışmanlık deneyimi hisseder. Basit sorulara cevap verir, sistem onun için en doğru koltuğu bulur.</p></div>
-  <div class="card"><h4>🧑‍💼 Satış Temsilcisi İçin</h4><p>Hangi koltukları göstermesi, demo sırasında neleri vurgulaması ve hangi itirazları beklemesi gerektiğini söyler. Ziyaret sonrasında takip mesajlarını otomatik yazar.</p></div>
-  <div class="card"><h4>📊 İşletme Sahibi İçin</h4><p>Tüm müşterileri, ilgi seviyelerini (sıcak/ılık/soğuk), beğendikleri koltuğu ve satışı kapatmak için yapılması gerekeni gösteren bir CRM paneli oluşturur.</p></div>
+<p>Showroom'a gelen müşteriyi karşılayan, ihtiyaçlarını anlayan, doğru koltuğu bulan ve ziyaret sonrası takibi otomatikleştiren <strong>dijital satış asistanı</strong>.</p>
+<div class="mermaid">
+graph LR
+  A["🚶 Müşteri<br/>showroom'a gelir"] --> B["📱 Rep tablet<br/>açar"]
+  B --> C["❓ 12 soru<br/>sorulur"]
+  C --> D["🧠 Sistem<br/>analiz eder"]
+  D --> E["🪑 Koltuk<br/>önerilir"]
+  E --> F["🏪 Fiziksel<br/>demo yapılır"]
+  F --> G["📊 Zekâ raporu<br/>üretilir"]
+  G --> H["📩 Takip mesajları<br/>otomatik yazılır"]
+  style D fill:#1e293b,stroke:#0ea5e9,color:#f1f5f9
+  style E fill:#1e293b,stroke:#22c55e,color:#f1f5f9
+  style G fill:#1e293b,stroke:#a78bfa,color:#f1f5f9
 </div>
-
-<div class="tip">
-  <p><strong>Temel Fikir:</strong> Gerçek satın alma kararının yarısı, fiziksel demo sırasında ve sonrasında ortaya çıkar — sadece ilk sorularda değil. Bu sistem her iki yarıyı da yakalar ve tek bir akıllı öneri haline getirir.</p>
+<div class="g3">
+  <div class="card"><h4>🎯 Müşteri İçin</h4><p>Premium danışmanlık deneyimi — form doldurma hissi yok.</p></div>
+  <div class="card"><h4>🧑‍💼 Temsilci İçin</h4><p>Hangi koltuğu göster, neyi vurgula, hangi itirazı bekle — tümü hazır.</p></div>
+  <div class="card"><h4>📊 Sahip İçin</h4><p>Tüm müşteriler, sıcaklık puanları, sonraki adımlar — tek panelde.</p></div>
 </div>
 </section>
 
-<!-- 02 -->
+<!-- 02 — YOLCULUK -->
 <section id="yolculuk">
 <h2><span class="n">02</span> 9 Adımlı Müşteri Yolculuğu</h2>
-<p class="lead">Her müşteri aynı 9 adımı sırasıyla takip eder. Her adım bir öncekinin üzerine inşa edilir. İşte her birinin detaylı açıklaması:</p>
+
+<div class="phases">
+  <div class="phase blue"><span class="num">1</span><span class="lbl">Panel</span></div>
+  <div class="phase blue"><span class="num">2</span><span class="lbl">Karşılama</span></div>
+  <div class="phase blue"><span class="num">3</span><span class="lbl">Onay</span></div>
+  <div class="phase blue"><span class="num">4</span><span class="lbl">İletişim</span></div>
+  <div class="phase green"><span class="num">5</span><span class="lbl">Sorular</span></div>
+  <div class="phase green"><span class="num">6</span><span class="lbl">Eşleştirme</span></div>
+  <div class="phase amber"><span class="num">7</span><span class="lbl">Demo</span></div>
+  <div class="phase amber"><span class="num">8</span><span class="lbl">Rapor</span></div>
+  <div class="phase purple"><span class="num">9</span><span class="lbl">Sonuç</span></div>
+</div>
 
 <div class="mermaid">
 graph LR
-  A["1. Panel"] --> B["2. Karşılama"]
-  B --> C["3. Onay"]
-  C --> D["4. İletişim Bilgileri"]
-  D --> E["5. Sorular"]
-  E --> F["6. Koltuk Eşleştirme"]
-  F --> G["7. Demo Rehberi"]
-  G --> H["8. Rep Raporu"]
-  H --> I["9. Final Sonuç"]
+  subgraph Veri Toplama
+    A["Panel"] --> B["Karşılama"] --> C["Onay"] --> D["İletişim"]
+  end
+  subgraph Keşif
+    D --> E["Sorular<br/>10+2"] --> F["Koltuk<br/>Eşleştirme"]
+  end
+  subgraph Demo + Zekâ
+    F --> G["Demo<br/>Rehberi"] --> H["Rep<br/>Raporu"] --> I["Final<br/>Sonuç"]
+  end
   I --> A
-  style A fill:#1e293b,stroke:#0ea5e9,color:#f1f5f9
   style F fill:#1e293b,stroke:#22c55e,color:#f1f5f9
   style I fill:#1e293b,stroke:#a78bfa,color:#f1f5f9
 </div>
 
-<table>
-<thead><tr><th>Adım</th><th>Ne Olur?</th><th>Kimin Görür?</th><th>Neden Önemli?</th></tr></thead>
-<tbody>
-<tr><td><strong>1. Panel</strong></td><td>Temsilci, önceki tüm müşterilerini bir listede görür (yeni, takip gerekli, kapandı). "Yeni Danışmanlık" butonuna basarak başlar.</td><td>Sadece temsilci</td><td>Burası CRM'in ana merkezidir. Temsilcinin çalıştığı tüm müşterileri gösterir.</td></tr>
-<tr><td><strong>2. Karşılama</strong></td><td>Premium bir hoş geldiniz ekranı açılır. Ton: "Biz burada sana ürün satmak için değil, sana en uygun eşleşmeyi bulmak için varız."</td><td>Müşteri</td><td>İlk izlenim çok önemlidir. Müşterinin form doldurmak yerine VIP bir deneyim yaşadığını hissetmesini sağlar.</td></tr>
-<tr><td><strong>3. Onay</strong></td><td>Müşteri 4 kutuyu işaretler: 3 medikal güvenlik uyarısı + 1 sonradan iletişim izni.</td><td>Müşteri</td><td>İşletme için hukuki koruma. Masaj koltukları vücudu etkilediği için medikal uyarılar zorunludur.</td></tr>
-<tr><td><strong>4. İletişim</strong></td><td>Müşteri bilgilerini girer: ad, soyad, e-posta, telefon numarası ve tercih ettiği iletişim yöntemi (SMS, e-posta veya telefon).</td><td>Müşteri</td><td>İşletme ziyaret sonrasında bu bilgilerle iletişim kurar. Müşterinin tercih ettiği kanal üzerinden ulaşması sağlanır.</td></tr>
-<tr><td><strong>5. Sorular</strong></td><td>10 çoktan seçmeli soru sorulur. Ardından en büyük endişelerine göre 2 bonus soru eklenir. (Toplamda 12)</td><td>Müşteri</td><td>Burası keşif motorudur. Her cevap, arka planda 9 farklı boyutta puan toplayarak bir alıcı profili oluşturur.</td></tr>
-<tr><td><strong>6. Koltuk Eşleştirme</strong></td><td>Sistem 1 numaralı koltuğu ve yedek seçenekleri önerir — hepsi müşterinin bütçesine göre filtrelenmiştir. Gerçek satış fiyatları, üstü çizili liste fiyatları ve mevcut renkler gösterilir.</td><td>Müşteri + Temsilci</td><td>Müşterinin kişiselleştirilmiş önerisini gerçek fiyatlarla gördüğü andır.</td></tr>
-<tr><td><strong>7. Demo Rehberi</strong></td><td>Temsilci için bir strateji ekranı: hangi özellikleri vurgulamalı, neyle başlamamalı ve hangi itirazı beklemeli.</td><td>Sadece temsilci</td><td>Temsilci müşteriyi fiziksel olarak önerilen koltuğa oturtur. Bu ekran demo'yu etkili yönetmesi için koçluk yapar.</td></tr>
-<tr><td><strong>8. Rep Raporu</strong></td><td>Demo sonrasında temsilci 28 alanlık bir form doldurur: hangi koltukları denediler, beden dili, itirazlar, satın alma durumu vb.</td><td>Sadece temsilci</td><td>Satın alma kararının diğer yarısını yakalar — soruların yakalayamadığı canlı insan sinyallerini.</td></tr>
-<tr><td><strong>9. Final Sonuç</strong></td><td>Sistem soru verilerini (%35) + demo verilerini (%65) birleştirerek final zekâ raporu üretir: en iyi koltuk, sıcaklık puanı ve sonraki adım.</td><td>Temsilci + Panel</td><td>Final çıktıdır. Temsilciye tam olarak ne yapması gerektiğini söyler ve kişiselleştirilmiş takip mesajları üretir.</td></tr>
-</tbody>
-</table>
+<h3>Ekranlar — Uygulamadan Görseller</h3>
+
+<div class="ss-row tri">
+  <div class="ss-wrap"><img src="docs-assets/ss-dashboard.png" alt="Panel"><div class="ss-label">1. CRM Panel — Tüm müşteri listesi</div></div>
+  <div class="ss-wrap"><img src="docs-assets/ss-welcome.png" alt="Karşılama"><div class="ss-label">2. Karşılama — Premium danışmanlık tonu</div></div>
+  <div class="ss-wrap"><img src="docs-assets/ss-consent.png" alt="Onay"><div class="ss-label">3. Onay — 3 medikal + 1 iletişim izni</div></div>
+</div>
+<div class="ss-row tri">
+  <div class="ss-wrap"><img src="docs-assets/ss-lead.png" alt="İletişim"><div class="ss-label">4. İletişim — Ad, telefon, e-posta, tercih</div></div>
+  <div class="ss-wrap"><img src="docs-assets/ss-question.png" alt="Soru"><div class="ss-label">5. Sorular — 10 core + 2 dinamik</div></div>
+  <div class="ss-wrap"><img src="docs-assets/ss-match.png" alt="Eşleştirme"><div class="ss-label">6. Koltuk Eşleştirme — Fiyat + renk</div></div>
+</div>
+<div class="ss-row" style="grid-template-columns:1fr">
+  <div class="ss-wrap"><img src="docs-assets/ss-demo.png" alt="Demo" style="max-width:600px;margin:0 auto;display:block"><div class="ss-label">7. Demo Rehberi — Temsilciye strateji</div></div>
+</div>
 </section>
 
-<!-- 03 -->
+<!-- 03 — SORULAR -->
 <section id="sorular">
-<h2><span class="n">03</span> Müşteriye Sorulan 10 Soru (+ Bonus Sorular)</h2>
-<p class="lead">Müşteri 10 soru cevaplar. Her cevabın arka planında gizli "etiketler" vardır ve bunlar müşteriyi 9 farklı kategoride puanlar. 10. soru cevaplandığında sistem en yüksek puanlı endişeyi tespit eder ve o endişeye özel 2 soru daha ekler.</p>
+<h2><span class="n">03</span> 12 Soru Sistemi</h2>
 
-<h3>10 Ana Soru</h3>
-<table>
-<thead><tr><th>#</th><th>Soru</th><th>Cevap Seçenekleri</th><th>Sistem Bundan Ne Öğreniyor?</th></tr></thead>
-<tbody>
-<tr><td>1</td><td><strong>Bu koltuk esas olarak kimin için?</strong></td><td>Sadece benim · Ben ve eşim · Bir ailem · Tüm ev halkı · Henüz karar vermedim</td><td>Kararın tek kişilik mi yoksa ortaklaşa mı verileceğini, kaç kişinin sürece dahil olduğunu.</td></tr>
-<tr><td>2</td><td><strong>Bugün sizi buraya ne getirdi?</strong></td><td>Ağrı/gerginlik · Uyku/stres · Premium karşılaştırma · Eski koltuğu değiştirme · İnternette gördüm · Araştırıyorum</td><td>Ne kadar ciddi olduklarını (sıcak mı soğuk mu) ve toparlanma, lüks veya değer arayışında olup olmadığını.</td></tr>
-<tr><td>3</td><td><strong>Günlük rutininiz nasıl?</strong></td><td>Masa başı · Ayakta geçiyor · Aktif/spor · Karışık · Başkası için alıyorum</td><td>Hangi vücut bölgelerine odaklanılması gerektiğini (boyun, sırt, bacak vb.), demo stratejisini belirler.</td></tr>
-<tr><td>4</td><td><strong>Bugün karar verirseniz sizin için en önemli olan ne?</strong></td><td>Vücut uyumu · Doğru seçim güveni · Aylık ödeme · Premium kalite · Kolay teslimat</td><td>Ana endişeleri — bu doğrudan demo stratejisini ve takip mesajlarının konusunu etkiler.</td></tr>
-<tr><td>5</td><td><strong>Hangi yatırım seviyesi size uygun hissettiriyor?</strong></td><td>$4.000 altı · $4-8k · $8-12k · $12-16k · $16k+ · Esnek</td><td>Bütçe aralığı — en kritik filtredir. Sistem YALNIZCA karşılayabilecekleri koltukları önerecektir.</td></tr>
-<tr><td>6</td><td><strong>Bu tür bir alışverişi genelde nasıl yaparsınız?</strong></td><td>Tek başıma karar veririm · Eşimle birlikte · Önce daralttırım · Net karşılaştırma lazım · Ölçüleri kontrol etmeliyim</td><td>Kararın zorluğunu ve eş, alan endişesi veya karşılaştırmanın ana engelleyici olup olmadığını.</td></tr>
-<tr><td>7</td><td><strong>Bir koltuğu denerken farkı en çok nerede hissetmek istersiniz?</strong></td><td>Boyun/omuzlar · Bel/kalça · Bacaklar/ayaklar · Tüm vücut esneme · Genel premium his</td><td>Demo sırasında hangi vücut bölgelerine odaklanılacağını — temsilci bu özellikleri vurgulayacaktır.</td></tr>
-<tr><td>8</td><td><strong>Bu kararı bugün en çok ne kolaylaştırırdı?</strong></td><td>Sadece en iyi 2'yi görmek · Premium-değer karşılaştırması · Ödeme netliği · Garanti netliği · Alan uyumu netliği</td><td>Hangi bilginin tereddütlerini gidereceğini — bu doğrudan takip mesajlarına yansır.</td></tr>
-<tr><td>9</td><td><strong>Doğru koltuğu bulsak bile sizi ne durdururdu?</strong></td><td>Düşünmek istiyorum · Eşimi dahil etmeliyim · Ölçüleri kontrol etmeliyim · Ödeme seçeneklerini karşılaştırmalıyım · Önemli bir şey yok</td><td>En büyük engelleyici. Takip stratejisi için en önemli sinyaldir.</td></tr>
-<tr><td>10</td><td><strong>Koltuğunuzu ne kadar sürede kullanmaya başlamak istersiniz?</strong></td><td>En kısa sürede · 1-2 hafta · Bir ay içinde · Şimdilik araştırıyorum</td><td>Zamanlama aciliyeti — "En kısa sürede" = sıcak müşteri (bugün kapat), "araştırıyorum" = soğuk müşteri (yavaş besle).</td></tr>
-</tbody>
-</table>
-
-<h3>2 Bonus Soru (Dinamik Seçilir)</h3>
-<p>10. sorudan sonra sistem tüm cevaplara bakar ve müşterinin <strong>en büyük endişesini</strong> tespit eder (buna "friction" yani sürtünme noktası diyoruz). Sonra o endişeye özel 2 soru daha sorar. 6 olası endişe kategorisi vardır:</p>
+<div class="mermaid">
+graph TD
+  A["10 Ana Soru<br/>sırasıyla sorulur"] --> B{"10. soru bitti"}
+  B --> C["Sistem en büyük<br/>endişeyi tespit eder"]
+  C --> D["2 bonus soru<br/>o endişeye özel"]
+  D --> E["Toplam 12 cevap<br/>→ Alıcı profili hazır"]
+  style E fill:#1e293b,stroke:#22c55e,color:#f1f5f9
+</div>
 
 <div class="g2">
-<div class="card"><h4>🤝 Eş/Partner Kararı</h4><p>"Bunu birlikte incelemeniz için kısa bir karşılaştırma özeti yardımcı olur mu?" ve "Partneriniz için en önemli olan ne?"</p></div>
-<div class="card"><h4>💰 Ödeme Rahatlığı</h4><p>"En düşük aylık ödeme mi yoksa en iyi uzun vadeli değer mi tercih edersiniz?" ve "Nakit-taksit karşılaştırması yardımcı olur mu?"</p></div>
-<div class="card"><h4>📐 Alan/Ölçü Endişesi</h4><p>"Koltuk eve nereye konacak?" ve "Odanın ölçülerini biliyor musunuz?"</p></div>
-<div class="card"><h4>🔍 Karşılaştırma Kararsızlığı</h4><p>"En iyi 2'yi mi yoksa 3–4 modeli mi görmek istersiniz?" ve "Kararı en çok ne basitleştirirdi?"</p></div>
-<div class="card"><h4>🛡️ Güven/Servis Endişesi</h4><p>"Tam olarak güven duymanız için ne gerekir?" ve "Bu ilk ciddi masaj koltuğu alımınız mı?"</p></div>
-<div class="card"><h4>🤔 "Düşüneyim" Durumu</h4><p>"Daha erken hazır hissetmeniz için ne yardımcı olur?" ve "Her şey uygunsa ne zaman uygun?"</p></div>
-</div>
-</section>
-
-<!-- 04 -->
-<section id="beyin">
-<h2><span class="n">04</span> Puanlama Sistemi Nasıl Çalışır?</h2>
-<p class="lead">Müşteri her cevap verdiğinde, arka planda görünmez "etiketler" profiline eklenir. 9 kategorili bir karne gibi düşünün. Sonunda sistem her kategoride en çok puanı toplayan değere bakar.</p>
-
-<h3>9 Kategori Açıklaması</h3>
+<div class="card" style="grid-column:1/-1">
+<h4>10 Ana Soru → Ne Öğreniliyor?</h4>
 <table>
-<thead><tr><th>Kategori</th><th>Ne Ölçüyor?</th><th>Olası Değerler</th><th>Örnek</th></tr></thead>
+<thead><tr><th>#</th><th>Soru</th><th>Sistem Ne Öğreniyor?</th></tr></thead>
 <tbody>
-<tr><td><strong>Alıcı Yönelimi</strong></td><td>Bu nasıl bir alıcı?</td><td>Değer Odaklı · Toparlanma Odaklı · Premium Kesinlik · Ortak Kullanım · Araştırma Odaklı</td><td>"Ağrı/gerginlik" + "aktif/spor" diyorsa → <em>Toparlanma Odaklı</em> yüksek puan alır</td></tr>
-<tr><td><strong>Ana Sürtünme</strong></td><td>Satın almayı engelleyen ana şey ne?</td><td>Alan uyumu · Ödeme · Eş kararı · Karşılaştırma · Güven · Düşünmek istiyor</td><td>İki kez partner onayından bahsederse → <em>Eş/ortak karar</em> kazanır</td></tr>
-<tr><td><strong>Demo Şeridi</strong></td><td>Temsilcinin hangi showroom stratejisini kullanacağı</td><td>Değer Başlangıç · Toparlanma · Premium Kesinlik · Ortak Ev Uyumu · Karşılaştırmalı · Alan Güvenli</td><td>Toparlanma odaklı alıcı + $4-8k bütçe → <em>Toparlanma</em> şeridi</td></tr>
-<tr><td><strong>Bütçe Bandı</strong></td><td>Ne kadar harcamaya hazırlar?</td><td>$4k altı · $4-8k · $8-12k · $12-16k · $16k+ · Esnek</td><td>Doğrudan 5. sorudan belirlenir</td></tr>
-<tr><td><strong>Zamanlama</strong></td><td>Ne kadar acil almak istiyorlar?</td><td>Sıcak · Ilık · Soğuk</td><td>"En kısa sürede" → Sıcak · "Araştırıyorum" → Soğuk</td></tr>
-<tr><td><strong>Karar Zorluğu</strong></td><td>Satın alma süreçleri ne kadar karmaşık?</td><td>Düşük · Orta · Yüksek</td><td>Tek başına karar veren → Düşük · Tüm ev halkı → Yüksek</td></tr>
-<tr><td><strong>Güvence İhtiyacı</strong></td><td>Almadan önce ne kadar ikna edilmeleri gerekiyor?</td><td>Düşük · Orta · Yüksek</td><td>İlk kez alıcı, birçok model karşılaştıran → Yüksek</td></tr>
-<tr><td><strong>Takip Açısı</strong></td><td>Takip mesajlarında hangi konunun öne çıkarılacağı</td><td>Eş özeti · Ödeme rahatlığı · Ölçü listesi · Karşılaştırma · Hassasiyet · Servis · Premium güvence</td><td>Eğer alan endişeleri varsa → ölçüler ve alan kontrol listesiyle takip</td></tr>
-<tr><td><strong>Müşteri Sıcaklığı</strong></td><td>Satın alma olasılığının 0-100 arası puanı</td><td>0 ile 100 arası sayı</td><td>Başlangıç: 30 puan. "Ağrı/gerginlik" +8 ekler. "Araştırıyorum" sadece +3 ekler. "Beni durduracak bir şey yok" +8 ekler.</td></tr>
+<tr><td>1</td><td>Bu koltuk kimin için?</td><td>Tek kişi mi ortak karar mı?</td></tr>
+<tr><td>2</td><td>Bugün sizi buraya ne getirdi?</td><td>Müşteri ne kadar ciddi? (sıcak/soğuk)</td></tr>
+<tr><td>3</td><td>Günlük rutininiz nasıl?</td><td>Hangi vücut bölgesine odaklanılacak?</td></tr>
+<tr><td>4</td><td>Karar verirseniz en önemli olan ne?</td><td>Ana endişe (demo stratejisini belirler)</td></tr>
+<tr><td>5</td><td>Hangi yatırım seviyesi uygun?</td><td><strong>Bütçe bandı</strong> → sadece uygun koltuklar gösterilir</td></tr>
+<tr><td>6</td><td>Bu tür alışverişi nasıl yaparsınız?</td><td>Karar zorluğu (eş, ölçü, karşılaştırma?)</td></tr>
+<tr><td>7</td><td>Farkı en çok nerede hissetmek istersiniz?</td><td>Demo sırasında vurgulanacak bölge</td></tr>
+<tr><td>8</td><td>Kararı ne kolaylaştırırdı?</td><td>Takip mesajının konusu</td></tr>
+<tr><td>9</td><td>Sizi ne durdururdu?</td><td>En büyük engelleyici → takip stratejisi</td></tr>
+<tr><td>10</td><td>Ne zaman kullanmak istersiniz?</td><td>Zamanlama aciliyeti (sıcak/soğuk)</td></tr>
 </tbody>
 </table>
+</div>
+</div>
 
-<div class="tip s">
-<p><strong>Pratikte Nasıl Çalışır:</strong> 12 sorudan sonra sistem eksiksiz bir alıcı profili oluşturur. Örneğin: "Toparlanma Odaklı alıcı, ana engel Ödeme rahatlığı, Toparlanma demo şeridini kullan, bütçe $4-8k, zamanlama Sıcak, karar zorluğu Düşük, güvence ihtiyacı Orta, takipte ödeme rahatlığını öne çıkar, müşteri sıcaklığı 72/100."</p>
+<h3>6 Olası Endişe → 2 Bonus Soru</h3>
+<div class="mermaid">
+graph LR
+  A["🤝 Eş Kararı"] --> Z["2 soru eklenir"]
+  B["💰 Ödeme"] --> Z
+  C["📐 Alan"] --> Z
+  D["🔍 Karşılaştırma"] --> Z
+  E["🛡️ Güven"] --> Z
+  F["🤔 Düşüneyim"] --> Z
+  style Z fill:#1e293b,stroke:#22c55e,color:#f1f5f9
 </div>
 </section>
 
-<!-- 05 -->
+<!-- 04 — PUANLAMA -->
+<section id="puan">
+<h2><span class="n">04</span> 9 Boyutlu Puanlama</h2>
+<p>Her cevap arka planda 9 farklı kategoriye puan ekler. Sonuçta her kategoriden en yüksek puanlı değer kazanır.</p>
+
+<div class="mermaid">
+graph TD
+  A["Müşteri bir cevap seçer"] --> B["Cevabın gizli etiketleri<br/>9 boyuta puan ekler"]
+  B --> C["12 soru bitince<br/>her boyutta kazanan belirlenir"]
+  C --> D["Alıcı Profili"]
+  D --> E["Demo Şeridi + Koltuk Havuzu"]
+  D --> F["Bütçe Filtresi"]
+  D --> G["Müşteri Sıcaklığı 0-100"]
+  E --> H["🪑 Koltuk Önerisi"]
+  F --> H
+  style H fill:#1e293b,stroke:#22c55e,color:#f1f5f9
+</div>
+
+<div class="g3">
+  <div class="card"><h4>🧭 Alıcı Yönelimi</h4><p>Değer · Toparlanma · Premium · Ortak Kullanım · Araştırma</p></div>
+  <div class="card"><h4>⚡ Ana Sürtünme</h4><p>Alan · Ödeme · Eş · Karşılaştırma · Güven · Düşüneyim</p></div>
+  <div class="card"><h4>🎯 Demo Şeridi</h4><p>6 farklı showroom stratejisi (aşağıda detay)</p></div>
+  <div class="card"><h4>💰 Bütçe Bandı</h4><p>$4k altı · $4-8k · $8-12k · $12-16k · $16k+</p></div>
+  <div class="card"><h4>⏱️ Zamanlama</h4><p>Sıcak · Ilık · Soğuk</p></div>
+  <div class="card"><h4>🧩 Karar Zorluğu</h4><p>Düşük · Orta · Yüksek</p></div>
+  <div class="card"><h4>🛡️ Güvence İhtiyacı</h4><p>Düşük · Orta · Yüksek</p></div>
+  <div class="card"><h4>📬 Takip Açısı</h4><p>Eş özeti · Ödeme · Ölçü · Karşılaştırma · Servis</p></div>
+  <div class="card"><h4>🌡️ Müşteri Sıcaklığı</h4><p>0-100 puan (başlangıç: 30, her cevap +/-)</p></div>
+</div>
+</section>
+
+<!-- 05 — ESLESTIRME -->
 <section id="eslestirme">
-<h2><span class="n">05</span> Doğru Koltuk Nasıl Seçiliyor?</h2>
-<p class="lead">Puanlama sistemi bir "Demo Şeridi" (temsilcinin showroom stratejisi) belirler ve her şeridin önceden atanmış bir koltuk havuzu vardır. Sonra sistem bu havuzu müşterinin bütçesine göre filtreler. Sadece karşılayabilecekleri koltuklar gösterilir.</p>
+<h2><span class="n">05</span> Koltuk Eşleştirme — 6 Demo Şeridi</h2>
 
-<h3>6 Demo Şeridi ve Koltuk Havuzları</h3>
+<div class="mermaid">
+graph TD
+  A["Puanlama sonucu:<br/>Demo Şeridi belirlenir"] --> B{"Hangi şerit?"}
+  B --> C["🟢 Değer Başlangıç"]
+  B --> D["🔵 Toparlanma"]
+  B --> E["🟣 Premium Kesinlik"]
+  B --> F["🟠 Ortak Ev Uyumu"]
+  B --> G["🔴 Güvenli Karşılaştırma"]
+  B --> H["🔵 Alan Güvenli"]
+  C --> I["Her şeridin<br/>kendi koltuk havuzu var"]
+  D --> I
+  E --> I
+  F --> I
+  G --> I
+  H --> I
+  I --> J["Bütçeye göre filtre"]
+  J --> K["🪑 Final öneri"]
+  style K fill:#1e293b,stroke:#22c55e,color:#f1f5f9
+</div>
+
 <table>
-<thead><tr><th>Şerit</th><th>Ne Zaman Seçilir?</th><th>Bu Havuzdaki Koltuklar</th></tr></thead>
+<thead><tr><th>Şerit</th><th>Hedef Alıcı</th><th>Koltuk Havuzu</th></tr></thead>
 <tbody>
-<tr><td><span class="t tg">Değer Başlangıç</span></td><td>Bütçe bilinçli, fazla harcamadan kalite arayan alıcılar</td><td>Solara, Brio Plus, Panasonic MAF1, KOYO 303TS, DualTech 4D</td></tr>
-<tr><td><span class="t tb">Toparlanma</span></td><td>Ağrı, gerginlik veya aktif toparlanma ihtiyacı olan kişiler</td><td>Brio Sport, DualTech Pro AI 4D, DualTech 4D, D.Core Stratus JP, Brio Plus</td></tr>
-<tr><td><span class="t tp">Premium Kesinlik</span></td><td>En iyisini isteyen ve seçimlerinden emin olmak isteyen alıcılar</td><td>OHCO M8 NEO LE, Panasonic MAN1, OHCO M8 NEO, D.Core Cirrus JP, D.Core 2, Panasonic MAK1</td></tr>
-<tr><td><span class="t ta">Ortak Ev Uyumu</span></td><td>Birden fazla kişinin kullanacağı çiftler veya aileler</td><td>Brio Plus, KOYO 303TS, DualTech 4D, Panasonic MAF1, Solara</td></tr>
-<tr><td><span class="t tr">Güvenli Karşılaştırma</span></td><td>Araştırma ağırlıklı, net karşılaştırma görmek isteyen alıcılar</td><td>D.Core Stratus JP, OHCO R6, D.Core Cirrus JP, Panasonic MAN1, OHCO M8 NEO, Brio Sport, DualTech Pro AI 4D</td></tr>
-<tr><td><span class="t tb">Alan Güvenli</span></td><td>Koltuğun evlerine sığıp sığmayacağını merak eden alıcılar</td><td>Panasonic MAF1, DualTech 4D, Brio Plus, Solara, OHCO R6, D.Core Cirrus JP</td></tr>
+<tr><td><span class="t tg">Değer</span></td><td>Bütçe bilincli, kalite arayan</td><td>Solara · Brio Plus · MAF1 · KOYO · DualTech 4D</td></tr>
+<tr><td><span class="t tb">Toparlanma</span></td><td>Ağrı/gerginlik/toparlanma odaklı</td><td>Brio Sport · DualTech Pro AI 4D · DualTech 4D · Stratus JP · Brio Plus</td></tr>
+<tr><td><span class="t tp">Premium</span></td><td>En iyiyi isteyen, güven arayan</td><td>M8 NEO LE · MAN1 · M8 NEO · Cirrus JP · D.Core 2 · MAK1</td></tr>
+<tr><td><span class="t ta">Ortak Ev</span></td><td>Çift/aile, çoklu kullanım</td><td>Brio Plus · KOYO · DualTech 4D · MAF1 · Solara</td></tr>
+<tr><td><span class="t tr">Karşılaştırma</span></td><td>Araştırmacı, net fark görmek isteyen</td><td>Stratus JP · R6 · Cirrus JP · MAN1 · M8 NEO · Brio Sport · Pro AI 4D</td></tr>
+<tr><td><span class="t tb">Alan Güvenli</span></td><td>Sığacak mı endişesi olan</td><td>MAF1 · DualTech 4D · Brio Plus · Solara · R6 · Cirrus JP</td></tr>
 </tbody>
 </table>
 </section>
 
-<!-- 06 -->
+<!-- 06 — BÜTÇE -->
 <section id="butce">
-<h2><span class="n">06</span> Bütçe Akıllı Filtreleme</h2>
-<p class="lead">Sistem asla müşterinin karşılayamayacağı bir koltuk önermez. Demo şeridini belirledikten sonra her koltuğun gerçek satış fiyatını kontrol eder ve bütçe dışındakileri çıkarır. Eğer şeritteki hiçbir koltuk bütçeye uymuyorsa, tüm katalogdan en yakın uygun koltuğu bulur.</p>
+<h2><span class="n">06</span> Bütçe Filtresi</h2>
+<p>Sistem asla bütçe dışı koltuk önermez. Şeritteki koltuklar bütçeye göre filtrelenir.</p>
 
-<h3>15 Koltuk — Fiyata Göre Sıralı</h3>
+<div class="mermaid">
+graph LR
+  A["Şerit koltuk havuzu"] --> B{"Bütçe bandında<br/>koltuk var mı?"}
+  B -->|"2+ koltuk"| C["İlk 2'yi öner"]
+  B -->|"1 koltuk"| D["1 şerit + 1 global"]
+  B -->|"0 koltuk"| E["En yakın uygun<br/>koltuğu bul"]
+  C --> F["🪑 Öneri + Fiyat"]
+  D --> F
+  E --> F
+  style F fill:#1e293b,stroke:#22c55e,color:#f1f5f9
+</div>
+
+<h3>15 Koltuk — Fiyat Haritası</h3>
 <table>
-<thead><tr><th>Koltuk Adı</th><th>Marka</th><th>Liste Fiyatı</th><th>Satış Fiyatı</th><th>Bütçe Bandı</th></tr></thead>
+<thead><tr><th>Koltuk</th><th>Marka</th><th>Satış Fiyatı</th><th>Bant</th></tr></thead>
 <tbody>
-<tr><td>Solara</td><td>Positive Posture</td><td>$4.000</td><td class="price">$2.499</td><td><span class="t tg">$4k altı</span></td></tr>
-<tr><td>Brio Plus</td><td>Positive Posture</td><td>$6.999</td><td class="price">$4.999</td><td><span class="t tb">$4-8k</span></td></tr>
-<tr><td>Panasonic MAF1</td><td>Panasonic</td><td>$10.000</td><td class="price">$5.999</td><td><span class="t tb">$4-8k</span></td></tr>
-<tr><td>DualTech 4D</td><td>Positive Posture</td><td>$10.000</td><td class="price">$7.999</td><td><span class="t tb">$4-8k</span></td></tr>
-<tr><td>KOYO 303TS</td><td>KOYO</td><td>$10.000</td><td class="price">$7.999</td><td><span class="t tb">$4-8k</span></td></tr>
-<tr><td>Brio Sport</td><td>Positive Posture</td><td>$11.000</td><td class="price">$8.999</td><td><span class="t tp">$8-12k</span></td></tr>
-<tr><td>OHCO R6</td><td>OHCO</td><td>$12.000</td><td class="price">$9.999</td><td><span class="t tp">$8-12k</span></td></tr>
-<tr><td>D.Core Stratus JP</td><td>D.Core</td><td>$15.000</td><td class="price">$11.499</td><td><span class="t tp">$8-12k</span></td></tr>
-<tr><td>DualTech Pro AI 4D</td><td>Positive Posture</td><td>$13.999</td><td class="price">$11.999</td><td><span class="t tp">$8-12k</span></td></tr>
-<tr><td>Panasonic MAK1</td><td>Panasonic</td><td>$16.000</td><td class="price">$12.499</td><td><span class="t ta">$12-16k</span></td></tr>
-<tr><td>D.Core Cirrus JP</td><td>D.Core</td><td>$18.500</td><td class="price">$12.999</td><td><span class="t ta">$12-16k</span></td></tr>
-<tr><td>Panasonic MAN1</td><td>Panasonic</td><td>$15.299</td><td class="price">$13.999</td><td><span class="t ta">$12-16k</span></td></tr>
-<tr><td>D.Core 2</td><td>D.Core</td><td>$20.000</td><td class="price">$14.999</td><td><span class="t ta">$12-16k</span></td></tr>
-<tr><td>OHCO M8 NEO</td><td>OHCO</td><td>$15.999</td><td class="price">$14.999</td><td><span class="t ta">$12-16k</span></td></tr>
-<tr><td>OHCO M8 NEO LE</td><td>OHCO</td><td>$20.000</td><td class="price">$18.000</td><td><span class="t tr">$16k+</span></td></tr>
+<tr><td>Solara</td><td>Positive Posture</td><td class="price">$2.499</td><td><span class="t tg">$4k↓</span></td></tr>
+<tr><td>Brio Plus</td><td>Positive Posture</td><td class="price">$4.999</td><td><span class="t tb">$4-8k</span></td></tr>
+<tr><td>MAF1</td><td>Panasonic</td><td class="price">$5.999</td><td><span class="t tb">$4-8k</span></td></tr>
+<tr><td>DualTech 4D</td><td>Positive Posture</td><td class="price">$7.999</td><td><span class="t tb">$4-8k</span></td></tr>
+<tr><td>KOYO 303TS</td><td>KOYO</td><td class="price">$7.999</td><td><span class="t tb">$4-8k</span></td></tr>
+<tr><td>Brio Sport</td><td>Positive Posture</td><td class="price">$8.999</td><td><span class="t tp">$8-12k</span></td></tr>
+<tr><td>OHCO R6</td><td>OHCO</td><td class="price">$9.999</td><td><span class="t tp">$8-12k</span></td></tr>
+<tr><td>Stratus JP</td><td>D.Core</td><td class="price">$11.499</td><td><span class="t tp">$8-12k</span></td></tr>
+<tr><td>Pro AI 4D</td><td>Positive Posture</td><td class="price">$11.999</td><td><span class="t tp">$8-12k</span></td></tr>
+<tr><td>MAK1</td><td>Panasonic</td><td class="price">$12.499</td><td><span class="t ta">$12-16k</span></td></tr>
+<tr><td>Cirrus JP</td><td>D.Core</td><td class="price">$12.999</td><td><span class="t ta">$12-16k</span></td></tr>
+<tr><td>MAN1</td><td>Panasonic</td><td class="price">$13.999</td><td><span class="t ta">$12-16k</span></td></tr>
+<tr><td>D.Core 2</td><td>D.Core</td><td class="price">$14.999</td><td><span class="t ta">$12-16k</span></td></tr>
+<tr><td>M8 NEO</td><td>OHCO</td><td class="price">$14.999</td><td><span class="t ta">$12-16k</span></td></tr>
+<tr><td>M8 NEO LE</td><td>OHCO</td><td class="price">$18.000</td><td><span class="t tr">$16k+</span></td></tr>
 </tbody>
 </table>
-
-<div class="tip s">
-<p><strong>Gerçek Örnek:</strong> Müşteri "$4.000 altı" bütçe seçer ve cevapları onu "Toparlanma" şeridine koyar. Toparlanma şeridindeki koltuklar (Brio Sport $8.999, DualTech Pro AI 4D $11.999...) arasında $4k altı koltuk yoktur. Bu durumda sistem tüm kataloğa bakar ve <strong>Solara ($2.499)</strong>'yı bulur — bütçesine uygun tek koltuk. Bu 1 numara önerilir, daha yüksek fiyatlı toparlanma koltukları "yükseltme seçenekleri" olarak gösterilir.</p>
-</div>
 </section>
 
-<!-- 07 -->
+<!-- 07 — DEMO -->
 <section id="demo">
-<h2><span class="n">07</span> Demo Rehberi Ekranı</h2>
-<p class="lead">Müşteri koltuk önerisini gördükten sonra temsilci "Demo Başlat" butonuna basar. Fiziksel demoyu nasıl yönetmesi gerektiğini anlatan bir strateji ekranı açılır. Bu ekranı sadece temsilci görür.</p>
+<h2><span class="n">07</span> Demo Rehberi</h2>
+<p>Temsilciye fiziksel demoyu nasıl yönetmesi gerektiğini gösteren strateji ekranı.</p>
+
+<div class="mermaid">
+graph LR
+  A["Müşteri koltuğu<br/>görür"] --> B["Temsilci<br/>'Demo Başlat'<br/>basar"]
+  B --> C["Strateji ekranı<br/>açılır"]
+  C --> D["✅ Neyi vurgula"]
+  C --> E["🚫 Neyle başlama"]
+  C --> F["⚠️ Muhtemel itiraz"]
+  C --> G["💡 Neden bu 2 koltuk"]
+  style C fill:#1e293b,stroke:#f59e0b,color:#f1f5f9
+</div>
 
 <div class="g2">
-<div class="card"><h4>✅ Neyi Vurgulamalı</h4><p>Demo sırasında öne çıkarılması gereken özelliklerin listesi. Örneğin: "derin doku yoğunluğu, boyun/omuz hassasiyeti, alt vücut toparlanması." Bunlar müşterinin vücut odağı ve yaşam tarzı cevaplarına göre seçilir.</p></div>
-<div class="card"><h4>🚫 Neyle Başlamamalı</h4><p>İlk olarak bahsedilmemesi gereken şeyler. Örneğin: "Estetikle değil, fonksiyonla başla" veya "İlk başta 2'den fazla koltuk gösterme." Bu, temsilcinin müşteriyi bunaltmasını önler.</p></div>
-<div class="card"><h4>⚠️ Muhtemel İtiraz</h4><p>Müşterinin büyük olasılıkla dile getireceği itiraz. Örneğin: "Düşüneyim" veya "Eşime danışmam lazım." Temsilci müşteri bunu söylemeden önce zihinsel olarak cevabını hazırlayabilir.</p></div>
-<div class="card"><h4>💡 Neden Bu İkisi</h4><p>1 numaralı ve yedek koltuğun neden seçildiğine dair kısa açıklama. Örneğin: "Aktif toparlanma hissine ve vücuda özel ilgiye odaklan. Bütçelerindeki en güçlü derin doku modelleriyle başla."</p></div>
+  <div class="card"><h4>✅ Neyi Vurgula</h4><p>Müşterinin cevaplarına göre seçilmiş özellikler (ör. derin doku, boyun hassasiyeti)</p></div>
+  <div class="card"><h4>🚫 Neyle Başlama</h4><p>Kaçınılması gerekenler (ör. estetikle değil fonksiyonla başla)</p></div>
+  <div class="card"><h4>⚠️ Muhtemel İtiraz</h4><p>Müşterinin büyük olasılıkla söyleyeceği şey (ör. "eşime danışmalıyım")</p></div>
+  <div class="card"><h4>💡 Neden Bu İkisi</h4><p>1 numara ve yedek koltuğun neden seçildiğinin kısa açıklaması</p></div>
 </div>
 </section>
 
-<!-- 08 -->
-<section id="demo-sonrasi">
-<h2><span class="n">08</span> Demo Sonrası Temsilci Raporu (28 Alan)</h2>
-<p class="lead">Müşteri koltukları denemeyi bitirdikten sonra temsilci, yaşananlar hakkında detaylı bir form doldurur. Bu çok kritiktir çünkü müşterinin gerçek satın alma sinyalleri demo sırasında ortaya çıkar — sadece sorularda değil.</p>
+<!-- 08 — RAPOR -->
+<section id="rapor">
+<h2><span class="n">08</span> Demo Sonrası Rapor — 28 Alan</h2>
+<p>Temsilcinin demo sonrası doldurduğu form. Gerçek satın alma sinyallerini yakalar.</p>
 
-<table>
-<thead><tr><th>Bölüm</th><th>Alan Sayısı</th><th>Temsilci Ne Kaydeder?</th><th>Neden Önemli?</th></tr></thead>
-<tbody>
-<tr><td><strong>A. Koltuk Seçimi</strong></td><td><span class="t tb">6 alan</span></td><td>Hangi koltukları denediler? (en fazla 4) · Hangi koltuğa en uzun oturdular? · Hangisi hakkında en çok soru sordular? · Hangisine en güçlü pozitif tepki verdiler? · Temsilcinin kişisel önerisi ne?</td><td>Müşterinin fiziksel demo sırasında gerçekten hangi koltuğa bağlandığını gösterir — sadece algoritmanın tahminini değil.</td></tr>
-<tr><td><strong>B. Demo Davranışı</strong></td><td><span class="t tg">3 alan</span></td><td>Katılım seviyesi (Çok ilgili → Düşük ilgi) · Tepki tipi (Açıkça heyecanlı → Etkilenmemiş) · Kararlılık (Karar vermeye hazır → Çok kararsız)</td><td>Beden dili ve duygusal katılım. "Açıkça heyecanlı" ve "karar vermeye hazır" müşteri, "nötr" ve "araştırıyor" müşteriden tamamen farklı ele alınır.</td></tr>
-<tr><td><strong>C. Satın Alma Sinyalleri</strong></td><td><span class="t ta">8 adet evet/hayır</span></td><td>Ödeme sordu mu? · Teslimat? · Garanti? · Tarih verdi mi? · Bir koltuğa tekrar döndü mü? · Eve götürecek özet istedi mi? · Eşinden bahsetti mi? · Oda ölçülerinden bahsetti mi?</td><td>Her biri bir satın alma sinyalidir. Ödeme sormak = almayı düşünüyor. Ölçülerden bahsetmek = koltuğu evinde hayal ediyor.</td></tr>
-<tr><td><strong>D. İtiraz Analizi</strong></td><td><span class="t tr">5 alan</span></td><td>Onları ne durduruyor? · Temsilci bu itirazın gerçek mi yoksa kibar bir bahane mi olduğunu düşünüyor? · Gizli itiraz ne? · Satın alma durumu (Açık / Kapandı) · Temsilcinin güven seviyesi</td><td>Temsilcinin içgüdüsü önemlidir. Bazen "düşüneyim" aslında "çok pahalı" demektir — temsilci bu nüansları yakalar.</td></tr>
-<tr><td><strong>E. Sonraki Adımlar</strong></td><td><span class="t tp">6 alan</span></td><td>Sonraki adım kilitlendi mi? · Türü ne? (tekrar ziyaret, eş özeti, finansman vb.) · Tercih edilen takip tarihi · Temsilcinin özel notları · Temsilcinin kalite puanı (1-5 yıldız) · Satış zorluğu (Kolay → Çok Zor)</td><td>Takip planını kilitler ve yöneticilere hangi müşterilerin en çok ilgiye ihtiyaç duyduğunu gösterir.</td></tr>
-</tbody>
-</table>
+<div class="mermaid">
+graph LR
+  subgraph 28 Alan
+    A["A. Koltuk Seçimi<br/>6 alan"]
+    B["B. Demo Davranışı<br/>3 alan"]
+    C["C. Satın Alma<br/>Sinyalleri<br/>8 evet/hayır"]
+    D["D. İtiraz Analizi<br/>5 alan"]
+    E["E. Sonraki Adım<br/>6 alan"]
+  end
+  A --> F["Demo Puanı<br/>0-100"]
+  B --> F
+  C --> F
+  D --> F
+  E --> F
+  style F fill:#1e293b,stroke:#a78bfa,color:#f1f5f9
+</div>
+
+<div class="g3">
+  <div class="card"><h4>🪑 A. Koltuk Seçimi</h4><p>Hangi koltukları denedi? Hangisine en uzun oturdu? En çok soruyu hangisi aldı? En güçlü tepki hangisine?</p></div>
+  <div class="card"><h4>👁️ B. Davranış</h4><p>Katılım seviyesi · Tepki tipi (heyecanlı → nötr) · Kararlılık (hazır → kararsız)</p></div>
+  <div class="card"><h4>📡 C. Sinyaller</h4><p>Ödeme sordu mu? Teslimat? Garanti? Tarih verdi mi? Tekrar oturdu mu? Eşinden bahsetti mi?</p></div>
+  <div class="card"><h4>🛑 D. İtiraz</h4><p>Ne söyledi? Gerçek mi bahane mi? Gizli itiraz ne? Satın aldı mı?</p></div>
+  <div class="card"><h4>📋 E. Adım</h4><p>Sonraki adım kilitlendi mi? Türü ne? Takip tarihi? Rep notları? Satış zorluğu?</p></div>
+  <div class="card" style="border-color:rgba(14,165,233,.2)"><h4>📊 Sonuç</h4><p>Bu 28 alan → Demo Puanı (0-100) hesaplanır ve keşif puanıyla birleştirilir.</p></div>
+</div>
 </section>
 
-<!-- 09 -->
+<!-- 09 — KARAR -->
 <section id="karar">
-<h2><span class="n">09</span> Final Karar Nasıl Verilir?</h2>
-<p class="lead">Temsilci demo sonrası raporu gönderdiğinde, sistem bildiği <em>her şeyi</em> — hem soru cevapları (keşif) hem de demo gözlemleri — tek bir final zekâ raporunda birleştirir.</p>
+<h2><span class="n">09</span> Final Karar Motoru</h2>
 
-<h3>Ağırlık Dağılımı: Keşif %35 + Demo %65</h3>
-<p>Sistem, fiziksel demoda yaşananların koltuğu denemeden önceki sözlerden daha önemli olduğuna inanır. Bu yüzden demo sinyalleri neredeyse iki kat daha ağır sayılır.</p>
-
-<div class="g2">
-<div class="card"><h4>📝 Keşif Ağırlığı (%35)</h4><p>12 sorudan gelen sıcaklık puanı. "En kısa sürede," "ağrı/gerginlik" ve "beni durduran bir şey yok" diyen müşterinin keşif puanı yüksek olur (~85/100). "Araştırıyorum" ve "düşünmek istiyorum" diyen müşterinin puanı düşük olur (~25/100).</p></div>
-<div class="card"><h4>🪑 Demo Ağırlığı (%65)</h4><p>Temsilcinin 28 alanlık raporundan hesaplanır. Katılım (+12), pozitif tepkiler (+15), kararlılık (+15), satın alma sinyalleri (her biri +6) ve sonraki adım taahhüdü (+20) puan ekler. Güçlü itirazlar (-10) puan düşürür.</p></div>
+<div class="mermaid">
+graph TD
+  A["📝 Keşif Puanı<br/>(12 sorudan)<br/>Ağırlık: %35"] --> C["Birleşik Puan<br/>0-100"]
+  B["🪑 Demo Puanı<br/>(28 alandan)<br/>Ağırlık: %65"] --> C
+  C --> D{"Sıcaklık?"}
+  D -->|"85-100"| E["🔥 SICAK<br/>Hemen kapat"]
+  D -->|"65-84"| F["🟡 ILIK<br/>Hedefli bilgi gönder"]
+  D -->|"45-64"| G["🟠 ILIMAN<br/>Günlerce besle"]
+  D -->|"0-44"| H["❄️ SOĞUK<br/>Uzun vadeli liste"]
+  style E fill:#1e293b,stroke:#22c55e,color:#f1f5f9
+  style H fill:#1e293b,stroke:#ef4444,color:#f1f5f9
 </div>
 
-<h3>Müşteri Sıcaklığı</h3>
-<p>Birleşik puan (0–100) müşterinin "sıcaklığını" belirler:</p>
-<table>
-<thead><tr><th>Puan</th><th>Sıcaklık</th><th>Ne Anlama Geliyor?</th></tr></thead>
-<tbody>
-<tr><td>85–100</td><td>🔥 <strong>SICAK</strong></td><td>Satın almaya hazır. Hemen bir kapanış aksiyonuyla takip et.</td></tr>
-<tr><td>65–84</td><td>🟡 <strong>ILIK</strong></td><td>İlgili ama çözülmesi gereken bir endişesi var. Hedefe yönelik bilgi gönder.</td></tr>
-<tr><td>45–64</td><td>🟠 <strong>ILIMAN</strong></td><td>Hafif ilgi. Günler/haftalar içinde besle.</td></tr>
-<tr><td>0–44</td><td>❄️ <strong>SOĞUK</strong></td><td>Sadece bakınıyor. Uzun vadeli besleme listesine ekle.</td></tr>
-</tbody>
-</table>
-
-<h3>Final Koltuk Kararı</h3>
-<p>Sistem final koltuk kararını 6 faktörü ağırlıklandırarak verir:</p>
-<table>
-<thead><tr><th>Faktör</th><th>Ağırlık</th><th>Anlamı</th></tr></thead>
-<tbody>
-<tr><td>Keşif eşleşmesi</td><td><strong>%35</strong></td><td>Bu koltuk, soru tabanlı algoritma tarafından önerildi mi?</td></tr>
-<tr><td>En güçlü demo tepkisi</td><td><strong>%25</strong></td><td>Müşteri demo sırasında bu koltuğa en olumlu tepkiyi verdi mi?</td></tr>
-<tr><td>Temsilci önerisi</td><td><strong>%15</strong></td><td>Deneyimli satış temsilcisi bunun en doğru koltuk olduğuna inanıyor mu?</td></tr>
-<tr><td>En uzun oturma</td><td><strong>%10</strong></td><td>Müşteri en uzun süre bu koltuğa mı oturdu?</td></tr>
-<tr><td>En çok soru</td><td><strong>%10</strong></td><td>Müşteri en çok bu koltuk hakkında mı soru sordu?</td></tr>
-<tr><td>İtiraz uyumu</td><td><strong>%5</strong></td><td>Bu koltuk müşterinin belirttiği itirazı çözüyor mu?</td></tr>
-</tbody>
-</table>
+<h3>Koltuk Kararı — 6 Faktör Ağırlığı</h3>
+<div class="mermaid">
+graph LR
+  A["Keşif eşleşmesi<br/><b>%35</b>"] --> Z["🪑 Final<br/>Koltuk"]
+  B["Demo tepkisi<br/><b>%25</b>"] --> Z
+  C["Rep önerisi<br/><b>%15</b>"] --> Z
+  D["En uzun oturma<br/><b>%10</b>"] --> Z
+  E["En çok soru<br/><b>%10</b>"] --> Z
+  F["İtiraz uyumu<br/><b>%5</b>"] --> Z
+  style Z fill:#1e293b,stroke:#22c55e,color:#f1f5f9
+</div>
 </section>
 
-<!-- 10 -->
+<!-- 10 — TAKİP -->
 <section id="takip">
 <h2><span class="n">10</span> Otomatik Takip Mesajları</h2>
-<p class="lead">O gün satın almayan her müşteri için sistem 3 kişiselleştirilmiş takip mesajı üretir — 24 saat, 72 saat ve 7 gün sonra gönderilmek üzere. İçerik, müşterinin spesifik endişesine göre değişir.</p>
 
-<table>
-<thead><tr><th>Müşterinin Endişesi</th><th>24 Saat</th><th>72 Saat</th><th>7 Gün</th></tr></thead>
-<tbody>
-<tr><td><strong>Partner/Eş</strong></td><td>Partneriyle paylaşabileceği basit bir karşılaştırma özeti gönder</td><td>İkisini birlikte kısa bir VIP seansa davet et</td><td>Koltuğun farklı vücut tiplerine nasıl uyum sağladığını vurgula (çiftler için)</td></tr>
-<tr><td><strong>Fiyat/Ödeme</strong></td><td>%0 faiz seçenekleriyle finansman detayını gönder</td><td>Rahat aylık ödeme tutarını paylaş</td><td>Maliyeti "ömür boyu günlük bir kahveden ucuz" olarak çerçevele</td></tr>
-<tr><td><strong>Alan/Ölçü</strong></td><td>Koltuğun tam boyutlarını + oda uyum kontrol listesini gönder</td><td>Birlikte odaya bakmak için kısa bir görüntülü arama teklif et</td><td>İlk seçim büyükse daha kompakt bir alternatif öner</td></tr>
-<tr><td><strong>Araştırma/Karşılaştırma</strong></td><td>En iyi 2 koltuğun temiz bir karşılaştırmasını gönder</td><td>Seçenekler arasındaki gerçek hayat farkını vurgula</td><td>İkinci oturma için tekrar davet et — "ikinci ziyaret genelde her şeyi netleştirir"</td></tr>
-<tr><td><strong>Güven/Servis</strong></td><td>Garanti, teslimat ve servis detaylarını gönder</td><td>Bu modelin neden en güçlü eşleşme olduğunu açıkla</td><td>Rahat bir ikinci ziyaret için özel randevu teklif et</td></tr>
-<tr><td><strong>İtiraz yok (Sıcak)</strong></td><td>Ürün sayfası + "en uygun teslimat gününü söyle" gönder</td><td>Stok durumunu kontrol et + öncelikli teslimat teklif et</td><td>Stok ve mevsimsel kampanyalar hakkında nazik hatırlatma</td></tr>
-</tbody>
-</table>
+<div class="mermaid">
+graph TD
+  A["Müşteri satın almadı"] --> B{"Ana endişesi ne?"}
+  B --> C["🤝 Eş"]
+  B --> D["💰 Ödeme"]
+  B --> E["📐 Alan"]
+  B --> F["🔍 Karşılaştırma"]
+  B --> G["🛡️ Güven"]
+  C --> H["24 saat: Eş özeti<br/>72 saat: İkili davet<br/>7 gün: Çift uyumu"]
+  D --> I["24 saat: Finansman<br/>72 saat: Aylık tutar<br/>7 gün: Günlük maliyet"]
+  E --> J["24 saat: Ölçüler<br/>72 saat: Görüntülü yardım<br/>7 gün: Kompakt alternatif"]
+  F --> K["24 saat: 2li karşılaştırma<br/>72 saat: Ana fark<br/>7 gün: Tekrar oturma"]
+  G --> L["24 saat: Garanti detay<br/>72 saat: Neden bu model<br/>7 gün: Özel randevu"]
+  style H fill:#1e293b,stroke:#f59e0b,color:#f1f5f9
+  style I fill:#1e293b,stroke:#22c55e,color:#f1f5f9
+  style J fill:#1e293b,stroke:#0ea5e9,color:#f1f5f9
+  style K fill:#1e293b,stroke:#a78bfa,color:#f1f5f9
+  style L fill:#1e293b,stroke:#ef4444,color:#f1f5f9
+</div>
 
-<div class="tip">
-<p><strong>Müşteri satın aldıysa:</strong> Farklı bir 4 adımlı akış devreye girer — sipariş onayı (24 saat) → teslimat güncellemesi (1 hafta) → garanti kontrol (1 ay) → referans bonusu teklifi (3 ay).</p>
+<div class="tip s">
+<p><strong>Satın aldıysa:</strong> Farklı bir akış → Sipariş onayı (24s) → Teslimat güncellemesi (1 hafta) → Garanti check-in (1 ay) → Referans bonusu (3 ay).</p>
 </div>
 </section>
 
-<!-- 11 -->
-<section id="urunler">
-<h2><span class="n">11</span> Ürün Bilgi Veritabanı</h2>
-<p class="lead">Sistem her koltuk hakkında derinlemesine bilgi tutar — sadece isim ve fiyat değil. 15 koltuğun her biri için detaylı teknik bilgi saklanır ve bu bilgiler eşleştirme algoritmasını ve müşteriye gösterilen öneri ekranını besler.</p>
+<!-- 11 — ÜRÜNLER -->
+<section id="urun">
+<h2><span class="n">11</span> Ürün Veritabanı</h2>
+<p>Her koltuk için derinlemesine teknik bilgi. Fiyat değişince tek yerde güncellenir, uygulama her yerde otomatik güncellenir.</p>
 
-<h3>Her Koltuk İçin Saklanan Bilgiler</h3>
-<div class="g2">
-<div class="card"><h4>💰 Fiyatlandırma</h4><p>Orijinal liste fiyatı, güncel satış fiyatı, taksit imkanı (Affirm) ve uzatılmış garanti seçeneği.</p></div>
-<div class="card"><h4>🎨 Stok Durumu</h4><p>Stokta mı, tahmini teslimat süresi (5-14 iş günü) ve mevcut renk seçenekleri.</p></div>
-<div class="card"><h4>🎯 Konumlandırma</h4><p>Bu koltuk kimin için en uygun (birincil kullanım), ikincil kullanım senaryoları ve temsilci için koçluk notları.</p></div>
-<div class="card"><h4>💆 Masaj Sistemi</h4><p>Mekanizma tipi (3D, 4D, çift), masaj hareketleri (yoğurma, vurma, shiatsu) ve silindir tasarım detayları.</p></div>
-<div class="card"><h4>🔥 Isı Sistemi</h4><p>Hangi vücut bölgelerinde ısıtma var, sıcaklık tipi (kızılötesi, seramik) ve kapsama alanı.</p></div>
-<div class="card"><h4>♻️ Sıfır Yerçekimi</h4><p>Kaç aşamalı yatış, True Zero Gravity özelliği var mı ve yatış açısı.</p></div>
-<div class="card"><h4>💨 Hava Masajı</h4><p>Hangi vücut bölgelerinde hava basıncı var (omuzlar, kollar, kalça, baldırlar, ayaklar).</p></div>
-<div class="card"><h4>📏 Boyutlar</h4><p>Dik ve yatar konumda alan ihtiyacı, duvar mesafesi ve ağırlık kapasitesi.</p></div>
-</div>
-
-<div class="tip w">
-<p><strong>Neden önemli:</strong> Bir koltuk önerildiğinde ekranda gördüğünüz açıklama, fiyat ve renk seçenekleri doğrudan bu veritabanından çekilir — sabit kodlanmamıştır. Bir fiyat değişirse, tek bir yerde güncellenmesi uygulamanın her yerini günceller.</p>
+<div class="g4">
+  <div class="card"><h4>💰</h4><p>Fiyat · Taksit · Garanti</p></div>
+  <div class="card"><h4>🎨</h4><p>Stok · Renk · Teslimat</p></div>
+  <div class="card"><h4>💆</h4><p>Masaj tipi · 3D/4D · Hareketler</p></div>
+  <div class="card"><h4>🔥</h4><p>Isı bölgeleri · Kızılötesi</p></div>
+  <div class="card"><h4>♻️</h4><p>Zero Gravity · Yatış açısı</p></div>
+  <div class="card"><h4>💨</h4><p>Hava masajı bölgeleri</p></div>
+  <div class="card"><h4>📏</h4><p>Boyutlar · Ağırlık kapasitesi</p></div>
+  <div class="card"><h4>🎯</h4><p>Hedef kullanıcı · Rep notları</p></div>
 </div>
 </section>
 
-<!-- FOOTER -->
-<div style="padding:4rem 0;text-align:center;border-top:1px solid var(--border)">
-<p style="color:var(--text3);font-size:.85rem">Masaj Koltuğu CRM — Komple Sistem Rehberi<br>15 koltuk · 9 puanlama boyutu · 6 demo stratejisi · otomatik takip mesajları</p>
+<div style="padding:3rem 0;text-align:center;border-top:1px solid var(--border)">
+<p style="color:var(--text3);font-size:.8rem">Masaj Koltuğu CRM — Sistem Rehberi<br>15 koltuk · 9 boyut · 6 strateji · otomatik takip</p>
 </div>
 
 </div>
