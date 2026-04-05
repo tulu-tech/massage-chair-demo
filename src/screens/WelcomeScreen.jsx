@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowRight, CheckCircle2 } from 'lucide-react';
+import { ArrowRight, CheckCircle2, Shield, Sparkles } from 'lucide-react';
 
 export default function WelcomeScreen({ onNext }) {
   return (
@@ -8,62 +8,68 @@ export default function WelcomeScreen({ onNext }) {
       flexDirection: 'column', 
       justifyContent: 'center', 
       alignItems: 'center', 
-      height: '100vh',
-      textAlign: 'center'
+      minHeight: '100vh',
+      textAlign: 'center',
+      padding: '2rem',
     }}>
       
       <div style={{
-        background: 'rgba(14, 165, 233, 0.1)',
-        padding: '2.5rem 4rem',
+        background: 'rgba(14, 165, 233, 0.06)',
+        padding: '3rem 3.5rem',
         borderRadius: 'var(--radius-lg)',
         border: '1px solid var(--glass-border-focus)',
-        maxWidth: '800px',
+        maxWidth: '780px',
         width: '100%',
-        boxShadow: '0 0 40px rgba(14, 165, 233, 0.1)'
+        boxShadow: '0 0 60px rgba(14, 165, 233, 0.08)',
       }}>
+
+        <div style={{ marginBottom: '1.5rem' }}>
+          <Sparkles size={40} color="var(--accent-primary)" strokeWidth={1.5} />
+        </div>
+
         <h1 style={{ 
-          fontSize: '3.5rem', 
+          fontSize: '3rem', 
           marginBottom: '1rem', 
           fontWeight: 300,
           background: 'linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%)',
           WebkitBackgroundClip: 'text',
           WebkitTextFillColor: 'transparent',
+          lineHeight: 1.2,
         }}>
-          Find the Best Starting Point
+          Your Personal Chair Match
         </h1>
         
         <p style={{ 
-          fontSize: '1.4rem', 
+          fontSize: '1.25rem', 
           color: 'var(--text-secondary)', 
-          marginBottom: '3rem', 
-          lineHeight: '1.5',
-          maxWidth: '600px',
-          margin: '0 auto 3rem'
+          marginBottom: '2.5rem', 
+          lineHeight: '1.6',
+          maxWidth: '560px',
+          margin: '0 auto 2.5rem',
         }}>
-          A quick guided match to narrow the showroom to the two chairs most likely to fit your comfort, home, and buying style.
+          We're here to find the right fit for your body, home, and lifestyle — not push a product. A quick guided consultation to narrow the showroom to the chairs most likely to match you.
         </p>
 
         <button 
           className="btn btn-primary" 
           onClick={onNext}
-          style={{ padding: '1.25rem 3rem', fontSize: '1.25rem', marginBottom: '3rem', display: 'flex', alignItems: 'center', gap: '0.75rem', width: '100%', justifyContent: 'center' }}
+          style={{ padding: '1.25rem 3rem', fontSize: '1.2rem', marginBottom: '2.5rem', display: 'flex', alignItems: 'center', gap: '0.75rem', width: '100%', justifyContent: 'center' }}
         >
-          START GUIDED MATCH <ArrowRight size={24} />
+          START CONSULTATION <ArrowRight size={22} />
         </button>
 
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', textAlign: 'left', maxWidth: '500px', margin: '0 auto' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-tertiary)', fontSize: '0.95rem' }}>
-            <CheckCircle2 size={16} color="var(--accent-primary)" /> Takes about 60 seconds
-          </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-tertiary)', fontSize: '0.95rem' }}>
-            <CheckCircle2 size={16} color="var(--accent-primary)" /> Personalized
-          </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-tertiary)', fontSize: '0.95rem' }}>
-            <CheckCircle2 size={16} color="var(--accent-primary)" /> Rep-guided
-          </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-tertiary)', fontSize: '0.95rem' }}>
-            <CheckCircle2 size={16} color="var(--accent-primary)" /> Designed to simplify the decision
-          </div>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem', textAlign: 'left', maxWidth: '460px', margin: '0 auto' }}>
+          {[
+            'Takes about 90 seconds',
+            'Personalized to your needs',
+            'Rep-guided experience',
+            'Your data stays private',
+          ].map((text, i) => (
+            <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-tertiary)', fontSize: '0.9rem' }}>
+              <CheckCircle2 size={15} color="var(--accent-primary)" />
+              {text}
+            </div>
+          ))}
         </div>
       </div>
       
