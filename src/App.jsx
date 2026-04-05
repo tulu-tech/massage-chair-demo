@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import LoginScreen from './screens/LoginScreen';
+import React, { useState } from 'react';
+// import LoginScreen from './screens/LoginScreen'; // TODO: re-enable later
 import DashboardScreen from './screens/DashboardScreen';
 import WelcomeScreen from './screens/WelcomeScreen';
 import ConsentScreen from './screens/ConsentScreen';
@@ -13,13 +13,20 @@ import { coreQuestions, branches, fitQuestion } from './data/questions';
 import { calculateBranchTarget, calculateFinalIntelligence } from './store/scoringLogic';
 import { sendToGoogleSheets } from './services/googleSheets';
 import { saveLeadRecord } from './services/db';
-import { isSupabaseConfigured, getSession, signOut } from './services/supabase';
 import './App.css';
 
+// Default user while login is disabled
+const DEFAULT_USER = {
+  id: 'demo-user',
+  name: 'Demo Rep',
+  role: 'admin',
+  storeId: null,
+  storeLocation: 'Orlando Showroom',
+};
+
 export default function App() {
-  const [stage, setStage] = useState('LOGIN'); 
-  const [authUser, setAuthUser] = useState(null);
-  const [sessionLoading, setSessionLoading] = useState(true);
+  const [stage, setStage] = useState('DASHBOARD'); 
+  const [authUser, setAuthUser] = useState(DEFAULT_USER);
 
   const [questionQueue, setQuestionQueue] = useState([...coreQuestions]);
   const [currentIdx, setCurrentIdx] = useState(0);
@@ -30,34 +37,11 @@ export default function App() {
   const [repData, setRepData] = useState(null);
   const [currentLeadId, setCurrentLeadId] = useState(null);
 
-  // ── Session Persistence: Auto-login on page refresh ──
-  useEffect(() => {
-    async function checkSession() {
-      if (isSupabaseConfigured()) {
-        try {
-          const user = await getSession();
-          if (user) {
-            setAuthUser(user);
-            setStage('DASHBOARD');
-          }
-        } catch (err) {
-          console.error('Session check failed:', err);
-        }
-      }
-      setSessionLoading(false);
-    }
-    checkSession();
-  }, []);
+  // TODO: Re-enable auth/session logic later
 
-  const handleLogin = (user) => {
-    setAuthUser(user);
-    setStage('DASHBOARD');
-  };
-
-  const handleLogout = async () => {
-    await signOut();
-    setAuthUser(null);
-    setStage('LOGIN');
+  const handleLogout = () => {
+    // TODO: Re-enable real logout later
+    console.log('Logout disabled — login screen removed for now');
   };
 
   const handleNewConsult = () => {
@@ -181,19 +165,7 @@ export default function App() {
      setStage('REP_FORM');
   };
 
-  // Show loading screen while checking session
-  if (sessionLoading) {
-    return (
-      <div className="app-container" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
-        <div className="bg-glow-1"></div>
-        <div className="bg-glow-2"></div>
-        <div style={{ textAlign: 'center', color: 'var(--text-secondary)' }}>
-          <div style={{ width: '40px', height: '40px', border: '3px solid var(--glass-border)', borderTop: '3px solid var(--accent-primary)', borderRadius: '50%', animation: 'spin 1s linear infinite', margin: '0 auto 1rem' }}></div>
-          <p>Loading session...</p>
-        </div>
-      </div>
-    );
-  }
+
 
   const currentQuestion = questionQueue[currentIdx];
 
@@ -202,7 +174,7 @@ export default function App() {
       <div className="bg-glow-1"></div>
       <div className="bg-glow-2"></div>
       
-      {stage === 'LOGIN' && <LoginScreen onLogin={handleLogin} />}
+      {/* LOGIN screen disabled — will re-enable later */}
       {stage === 'DASHBOARD' && <DashboardScreen user={authUser} onNewConsult={handleNewConsult} onLogout={handleLogout} onResumeDemo={handleResumeDemo} />}
       {stage === 'WELCOME' && <WelcomeScreen onNext={handleStartConsult} />}
       {stage === 'CONSENT' && <ConsentScreen onAccept={handleConsentAccept} />}
