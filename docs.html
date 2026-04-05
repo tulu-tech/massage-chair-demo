@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CRM v2 — Technical Walkthrough</title>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#0a0f1a;--bg2:#111827;--bg3:#1e293b;--accent:#0ea5e9;--accent2:#38bdf8;--text:#f1f5f9;--text2:#94a3b8;--text3:#64748b;--border:rgba(255,255,255,.08);--glow:rgba(14,165,233,.12);--radius:16px;--green:#22c55e;--amber:#f59e0b;--red:#ef4444;--purple:#a78bfa}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-height:1.7;-webkit-font-smoothing:antialiased}
+a{color:var(--accent2);text-decoration:none}
+a:hover{text-decoration:underline}
+
+/* NAV */
+.topbar{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(10,15,26,.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:0 2rem;height:56px;display:flex;align-items:center;gap:1.5rem}
+.topbar .logo{font-weight:700;font-size:1.1rem;color:var(--accent);letter-spacing:-.02em}
+.topbar nav{display:flex;gap:1rem;flex:1;overflow-x:auto}
+.topbar nav a{color:var(--text2);font-size:.8rem;font-weight:500;white-space:nowrap;padding:.25rem .5rem;border-radius:6px;transition:.2s}
+.topbar nav a:hover{color:white;background:rgba(255,255,255,.05);text-decoration:none}
+
+/* HERO */
+.hero{padding:8rem 2rem 4rem;text-align:center;background:radial-gradient(ellipse at 50% 0%,rgba(14,165,233,.08) 0%,transparent 60%)}
+.hero h1{font-size:3.5rem;font-weight:700;letter-spacing:-.04em;background:linear-gradient(135deg,#fff 0%,#94a3b8 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:1rem}
+.hero .sub{font-size:1.25rem;color:var(--text2);max-width:700px;margin:0 auto 2rem;font-weight:300}
+.hero .badges{display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap}
+.badge{padding:.4rem 1rem;border-radius:100px;font-size:.8rem;font-weight:600;border:1px solid var(--border);background:rgba(255,255,255,.03)}
+.badge.blue{border-color:rgba(14,165,233,.3);color:var(--accent2)}
+.badge.green{border-color:rgba(34,197,94,.3);color:var(--green)}
+.badge.purple{border-color:rgba(167,139,250,.3);color:var(--purple)}
+.badge.amber{border-color:rgba(245,158,11,.3);color:var(--amber)}
+
+/* CONTENT */
+.container{max-width:1100px;margin:0 auto;padding:0 2rem}
+section{padding:4rem 0;border-top:1px solid var(--border)}
+section:first-of-type{border-top:none}
+h2{font-size:2rem;font-weight:700;letter-spacing:-.03em;margin-bottom:.5rem}
+h2 .num{color:var(--accent);font-size:1rem;font-weight:600;margin-right:.5rem;vertical-align:middle}
+h3{font-size:1.3rem;font-weight:600;margin:2rem 0 .75rem;color:var(--accent2)}
+h4{font-size:1rem;font-weight:600;margin:1.5rem 0 .5rem}
+p{color:var(--text2);margin-bottom:1rem}
+.section-desc{font-size:1.05rem;color:var(--text2);margin-bottom:2rem;max-width:800px}
+
+/* CARDS */
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:1.75rem;margin-bottom:1.25rem;transition:.2s}
+.card:hover{border-color:rgba(255,255,255,.15)}
+.card-title{font-weight:600;font-size:1.05rem;margin-bottom:.5rem;display:flex;align-items:center;gap:.5rem}
+.card-title .icon{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700}
+
+/* GRID */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem}
+@media(max-width:768px){.grid-2,.grid-3{grid-template-columns:1fr}}
+
+/* TABLES */
+table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:.85rem}
+th{text-align:left;padding:.75rem 1rem;background:var(--bg3);color:var(--text2);font-weight:600;border-bottom:1px solid var(--border);white-space:nowrap}
+td{padding:.6rem 1rem;border-bottom:1px solid var(--border);color:var(--text2);vertical-align:top}
+tr:hover td{background:rgba(255,255,255,.02)}
+.tag{display:inline-block;padding:.15rem .5rem;border-radius:4px;font-size:.7rem;font-weight:600;margin:.1rem}
+.tag-blue{background:rgba(14,165,233,.15);color:var(--accent2)}
+.tag-green{background:rgba(34,197,94,.15);color:var(--green)}
+.tag-amber{background:rgba(245,158,11,.15);color:var(--amber)}
+.tag-red{background:rgba(239,68,68,.15);color:var(--red)}
+.tag-purple{background:rgba(167,139,250,.15);color:var(--purple)}
+
+/* MERMAID */
+.mermaid{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:2rem;margin:1.5rem 0;overflow-x:auto}
+.mermaid svg{max-width:100%}
+
+/* CODE */
+code{background:var(--bg3);padding:.15rem .4rem;border-radius:4px;font-size:.85rem;color:var(--accent2)}
+
+/* CALLOUT */
+.callout{border-left:3px solid var(--accent);background:rgba(14,165,233,.05);padding:1rem 1.5rem;border-radius:0 var(--radius) var(--radius) 0;margin:1.5rem 0}
+.callout.warn{border-color:var(--amber);background:rgba(245,158,11,.05)}
+.callout.success{border-color:var(--green);background:rgba(34,197,94,.05)}
+.callout p{margin:0}
+
+/* FILE TREE */
+.file-tree{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem 2rem;font-family:monospace;font-size:.85rem;color:var(--text2);line-height:2}
+.file-tree .dir{color:var(--accent2);font-weight:600}
+.file-tree .new{color:var(--green)}
+.file-tree .mod{color:var(--amber)}
+
+/* STEP */
+.step{display:flex;gap:1.5rem;margin-bottom:2rem}
+.step-num{width:40px;height:40px;min-width:40px;border-radius:50%;background:linear-gradient(135deg,var(--accent),#0284c7);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.9rem;color:white;margin-top:.2rem}
+.step-body h4{margin-top:0;color:var(--text)}
+
+/* PRICING TABLE */
+.price{font-weight:700;color:var(--green)}
+.price-old{color:var(--text3);text-decoration:line-through;font-size:.85rem;margin-left:.5rem}
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="logo">⬡ CRM v2</div>
+  <nav>
+    <a href="#overview">Overview</a>
+    <a href="#architecture">Architecture</a>
+    <a href="#discovery">Discovery</a>
+    <a href="#scoring">Scoring</a>
+    <a href="#demo-lanes">Demo Lanes</a>
+    <a href="#budget">Budget Logic</a>
+    <a href="#post-demo">Post-Demo</a>
+    <a href="#decision-engine">Decision Engine</a>
+    <a href="#followup">Follow-Up</a>
+    <a href="#products">Products</a>
+    <a href="#files">File Map</a>
+  </nav>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <h1>Massage Chair CRM v2</h1>
+  <p class="sub">Premium Consultation Platform — her lead için bütçeye uygun koltuk önerisi, 9 boyutlu puanlama, akıllı demo rehberliği ve friction'a göre kişiselleştirilmiş follow-up dizileri üreten uçtan uca satış zekası sistemi.</p>
+  <div class="badges">
+    <span class="badge blue">9-Phase State Machine</span>
+    <span class="badge green">15 Chair Knowledge Base</span>
+    <span class="badge purple">9-Dimension Scoring</span>
+    <span class="badge amber">6 Demo Lanes</span>
+  </div>
+</div>
+
+<div class="container">
+
+<!-- ════════════════════════════════════════════ -->
+<!-- 1. OVERVIEW -->
+<!-- ════════════════════════════════════════════ -->
+<section id="overview">
+<h2><span class="num">01</span> Sistem Genel Bakış</h2>
+<p class="section-desc">Bu CRM, showroom'a gelen her müşteriyi "survey" değil <strong>"premium consultation"</strong> deneyimiyle karşılar. Rep ekranında akıllı rehberlik sunarken, arka planda 9 boyutlu bir puanlama motoru ile bütçe farkındalıklı koltuk önerisi, itiraz analizi ve 3 aşamalı follow-up dizisi üretir.</p>
+
+<div class="grid-3">
+  <div class="card">
+    <div class="card-title"><div class="icon" style="background:rgba(14,165,233,.15);color:var(--accent)">1</div> Discovery</div>
+    <p style="font-size:.9rem">10 core + 2 dinamik friction branch sorusu ile müşteri profili çıkarır.</p>
+  </div>
+  <div class="card">
+    <div class="card-title"><div class="icon" style="background:rgba(34,197,94,.15);color:var(--green)">2</div> Live Match</div>
+    <p style="font-size:.9rem">Bütçeye göre filtrelenmiş koltuk önerisi + rep'e demo stratejisi.</p>
+  </div>
+  <div class="card">
+    <div class="card-title"><div class="icon" style="background:rgba(167,139,250,.15);color:var(--purple)">3</div> Intelligence</div>
+    <p style="font-size:.9rem">28 alanlık post-demo form → final karar motoru → follow-up otomasyonu.</p>
+  </div>
+</div>
+
+<div class="callout">
+  <p><strong>Design Prensibi:</strong> Müşteri form doldurduğunu hissetmemeli. Sistem rep'i yönlendirmeli ama robotlaştırmamalı. Her lead için mutlaka best-fit chair, backup chair, sıcaklık puanı ve next best action üretilmeli.</p>
+</div>
+</section>
+
+<!-- ════════════════════════════════════════════ -->
+<!-- 2. ARCHITECTURE -->
+<!-- ════════════════════════════════════════════ -->
+<section id="architecture">
+<h2><span class="num">02</span> 9-Fazlı State Machine</h2>
+<p class="section-desc">Uygulama aşağıdaki 9 aşamalı bir state machine ile yönetilir. Her aşama bağımsız bir React ekranıdır ve App.jsx merkezi orchestrator olarak görev yapar.</p>
+
+<div class="mermaid">
+graph LR
+  A["DASHBOARD"] --> B["WELCOME"]
+  B --> C["CONSENT"]
+  C --> D["LEAD CAPTURE"]
+  D --> E["QUESTIONS<br/>10 core + 2 branch"]
+  E --> F["LIVE MATCH<br/>Budget-filtered"]
+  F --> G["GUIDED DEMO<br/>Rep Strategy"]
+  G --> H["REP POST-DEMO<br/>28 fields"]
+  H --> I["FINAL OUTPUT<br/>Intelligence Report"]
+  I --> A
+  style A fill:#1e293b,stroke:#0ea5e9,color:#f1f5f9
+  style F fill:#1e293b,stroke:#22c55e,color:#f1f5f9
+  style I fill:#1e293b,stroke:#a78bfa,color:#f1f5f9
+</div>
+
+<div class="grid-2">
+  <div class="card">
+    <div class="card-title">📋 Phase 1–4: Toplama</div>
+    <p style="font-size:.85rem"><strong>Welcome:</strong> Premium karşılama<br><strong>Consent:</strong> 3 medikal + 1 contact onay<br><strong>Lead:</strong> İsim, email, telefon, follow-up tercihi (Text/Email/Phone)<br><strong>Questions:</strong> 10 core → friction branch tespiti → 2 dinamik soru</p>
+  </div>
+  <div class="card">
+    <div class="card-title">🧠 Phase 5–9: Zekâ</div>
+    <p style="font-size:.85rem"><strong>Live Match:</strong> Bütçe + lane → koltuk önerisi (fiyatlarla)<br><strong>Guided Demo:</strong> Rep'e demo stratejisi<br><strong>Post-Demo:</strong> 28 alan, 5 section rep formu<br><strong>Final Output:</strong> Chair decision + score + next action<br><strong>Dashboard:</strong> CRM board, lead detail, follow-up</p>
+  </div>
+</div>
+</section>
+
+<!-- ════════════════════════════════════════════ -->
+<!-- 3. DISCOVERY ENGINE -->
+<!-- ════════════════════════════════════════════ -->
+<section id="discovery">
+<h2><span class="num">03</span> Discovery Engine — Sorular</h2>
+<p class="section-desc">Müşteriye sorulan 10 core soru, her biri 9 farklı puanlama boyutuna tag'lar atar. Soru 10 cevaplandığında sistem en yüksek puanlı friction'ı tespit eder ve o friction'a özel 2 ek soru inject eder.</p>
+
+<h3>10 Core Soru</h3>
+<table>
+<thead><tr><th>#</th><th>Kısa Başlık</th><th>Soru</th><th>Seçenek Sayısı</th><th>Ana Boyutlar</th></tr></thead>
+<tbody>
+<tr><td>Q1</td><td>Primary User</td><td>Who is this chair primarily for?</td><td>5</td><td>buyerOrientation, decisionComplexity</td></tr>
+<tr><td>Q2</td><td>Visit Reason</td><td>What brought you in today?</td><td>6</td><td>buyerOrientation, demoLane, timing</td></tr>
+<tr><td>Q3</td><td>Daily Routine</td><td>What best describes your day-to-day routine?</td><td>5</td><td>demoLane, followUpAngle</td></tr>
+<tr><td>Q4</td><td>Decision Priority</td><td>What matters most if you decide today?</td><td>5</td><td>primaryFriction, certaintyNeed</td></tr>
+<tr><td>Q5</td><td>Budget Band</td><td>What level of investment feels right?</td><td>6</td><td>budgetBand, buyerOrientation</td></tr>
+<tr><td>Q6</td><td>Decision Structure</td><td>How do you usually make a purchase like this?</td><td>5</td><td>primaryFriction, decisionComplexity</td></tr>
+<tr><td>Q7</td><td>Body Focus</td><td>Where do you most want to feel the difference?</td><td>5</td><td>demoLane, followUpAngle</td></tr>
+<tr><td>Q8</td><td>Decision Simplifier</td><td>What would make this decision easiest today?</td><td>5</td><td>primaryFriction, followUpAngle</td></tr>
+<tr><td>Q9</td><td>Blocker</td><td>What would still stop you from moving forward?</td><td>5</td><td>primaryFriction, timing</td></tr>
+<tr><td>Q10</td><td>Timing</td><td>How soon would you like to start using your chair?</td><td>4</td><td>timing, leadHeatBase</td></tr>
+</tbody>
+</table>
+
+<h3>6 Friction Branch (Dinamik)</h3>
+<p>Soru 10 cevaplandığında, <code>calculateBranchTarget()</code> tüm cevaplardaki <code>primaryFriction</code> boyutunu toplar ve en yüksek puanlı friction'ı bulur. O friction'a ait 2 ek soru otomatik olarak soru kuyruğuna eklenir.</p>
+
+<table>
+<thead><tr><th>Friction</th><th>Soru 1</th><th>Soru 2</th></tr></thead>
+<tbody>
+<tr><td><span class="tag tag-amber">Spouse / joint decision</span></td><td>Spouse summary ister misiniz?</td><td>Partneriniz neye önem verir?</td></tr>
+<tr><td><span class="tag tag-green">Payment comfort</span></td><td>En düşük ödeme mi, uzun vadeli değer mi?</td><td>Cash vs financing karşılaştırması yardımcı olur mu?</td></tr>
+<tr><td><span class="tag tag-blue">Space-fit</span></td><td>Koltuk nereye konacak?</td><td>Ölçüleri biliyor musunuz?</td></tr>
+<tr><td><span class="tag tag-purple">Comparison overload</span></td><td>En iyi 2 mi, 3-4 mü?</td><td>Kararı en çok ne basitleştirir?</td></tr>
+<tr><td><span class="tag tag-red">Confidence / service</span></td><td>Tam güven için ne gerekir?</td><td>İlk ciddi koltuk alımınız mı?</td></tr>
+<tr><td><span class="tag tag-amber">Think-about-it inertia</span></td><td>Daha erken hazır hissetmek için ne yardımcı olur?</td><td>Her şey uygunsa ne zaman uygun?</td></tr>
+</tbody>
+</table>
+</section>
+
+<!-- ════════════════════════════════════════════ -->
+<!-- 4. SCORING ENGINE -->
+<!-- ════════════════════════════════════════════ -->
+<section id="scoring">
+<h2><span class="num">04</span> 9-Boyutlu Puanlama Motoru</h2>
+<p class="section-desc">Her soru cevabı, aşağıdaki 9 boyuttan bir veya birkaçına puan ekler. Cevaplar toplandığında her boyutta en yüksek puanı alan değer kazanır.</p>
+
+<div class="grid-3">
+  <div class="card"><div class="card-title" style="color:var(--accent2)">buyerOrientation</div><p style="font-size:.8rem">Value-Oriented · Premium-Certainty · Recovery-Oriented · Shared-Use · Research-Oriented</p></div>
+  <div class="card"><div class="card-title" style="color:var(--amber)">primaryFriction</div><p style="font-size:.8rem">Space-fit · Payment comfort · Spouse/joint · Comparison overload · Confidence · Think-about-it</p></div>
+  <div class="card"><div class="card-title" style="color:var(--green)">demoLane</div><p style="font-size:.8rem">Value Starter · Recovery Relief · Premium Certainty · Shared Home Fit · Compare with Confidence · Space-Safe Fit</p></div>
+  <div class="card"><div class="card-title" style="color:var(--purple)">budgetBand</div><p style="font-size:.8rem">Under $4k · $4k-$8k · $8k-$12k · $12k-$16k · $16k+ · Flexible</p></div>
+  <div class="card"><div class="card-title" style="color:var(--red)">timing</div><p style="font-size:.8rem">Hot · Warm · Cold</p></div>
+  <div class="card"><div class="card-title" style="color:var(--accent2)">decisionComplexity</div><p style="font-size:.8rem">Low · Medium · High</p></div>
+  <div class="card"><div class="card-title" style="color:var(--amber)">certaintyNeed</div><p style="font-size:.8rem">Low · Medium · High</p></div>
+  <div class="card"><div class="card-title" style="color:var(--green)">followUpAngle</div><p style="font-size:.8rem">spouse summary · payment comfort · fit checklist · comparison simplifier · precision + upper-back · service certainty · premium certainty</p></div>
+  <div class="card"><div class="card-title" style="color:var(--purple)">leadHeatBase</div><p style="font-size:.8rem">Başlangıç: 30 puan. Her cevap +/- puan ekler. Maks 100. Discovery sıcaklık tabanı.</p></div>
+</div>
+
+<h3>Puanlama Akışı</h3>
+<div class="mermaid">
+graph TD
+  A["Her Cevap<br/>(option.tags array)"] --> B["aggregateDimension()<br/>Boyut bazlı puan topla"]
+  B --> C["getTopValue()<br/>Her boyutta en yüksek puanlı olanı al"]
+  C --> D["9 boyutun kesinleşmiş değerleri"]
+  D --> E["selectChairsForBudget()<br/>Lane + Budget → Koltuk Filtresi"]
+  E --> F["topChairs + backupChairs<br/>+ repFraming + matchReason"]
+  style F fill:#1e293b,stroke:#22c55e,color:#f1f5f9
+</div>
+</section>
+
+<!-- ════════════════════════════════════════════ -->
+<!-- 5. DEMO LANES -->
+<!-- ════════════════════════════════════════════ -->
+<section id="demo-lanes">
+<h2><span class="num">05</span> 6 Demo Lane Matrisi</h2>
+<p class="section-desc">Her lane, rep'e hangi koltukları hangi sırayla göstermesi gerektiğini, neyi vurgulamasını, neyle başlamamasını ve müşterinin muhtemel itirazını söyler.</p>
+
+<table>
+<thead><tr><th>Lane</th><th>Koltuk Havuzu</th><th>Vurgu</th><th>Muhtemel İtiraz</th></tr></thead>
+<tbody>
+<tr><td><span class="tag tag-green">Value Starter</span></td><td>Solara, Brio Plus, MAF1, KOYO 303TS, DualTech 4D</td><td>SL-Track, Zero Gravity, heat, easy controls</td><td>Payment</td></tr>
+<tr><td><span class="tag tag-blue">Recovery Relief</span></td><td>Brio Sport, DualTech Pro AI 4D, DualTech 4D, D.Core Stratus JP, Brio Plus</td><td>Deep-tissue, neck/shoulder, lower-body</td><td>Think about it</td></tr>
+<tr><td><span class="tag tag-purple">Premium Certainty</span></td><td>OHCO M8 NEO LE, MAN1, OHCO M8 NEO, Cirrus JP, D.Core 2, MAK1</td><td>Build quality, warranty, precision</td><td>Comparison</td></tr>
+<tr><td><span class="tag tag-amber">Shared Home Fit</span></td><td>Brio Plus, KOYO 303TS, DualTech 4D, MAF1, Solara</td><td>Multi-user, body scan, easy controls</td><td>Spouse</td></tr>
+<tr><td><span class="tag tag-red">Compare w/ Confidence</span></td><td>D.Core Stratus JP, OHCO R6, Cirrus JP, MAN1, OHCO M8 NEO, Brio Sport, DualTech Pro AI 4D</td><td>Side-by-side, design vs precision</td><td>Comparison</td></tr>
+<tr><td><span class="tag tag-blue">Space-Safe Fit</span></td><td>MAF1, DualTech 4D, Brio Plus, Solara, OHCO R6, Cirrus JP</td><td>Compact footprint, wall-hugging</td><td>Space</td></tr>
+</tbody>
+</table>
+</section>
+
+<!-- ════════════════════════════════════════════ -->
+<!-- 6. BUDGET LOGIC -->
+<!-- ════════════════════════════════════════════ -->
+<section id="budget">
+<h2><span class="num">06</span> Bütçe Farkındalıklı Koltuk Seçimi</h2>
+<p class="section-desc"><code>selectChairsForBudget(lane, budgetBand)</code> fonksiyonu, lane'deki koltuk havuzunu müşterinin bütçe bandına göre filtreler. Fiyat verisi <code>productKnowledge</code> dosyasından gelir.</p>
+
+<h3>Fiyat Tablosu (Sale Price)</h3>
+<table>
+<thead><tr><th>Koltuk</th><th>Marka</th><th>Liste Fiyatı</th><th>Satış Fiyatı</th><th>Bütçe Bandı</th></tr></thead>
+<tbody>
+<tr><td>Solara</td><td>Positive Posture</td><td>$4,000</td><td class="price">$2,499</td><td><span class="tag tag-green">Under $4k</span></td></tr>
+<tr><td>Brio Plus</td><td>Positive Posture</td><td>$6,999</td><td class="price">$4,999</td><td><span class="tag tag-blue">$4k-$8k</span></td></tr>
+<tr><td>Panasonic MAF1</td><td>Panasonic</td><td>$10,000</td><td class="price">$5,999</td><td><span class="tag tag-blue">$4k-$8k</span></td></tr>
+<tr><td>DualTech 4D</td><td>Positive Posture</td><td>$10,000</td><td class="price">$7,999</td><td><span class="tag tag-blue">$4k-$8k</span></td></tr>
+<tr><td>KOYO 303TS</td><td>KOYO</td><td>$10,000</td><td class="price">$7,999</td><td><span class="tag tag-blue">$4k-$8k</span></td></tr>
+<tr><td>Brio Sport</td><td>Positive Posture</td><td>$11,000</td><td class="price">$8,999</td><td><span class="tag tag-purple">$8k-$12k</span></td></tr>
+<tr><td>OHCO R6</td><td>OHCO</td><td>$12,000</td><td class="price">$9,999</td><td><span class="tag tag-purple">$8k-$12k</span></td></tr>
+<tr><td>D.Core Stratus JP</td><td>D.Core</td><td>$15,000</td><td class="price">$11,499</td><td><span class="tag tag-purple">$8k-$12k</span></td></tr>
+<tr><td>DualTech Pro AI 4D</td><td>Positive Posture</td><td>$13,999</td><td class="price">$11,999</td><td><span class="tag tag-purple">$8k-$12k</span></td></tr>
+<tr><td>Panasonic MAK1</td><td>Panasonic</td><td>$16,000</td><td class="price">$12,499</td><td><span class="tag tag-amber">$12k-$16k</span></td></tr>
+<tr><td>D.Core Cirrus JP</td><td>D.Core</td><td>$18,500</td><td class="price">$12,999</td><td><span class="tag tag-amber">$12k-$16k</span></td></tr>
+<tr><td>Panasonic MAN1</td><td>Panasonic</td><td>$15,299</td><td class="price">$13,999</td><td><span class="tag tag-amber">$12k-$16k</span></td></tr>
+<tr><td>D.Core 2</td><td>D.Core</td><td>$20,000</td><td class="price">$14,999</td><td><span class="tag tag-amber">$12k-$16k</span></td></tr>
+<tr><td>OHCO M8 NEO</td><td>OHCO</td><td>$15,999</td><td class="price">$14,999</td><td><span class="tag tag-amber">$12k-$16k</span></td></tr>
+<tr><td>OHCO M8 NEO LE</td><td>OHCO</td><td>$20,000</td><td class="price">$18,000</td><td><span class="tag tag-red">$16k+</span></td></tr>
+</tbody>
+</table>
+
+<h3>Filtreleme Mantığı</h3>
+<div class="mermaid">
+graph TD
+  A["Lane belirlendi<br/>(ör: Recovery Relief)"] --> B["Lane'deki koltuk havuzu<br/>(ör: Brio Sport, DualTech Pro...)"]
+  B --> C{"Bütçe bandındaki<br/>koltuklarda kesişim var mı?"}
+  C -->|"≥ 2 koltuk"| D["İlk 2'yi topChairs olarak sun"]
+  C -->|"1 koltuk"| E["1 lane koltuğu + 1 global bütçe koltuğu"]
+  C -->|"0 koltuk"| F["Global bütçe havuzundan en uygunları al"]
+  D --> G["backupChairs = kalan lane koltukları"]
+  E --> G
+  F --> G
+  style D fill:#1e293b,stroke:#22c55e,color:#f1f5f9
+</div>
+
+<div class="callout success">
+  <p><strong>Örnek:</strong> Müşteri "Under $4k" + "Recovery Relief" seçerse → Recovery lane'inde $4k altı koltuk yok → Sistem global havuzdan <strong>Solara ($2,499)</strong>'yı önerir. Backup olarak DualTech 4D ($7,999) gösterilir.</p>
+</div>
+</section>
+
+<!-- ════════════════════════════════════════════ -->
+<!-- 7. POST-DEMO -->
+<!-- ════════════════════════════════════════════ -->
+<section id="post-demo">
+<h2><span class="num">07</span> Post-Demo Rep Formu (28 Alan)</h2>
+<p class="section-desc">Fiziksel demo tamamlandıktan sonra rep, 5 bölüm ve 28 alanlık bir form doldurur. Bu veriler, final karar motorunun girdi sinyalleridir.</p>
+
+<div class="grid-2">
+<div class="card">
+  <div class="card-title" style="color:var(--accent2)">A — Chair Selection (6 alan)</div>
+  <p style="font-size:.85rem">
+  <strong>1-2.</strong> triedChairs (4 dropdown, en az 1 zorunlu)<br>
+  <strong>3.</strong> mostTimeSpent → en uzun süre oturulan koltuk<br>
+  <strong>4.</strong> mostQuestions → en çok sorulan koltuk<br>
+  <strong>5.</strong> strongestReaction → en güçlü pozitif tepki<br>
+  <strong>6.</strong> repBestFit → rep'in önerisi (zorunlu)</p>
+</div>
+<div class="card">
+  <div class="card-title" style="color:var(--green)">B — Demo Behavior (3 alan)</div>
+  <p style="font-size:.85rem">
+  <strong>7.</strong> engagementLevel → 5 seviye chip<br>
+  <strong>8.</strong> reactionType → 5 seviye chip<br>
+  <strong>9.</strong> decisiveness → 5 seviye chip</p>
+</div>
+<div class="card">
+  <div class="card-title" style="color:var(--amber)">C — Buying Signals (8 toggle)</div>
+  <p style="font-size:.85rem">
+  <strong>10.</strong> askedPayment<br><strong>11.</strong> askedDelivery<br><strong>12.</strong> askedWarranty<br><strong>13.</strong> gaveTimeline<br><strong>14.</strong> revisitedChair<br><strong>15.</strong> requestedSummary<br><strong>16.</strong> mentionedPartner<br><strong>17.</strong> mentionedMeasurements</p>
+</div>
+<div class="card">
+  <div class="card-title" style="color:var(--red)">D — Objection Analysis (5 alan)</div>
+  <p style="font-size:.85rem">
+  <strong>18.</strong> statedObjection → 7 seçenek<br><strong>19.</strong> objectionRealness → Gerçek mi, yüzeysel mi?<br><strong>20.</strong> likelyHiddenObjection → Gizli itiraz<br><strong>21.</strong> purchaseStatus → Open / Closed Won<br><strong>22.</strong> repConfidence → rep güven seviyesi</p>
+</div>
+<div class="card" style="grid-column: 1 / -1">
+  <div class="card-title" style="color:var(--purple)">E — Next-Step Lock (6 alan)</div>
+  <p style="font-size:.85rem">
+  <strong>23.</strong> nextStepLocked → Bir sonraki adım kilitlendi mi?<br>
+  <strong>24.</strong> nextStepType → 6 seçenek (Spouse summary, Measurement follow-up, Financing, Return visit, etc.)<br>
+  <strong>25.</strong> followUpDatePreference → (opsiyonel açık alan)<br>
+  <strong>26.</strong> repInternalNotes → Serbest metin<br>
+  <strong>27.</strong> repOwnRating → 1-5 yıldız<br>
+  <strong>28.</strong> repSellingDifficulty → Easy / Normal / Hard / Very Hard</p>
+</div>
+</div>
+</section>
+
+<!-- ════════════════════════════════════════════ -->
+<!-- 8. DECISION ENGINE -->
+<!-- ════════════════════════════════════════════ -->
+<section id="decision-engine">
+<h2><span class="num">08</span> Final Karar Motoru</h2>
+<p class="section-desc"><code>calculateFinalDecision()</code> fonksiyonu, discovery zekâsı (35%) ve demo sinyalleri (65%) birleştirerek nihai koltuk önerisi, sıcaklık puanı ve sonraki aksiyon belirler.</p>
+
+<h3>Demo Puanlama (0-100)</h3>
+<table>
+<thead><tr><th>Sinyal</th><th>Puan</th><th>Detay</th></tr></thead>
+<tbody>
+<tr><td>Engagement Level</td><td>0–12</td><td>Very engaged=12, Engaged=8, Neutral=4, Distracted=1, Low=0</td></tr>
+<tr><td>Reaction Type</td><td>0–15</td><td>Visibly excited=15, Relaxed=10, Thoughtful=7, Hard to read=3, Unimpressed=0</td></tr>
+<tr><td>Decisiveness</td><td>0–15</td><td>Ready=15, Close but=12, Interested=7, Exploring=3, Non-committal=0</td></tr>
+<tr><td>Buying Signals</td><td>0–42</td><td>Asked payment/delivery/warranty=6 ea, Timeline=6, Revisited=10, Summary=4, Partner/Measurements=2 ea</td></tr>
+<tr><td>Objection Penalty</td><td>-3 to -10</td><td>Research=-8, Not convinced=-10, Price=-6, Partner=-5, Space=-5, Delivery=-4, None=-3</td></tr>
+<tr><td>Next-Step Bonus</td><td>0–20</td><td>Return visit=10, Purchased=20, diğerleri=5</td></tr>
+</tbody>
+</table>
+
+<h3>Koltuk Puanlama Ağırlıkları</h3>
+<table>
+<thead><tr><th>Sinyal</th><th>Ağırlık</th><th>Açıklama</th></tr></thead>
+<tbody>
+<tr><td>Discovery Fit</td><td><strong>35%</strong></td><td>Koltuk discovery'den gelen topChairs'da mı?</td></tr>
+<tr><td>Demo Reaction</td><td><strong>25%</strong></td><td>En güçlü pozitif tepki bu koltuğa mı?</td></tr>
+<tr><td>Rep Best-Fit</td><td><strong>15%</strong></td><td>Rep bu koltuğu mu önerdi?</td></tr>
+<tr><td>Most Time</td><td><strong>10%</strong></td><td>Müşteri en uzun süre bu koltuğa mı oturdu?</td></tr>
+<tr><td>Most Questions</td><td><strong>10%</strong></td><td>En çok soru bu koltuk hakkında mı?</td></tr>
+<tr><td>Objection Align</td><td><strong>5%</strong></td><td>İtiraz tipiyle koltuk uyumlu mu?</td></tr>
+</tbody>
+</table>
+
+<h3>Sıcaklık Hesaplama</h3>
+<div class="mermaid">
+graph LR
+  A["Discovery leadHeatBase<br/>(30-100 arası)"] -->|"× 0.35"| C["Combined Score"]
+  B["Demo Score<br/>(0-100 arası)"] -->|"× 0.65"| C
+  C --> D{"finalScore"}
+  D -->|"≥ 85"| E["🔥 HOT"]
+  D -->|"65-84"| F["🟡 WARM"]
+  D -->|"45-64"| G["🟠 LUKEWARM"]
+  D -->|"< 45"| H["❄️ COLD"]
+  style E fill:#1e293b,stroke:#22c55e,color:#f1f5f9
+  style F fill:#1e293b,stroke:#f59e0b,color:#f1f5f9
+  style H fill:#1e293b,stroke:#ef4444,color:#f1f5f9
+</div>
+
+<h3>Next Best Action Matrisi</h3>
+<table>
+<thead><tr><th>Sıcaklık</th><th>İtiraz</th><th>Aksiyon</th></tr></thead>
+<tbody>
+<tr><td rowspan="4">HOT</td><td>Partner/spouse</td><td>Send Spouse Summary</td></tr>
+<tr><td>Space</td><td>Send Dimensions</td></tr>
+<tr><td>Price</td><td>Send Financing</td></tr>
+<tr><td>Diğer</td><td>Close Today</td></tr>
+<tr><td rowspan="2">WARM</td><td>Research</td><td>Send Comparison</td></tr>
+<tr><td>Diğer</td><td>Send Comparison</td></tr>
+<tr><td>LUKEWARM</td><td>Partner</td><td>Send Spouse Summary</td></tr>
+<tr><td>COLD</td><td>Hepsi</td><td>Nurture Sequence</td></tr>
+</tbody>
+</table>
+</section>
+
+<!-- ════════════════════════════════════════════ -->
+<!-- 9. FOLLOW-UP -->
+<!-- ════════════════════════════════════════════ -->
+<section id="followup">
+<h2><span class="num">09</span> Follow-Up Otomasyonu</h2>
+<p class="section-desc">Her lead için friction'a göre kişiselleştirilmiş 3 aşamalı (24h / 72h / 7d) mesaj dizisi üretilir. Mesajlarda müşterinin adı, önerilen koltuğun adı ve ürün linki dinamik olarak enjekte edilir.</p>
+
+<table>
+<thead><tr><th>Friction</th><th>24 Saat</th><th>72 Saat</th><th>7 Gün</th></tr></thead>
+<tbody>
+<tr><td><span class="tag tag-amber">Partner/Spouse</span></td><td>Kısa spouse summary</td><td>VIP ikili demo daveti</td><td>Comfort + fit for both</td></tr>
+<tr><td><span class="tag tag-green">Price/Payment</span></td><td>Cash vs financing breakdown</td><td>Monthly payment breakdown</td><td>Ownership value (cost/day)</td></tr>
+<tr><td><span class="tag tag-blue">Space</span></td><td>Dimensions + fit checklist</td><td>FaceTime ölçüm yardımı</td><td>Compact alternative</td></tr>
+<tr><td><span class="tag tag-purple">Research/Compare</span></td><td>Best 2 only comparison</td><td>Premium vs value simplifier</td><td>Return visit daveti</td></tr>
+<tr><td><span class="tag tag-red">Confidence</span></td><td>Service + warranty açıklama</td><td>Why this model won</td><td>Soft reassurance check-in</td></tr>
+<tr><td><span class="tag tag-amber">No objection</span></td><td>Product summary + next step</td><td>Availability check</td><td>Soft ping</td></tr>
+</tbody>
+</table>
+
+<div class="callout">
+  <p><strong>Post-Purchase Flow:</strong> Müşteri "Closed Won" ile kapandığında farklı bir dizi aktive olur: 24h onay → 1 hafta teslimat → 1 ay garanti check-in → 3 ay referral bonus.</p>
+</div>
+</section>
+
+<!-- ════════════════════════════════════════════ -->
+<!-- 10. PRODUCTS -->
+<!-- ════════════════════════════════════════════ -->
+<section id="products">
+<h2><span class="num">10</span> Ürün Bilgi Yönetimi (PIM)</h2>
+<p class="section-desc">15 koltuk modeli için derinlemesine teknik özellikler, fiyatlandırma, renk seçenekleri, kullanım senaryoları ve rep'e coaching metinleri içeren merkezi <code>productKnowledge.js</code> kütüphanesi (3.000+ satır).</p>
+
+<h3>Her Koltuk İçin Tutulan Veri</h3>
+<div class="grid-3">
+<div class="card"><p style="font-size:.85rem;margin:0"><strong>Pricing:</strong> listPrice, salePrice, currency</p></div>
+<div class="card"><p style="font-size:.85rem;margin:0"><strong>Availability:</strong> inStock, financing, warranty</p></div>
+<div class="card"><p style="font-size:.85rem;margin:0"><strong>Colors:</strong> Mevcut renk seçenekleri</p></div>
+<div class="card"><p style="font-size:.85rem;margin:0"><strong>Core Positioning:</strong> primaryUseCase, secondaryUseCases</p></div>
+<div class="card"><p style="font-size:.85rem;margin:0"><strong>Massage System:</strong> mechanismType (3D/4D), actions</p></div>
+<div class="card"><p style="font-size:.85rem;margin:0"><strong>Track System:</strong> L-Track, SL-Track coverage</p></div>
+<div class="card"><p style="font-size:.85rem;margin:0"><strong>Heat System:</strong> zones, temperature, coverage</p></div>
+<div class="card"><p style="font-size:.85rem;margin:0"><strong>Air Massage:</strong> coverage zones, positioning</p></div>
+<div class="card"><p style="font-size:.85rem;margin:0"><strong>Zero Gravity:</strong> stages, angles, features</p></div>
+</div>
+</section>
+
+<!-- ════════════════════════════════════════════ -->
+<!-- 11. FILE MAP -->
+<!-- ════════════════════════════════════════════ -->
+<section id="files">
+<h2><span class="num">11</span> Dosya Haritası</h2>
+<p class="section-desc">Projedeki her dosyanın görevi ve hangi motora/ekrana hizmet ettiği.</p>
+
+<div class="file-tree">
+<span class="dir">src/</span><br>
+├── <span class="mod">App.jsx</span> — 9-fazlı state machine, orchestrator<br>
+├── <span class="dir">screens/</span><br>
+│ ├── <span class="mod">DashboardScreen.jsx</span> — CRM board (7 kolon + lead detail + follow-up)<br>
+│ ├── <span class="mod">WelcomeScreen.jsx</span> — Premium consultation karşılama<br>
+│ ├── <span class="mod">ConsentScreen.jsx</span> — 3 medikal + 1 contact consent<br>
+│ ├── <span class="mod">LeadCaptureScreen.jsx</span> — İsim, email, telefon, follow-up tercihi<br>
+│ ├── QuestionScreen.jsx — Soru render + progress bar<br>
+│ ├── <span class="mod">CustomerMatchScreen.jsx</span> — Budget-filtered koltuk önerisi + fiyat<br>
+│ ├── <span class="new">GuidedDemoScreen.jsx</span> — Rep'e demo stratejisi ekranı<br>
+│ ├── <span class="mod">RepPostDemoScreen.jsx</span> — 28 alan, 5 section rep formu<br>
+│ └── <span class="mod">OutputScreen.jsx</span> — Final intelligence raporu<br>
+├── <span class="dir">data/</span><br>
+│ ├── <span class="mod">questions.js</span> — 10 core + 6 friction branch (649 satır)<br>
+│ ├── <span class="mod">productKnowledge.js</span> — 15 koltuk deep data (3,083 satır)<br>
+│ └── productLibrary.js — URL + SEO description (100 satır)<br>
+├── <span class="dir">store/</span><br>
+│ ├── <span class="mod">scoringLogic.js</span> — 9 boyut puanlama + budget-aware seçim<br>
+│ ├── <span class="new">demoScoringLogic.js</span> — Post-demo 0-100 puan motoru<br>
+│ ├── <span class="new">finalDecisionEngine.js</span> — Discovery (35%) + Demo (65%) merge<br>
+│ └── <span class="mod">followUpLogic.js</span> — Friction-specific 3 aşamalı mesajlar<br>
+├── <span class="dir">services/</span><br>
+│ ├── db.js — localStorage + Supabase fallback<br>
+│ ├── supabase.js — Supabase client + auth<br>
+│ ├── supabaseDb.js — Supabase CRUD operations<br>
+│ └── googleSheets.js — Webhook export (placeholder)<br>
+└── <span class="dir">components/</span><br>
+  └── ProgressIndicator.jsx — Soru progress bar<br>
+<br>
+<span style="color:var(--green)">■ new</span> &nbsp; <span style="color:var(--amber)">■ modified</span> &nbsp; ■ unchanged
+</div>
+</section>
+
+<!-- FOOTER -->
+<div style="padding:4rem 0;text-align:center;border-top:1px solid var(--border)">
+  <p style="color:var(--text3);font-size:.85rem">CRM v2 Technical Walkthrough — House of Massage Chairs<br>
+  Built with React + Vite · 15 Chair Knowledge Base · 9-Dimension Scoring</p>
+</div>
+
+</div><!-- container -->
+
+<script>
+mermaid.initialize({ theme: 'dark', themeVariables: { primaryColor: '#1e293b', primaryTextColor: '#f1f5f9', primaryBorderColor: '#0ea5e9', lineColor: '#64748b', secondaryColor: '#1e293b', tertiaryColor: '#0f172a' }});
+// Smooth scroll
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    document.querySelector(a.getAttribute('href'))?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+});
+</script>
+</body>
+</html>
